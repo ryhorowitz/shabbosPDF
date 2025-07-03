@@ -15,7 +15,7 @@ function useWeather() {
   const apiKey = process.env.REACT_APP_OPENWEATHER_API_KEY;
   console.log('apikey', apiKey);
   useEffect(() => {
-    fetch(`https://api.openweathermap.org/data/2.5/weather?q=Philadelphia,PA&APPID=${apiKey}`)
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=Philadelphia,pa,usa&APPID=${apiKey}`)
     .then(response => response.json())
     .then(data => {
       console.log(data);
