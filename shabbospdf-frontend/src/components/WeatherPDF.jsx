@@ -54,73 +54,122 @@ const styles = StyleSheet.create({
     fontStyle: 'italic',
     color: '#7f8c8d',
     marginTop: 10
+  },
+  candleSection: {
+    border: '1px solid #e0e0e0',
+    borderRadius: 8,
+    padding: 15,
+    marginBottom: 15,
+    backgroundColor: '#fff8dc'
+  },
+  candleTitle: {
+    fontSize: 16,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    color: '#8b4513'
+  },
+  candleInfo: {
+    fontSize: 12,
+    marginBottom: 5,
+    color: '#555555'
   }
 });
 
-const WeatherPDF = ({ fridayForecast, saturdayForecast }) => (
-  <Document>
-    <Page size="A4" style={styles.page}>
-      <View style={styles.header}>
-        <Text>Shabbos Weather Forecast</Text>
-      </View>
-      
-      <View style={styles.section}>
-        {fridayForecast && (
-          <View style={styles.card}>
-            <Text style={styles.dayTitle}>Friday</Text>
-            <Text style={styles.temperature}>
-              {Math.floor(fridayForecast.temp.min)}°F / {Math.floor(fridayForecast.temp.max)}°F
-            </Text>
-            <Text style={styles.weatherInfo}>
-              Weather: {fridayForecast.weather[0].description}
-            </Text>
-            <Text style={styles.weatherInfo}>
-              Precipitation: {Math.round(fridayForecast.pop * 100)}%
-            </Text>
-            <Text style={styles.weatherInfo}>
-              Humidity: {fridayForecast.humidity}%
-            </Text>
-            <Text style={styles.weatherInfo}>
-              Wind: {Math.round(fridayForecast.wind_speed)} mph
-            </Text>
-            <Text style={styles.weatherInfo}>
-              UV Index: {Math.round(fridayForecast.uvi)}
-            </Text>
-            <Text style={styles.summary}>
-              {fridayForecast.summary}
-            </Text>
-          </View>
-        )}
+const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
+  // Parse candle data if it's HTML content
+  const parseCandleData = (htmlData) => {
+    if (!htmlData) return null;
+    
+    // Simple parsing to extract text content
+    const tempDiv = document.createElement('div');
+    tempDiv.innerHTML = htmlData;
+    const textContent = tempDiv.textContent || tempDiv.innerText || '';
+    
+    // Extract relevant information
+    const lines = textContent.split('\n').filter(line => line.trim());
+    return lines;
+  };
+
+  const candleLines = parseCandleData(candleData);
+
+  return (
+    <Document>
+      <Page size="A4" style={styles.page}>
+        <View style={styles.header}>
+          <Text>Shabbos Weather Forecast & Candle Times</Text>
+        </View>
         
-        {saturdayForecast && (
-          <View style={styles.card}>
-            <Text style={styles.dayTitle}>Saturday</Text>
-            <Text style={styles.temperature}>
-              {Math.floor(saturdayForecast.temp.min)}°F / {Math.round(saturdayForecast.temp.max)}°F
-            </Text>
-            <Text style={styles.weatherInfo}>
-              Weather: {saturdayForecast.weather[0].description}
-            </Text>
-            <Text style={styles.weatherInfo}>
-              Precipitation: {Math.round(saturdayForecast.pop * 100)}%
-            </Text>
-            <Text style={styles.weatherInfo}>
-              Humidity: {saturdayForecast.humidity}%
-            </Text>
-            <Text style={styles.weatherInfo}>
-              Wind: {Math.round(saturdayForecast.wind_speed)} mph
-            </Text>
-            <Text style={styles.weatherInfo}>
-              UV Index: {Math.round(saturdayForecast.uvi)}
-            </Text>
-            <Text style={styles.summary}>
-              {saturdayForecast.summary}
-            </Text>
-          </View>
-        )}
-      </View>
-    </Page>
-  </Document>
-);
+        <View style={styles.section}>
+          {/* Candle Times Section */}
+          {candleLines && candleLines.length > 0 && (
+            <View style={styles.candleSection}>
+              <Text style={styles.candleTitle}>Candle Lighting Times</Text>
+              {candleLines.map((line, index) => (
+                <Text key={index} style={styles.candleInfo}>
+                  {line}
+                </Text>
+              ))}
+            </View>
+          )}
+          
+          {/* Weather Forecast Section */}
+          {fridayForecast && (
+            <View style={styles.card}>
+              <Text style={styles.dayTitle}>Friday Weather</Text>
+              <Text style={styles.temperature}>
+                {Math.floor(fridayForecast.temp.min)}°F / {Math.floor(fridayForecast.temp.max)}°F
+              </Text>
+              <Text style={styles.weatherInfo}>
+                Weather: {fridayForecast.weather[0].description}
+              </Text>
+              <Text style={styles.weatherInfo}>
+                Precipitation: {Math.round(fridayForecast.pop * 100)}%
+              </Text>
+              <Text style={styles.weatherInfo}>
+                Humidity: {fridayForecast.humidity}%
+              </Text>
+              <Text style={styles.weatherInfo}>
+                Wind: {Math.round(fridayForecast.wind_speed)} mph
+              </Text>
+              <Text style={styles.weatherInfo}>
+                UV Index: {Math.round(fridayForecast.uvi)}
+              </Text>
+              <Text style={styles.summary}>
+                {fridayForecast.summary}
+              </Text>
+            </View>
+          )}
+          
+          {saturdayForecast && (
+            <View style={styles.card}>
+              <Text style={styles.dayTitle}>Saturday Weather</Text>
+              <Text style={styles.temperature}>
+                {Math.floor(saturdayForecast.temp.min)}°F / {Math.round(saturdayForecast.temp.max)}°F
+              </Text>
+              <Text style={styles.weatherInfo}>
+                Weather: {saturdayForecast.weather[0].description}
+              </Text>
+              <Text style={styles.weatherInfo}>
+                Precipitation: {Math.round(saturdayForecast.pop * 100)}%
+              </Text>
+              <Text style={styles.weatherInfo}>
+                Humidity: {saturdayForecast.humidity}%
+              </Text>
+              <Text style={styles.weatherInfo}>
+                Wind: {Math.round(saturdayForecast.wind_speed)} mph
+              </Text>
+              <Text style={styles.weatherInfo}>
+                UV Index: {Math.round(saturdayForecast.uvi)}
+              </Text>
+              <Text style={styles.summary}>
+                {saturdayForecast.summary}
+              </Text>
+            </View>
+          )}
+        </View>
+      </Page>
+    </Document>
+  );
+};
 
 export default WeatherPDF; 
