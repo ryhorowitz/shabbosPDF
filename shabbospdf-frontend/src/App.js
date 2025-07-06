@@ -1,3 +1,4 @@
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import WeatherContainer from './components/WeatherContainer.jsx';
 import CandleTimes from './components/CandleTimes.jsx';

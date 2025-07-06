@@ -1,17 +1,20 @@
 import React from 'react';
+import { Row, Col } from 'react-bootstrap';
 import { useWeather } from '../context/WeatherContext.js';
+import DailyForecastCard from './DailyForecastCard.jsx';
 
 const WeatherContainer = () => {
   const { weatherData, loading, error } = useWeather();
 
-  if (loading) {
-    return (
-      <div className="weather-content">
-        <h2>Weather Report</h2>
-        <p>Loading weather data...</p>
-      </div>
-    );
-  }
+  const getDayForecast = (dayName) => {
+    if (!weatherData?.daily) return null;
+    
+    const dayIndex = dayName === 'Friday' ? 5 : 6; // Friday = 5, Saturday = 6
+    return weatherData.daily.find((day, index) => {
+      const date = new Date(day.dt * 1000);
+      return date.getDay() === dayIndex;
+    });
+  };
 
   if (error) {
     return (
@@ -22,13 +25,28 @@ const WeatherContainer = () => {
     );
   }
 
+  const fridayForecast = getDayForecast('Friday');
+  const saturdayForecast = getDayForecast('Saturday');
+
   return (
     <div className="weather-content">
-      <h2>Weather Report</h2>
-      <p>Weather information will be displayed here.</p>
-      {weatherData?.current && (
-        <p>Temperature: {Math.floor(weatherData.current.temp)}ºF</p>
-      )}
+      <h2 className="mb-4">Shabbos Weather Forecast</h2>
+      <Row>
+        <Col md={6}>
+          <DailyForecastCard 
+            day="Friday" 
+            forecast={fridayForecast} 
+            loading={loading} 
+          />
+        </Col>
+        <Col md={6}>
+          <DailyForecastCard 
+            day="Saturday" 
+            forecast={saturdayForecast} 
+            loading={loading} 
+          />
+        </Col>
+      </Row>
     </div>
   );
 };
