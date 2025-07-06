@@ -1,20 +1,10 @@
 import React from 'react';
-import { Row, Col } from 'react-bootstrap';
+import { Row, Col, Button } from 'react-bootstrap';
 import { useWeather } from '../context/WeatherContext.js';
 import DailyForecastCard from './DailyForecastCard.jsx';
 
 const WeatherContainer = () => {
-  const { weatherData, loading, error } = useWeather();
-
-  const getDayForecast = (dayName) => {
-    if (!weatherData?.daily) return null;
-    
-    const dayIndex = dayName === 'Friday' ? 5 : 6; // Friday = 5, Saturday = 6
-    return weatherData.daily.find((day, index) => {
-      const date = new Date(day.dt * 1000);
-      return date.getDay() === dayIndex;
-    });
-  };
+  const { loading, error, getDayForecast } = useWeather();
 
   if (error) {
     return (
@@ -30,8 +20,10 @@ const WeatherContainer = () => {
 
   return (
     <div className="weather-content">
-      <h2 className="mb-4">Shabbos Weather Forecast</h2>
-      <Row >
+      <div className="d-flex justify-content-between align-items-center mb-4">
+        <h2>Shabbos Weather Forecast</h2>
+      </div>
+      <Row>
         <Col md={6}>
           <DailyForecastCard 
             day="Friday" 

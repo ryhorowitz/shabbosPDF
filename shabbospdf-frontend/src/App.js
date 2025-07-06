@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
 import WeatherContainer from './components/WeatherContainer.jsx';
 import CandleTimes from './components/CandleTimes.jsx';
+import WeatherPDF from './components/WeatherPDF.jsx';
 import { WeatherProvider } from './context/WeatherContext.js';
 
 function App() {
@@ -15,6 +16,9 @@ function App() {
           <CandleTimes/>
         </header>
         <main>
+          <div className="WeatherPDFcontainer">
+            <WeatherPDF/>
+          </div>
           <div className="weather-container">
              <WeatherContainer/>
           </div>

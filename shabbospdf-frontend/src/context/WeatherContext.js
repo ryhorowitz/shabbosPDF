@@ -19,6 +19,16 @@ export const WeatherProvider = ({ children }) => {
   const lon = -75.1652;
   const apiKey = process.env.REACT_APP_OPENWEATHER_API_KEY;
 
+  const getDayForecast = (dayName) => {
+    if (!weatherData?.daily) return null;
+    
+    const dayIndex = dayName === 'Friday' ? 5 : 6; // Friday = 5, Saturday = 6
+    return weatherData.daily.find((day, index) => {
+      const date = new Date(day.dt * 1000);
+      return date.getDay() === dayIndex;
+    });
+  };
+
   useEffect(() => {
     const fetchWeather = async () => {
       try {
@@ -53,7 +63,8 @@ export const WeatherProvider = ({ children }) => {
     weatherData,
     loading,
     error,
-    setWeatherData
+    setWeatherData,
+    getDayForecast
   };
 
   return (
