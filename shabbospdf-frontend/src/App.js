@@ -1,21 +1,25 @@
 import './App.css';
 import WeatherContainer from './components/WeatherContainer.jsx';
 import CandleTimes from './components/CandleTimes.jsx';
+import { WeatherProvider } from './context/WeatherContext.js';
+
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <h1>Erev Shabbos Weather Report</h1>
-      </header>
-      <header>
-        <CandleTimes/>
+    <WeatherProvider>
+      <div className="App">
+        <header className="App-header">
+          <h1>Erev Shabbos Weather Report</h1>
         </header>
-      <main>
-        <div className="weather-container">
-           <WeatherContainer/>
-        </div>
-      </main>
-    </div>
+        <header>
+          <CandleTimes/>
+        </header>
+        <main>
+          <div className="weather-container">
+             <WeatherContainer/>
+          </div>
+        </main>
+      </div>
+    </WeatherProvider>
   );
 }
 

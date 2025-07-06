@@ -1,31 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
+import { useWeather } from '../context/WeatherContext.js';
 
 const WeatherContainer = () => {
-  const [weatherData, setWeatherData] = useState(null);
-  const lat = 39.9526;
-  const lon = -75.1652;
-  useWeather(lat, lon, setWeatherData);
-  
+  const { weatherData, loading, error } = useWeather();
+
+  if (loading) {
+    return (
+      <div className="weather-content">
+        <h2>Weather Report</h2>
+        <p>Loading weather data...</p>
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="weather-content">
+        <h2>Weather Report</h2>
+        <p>Error loading weather data: {error}</p>
+      </div>
+    );
+  }
+
   return (
     <div className="weather-content">
       <h2>Weather Report</h2>
       <p>Weather information will be displayed here.</p>
-      <p>Temperature: {Math.floor(weatherData?.current?.temp)}ºF</p>
+      {weatherData?.current && (
+        <p>Temperature: {Math.floor(weatherData.current.temp)}ºF</p>
+      )}
     </div>
   );
 };
-
-function useWeather(lat, lon, setWeatherData) {
-  const apiKey = process.env.REACT_APP_OPENWEATHER_API_KEY;
-  useEffect(() => {
-    fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=imperial&cnt=8&APPID=${apiKey}`)
-    .then(response => response.json())
-    .then(data => {
-      console.log(data);
-      setWeatherData(data);
-    })
-    .catch(error => console.error('Error fetching weather:', error));
-  }, [apiKey, lat, lon, setWeatherData]);
-}
 
 export default WeatherContainer; 
