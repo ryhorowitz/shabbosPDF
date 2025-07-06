@@ -31,7 +31,7 @@ const WeatherContainer = () => {
   return (
     <div className="weather-content">
       <h2 className="mb-4">Shabbos Weather Forecast</h2>
-      <Row>
+      <Row >
         <Col md={6}>
           <DailyForecastCard 
             day="Friday" 
@@ -44,7 +44,7 @@ const WeatherContainer = () => {
             day="Saturday" 
             forecast={saturdayForecast} 
             loading={loading} 
-          />
+            />
         </Col>
       </Row>
     </div>
