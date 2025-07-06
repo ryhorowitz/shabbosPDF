@@ -17,9 +17,8 @@ const WeatherContainer = () => {
 
 function useWeather(lat, lon, setWeatherData) {
   const apiKey = process.env.REACT_APP_OPENWEATHER_API_KEY;
-  console.log('apikey', apiKey);
   useEffect(() => {
-    fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=imperial&APPID=${apiKey}`)
+    fetch(`https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=imperial&cnt=8&APPID=${apiKey}`)
     .then(response => response.json())
     .then(data => {
       console.log(data);
