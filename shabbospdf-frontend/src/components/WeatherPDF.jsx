@@ -8,7 +8,7 @@ Font.register({
 });
 Font.register({
   family: 'NotoSansHebrew',
-  src: '/fonts/static/NotoSansHebrew-Regular.ttf', // adjust path as needed
+  src: '/fonts/static/NotoSansHebrew-Regular.ttf',
   fontStyle: 'normal',
   fontWeight: 'normal'
 });
@@ -92,16 +92,16 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
     <Document title='Shabbos Weather & Times'>
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
-          <Text>Shabbos Weather & Candle Times {new Date().toLocaleDateString()}</Text>
+          <Text>Shabbos Weather & Candle Times</Text>
+          <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 4 }}>{parshaItem.title} 
+            <Text style={{ fontFamily: 'NotoSansHebrew', fontSize: 24 }}>  {parshaItem.hebrew}</Text>
+          </Text>
         </View>
         <View style={styles.section}>
           {/* Candle Times Section */}
           <View style={styles.candleSection}>
             {parshaItem && (
               <View>
-                <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 4 }}>{parshaItem.title} 
-                  <Text style={{ fontFamily: 'NotoSansHebrew', fontSize: 24 }}>  {parshaItem.hebrew}</Text>
-                </Text>
                 {parshaItem.hdate && <Text style={{ fontSize: 14, marginBottom: 8 }}>{parshaItem.hdate}</Text>}
               </View>
             )}

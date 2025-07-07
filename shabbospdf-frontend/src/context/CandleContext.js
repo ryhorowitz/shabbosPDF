@@ -16,11 +16,12 @@ export const CandleProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const apiKey = process.env.REACT_APP_IPINFO_API_KEY;
   // First useEffect to get geo data
   useEffect(() => {
     const getGeoData = async () => {
       try {
-        const response = await fetch('https://ipinfo.io/json');
+        const response = await fetch(`https://ipinfo.io?token=${apiKey}`);
         const data = await response.json();
         setGeoData(data);
       } catch (err) {
@@ -30,7 +31,7 @@ export const CandleProvider = ({ children }) => {
       }
     };
     getGeoData();
-  }, []);
+  }, [apiKey]);
 
   // Second useEffect to fetch candle times when geoData is available
   useEffect(() => {
