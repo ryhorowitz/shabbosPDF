@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Card, ListGroup, ListGroupItem, Row, Col } from 'react-bootstrap';
 
 const DailyForecastCard = ({ day, forecast, loading }) => {
 
@@ -64,19 +64,24 @@ const DailyForecastCard = ({ day, forecast, loading }) => {
         <div className="mb-2">
           <span className="display-1 me-3">{getWeatherIcon(forecast.weather[0].id)}</span>
           <div>
-           
             <small className="text-muted">
               {Math.floor(forecast.temp.min)}ºF / {Math.floor(forecast.temp.max)}ºF
             </small>
           </div>
         </div>
         <Card.Text className="text-start fs-6">
-          <strong>Weather:</strong> {forecast.weather[0].description}<br/>
-          <strong>Precipitation:</strong> {forecast.pop * 100}%<br/>
-          <strong>Humidity:</strong> {forecast.humidity}%<br/>
-          <strong>Wind:</strong> {Math.round(forecast.wind_speed)} mph<br/>
-          <strong>UV Index:</strong> {Math.round(forecast.uvi)} <br/>
-          <strong>Summary:</strong> {forecast.summary}
+          <Row>
+            <Col md={4}>
+              <strong>Weather:</strong> {forecast.weather[0].description}<br/>
+              <strong>Precipitation:</strong> {forecast.pop * 100}%<br/>
+              <strong>Humidity:</strong> {forecast.humidity}%<br/>
+            </Col>
+            <Col md={8}>
+              <strong>Wind:</strong> {Math.round(forecast.wind_speed)} mph<br/>
+              <strong>UV Index:</strong> {Math.round(forecast.uvi)} <br/>
+              <strong>Summary:</strong> {forecast.summary}
+            </Col>
+          </Row>
         </Card.Text>
       </Card.Body>
       <ListGroup className="text-start fs-6" variant="flush">

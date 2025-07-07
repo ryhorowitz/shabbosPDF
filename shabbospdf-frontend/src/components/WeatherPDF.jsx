@@ -78,6 +78,17 @@ const styles = StyleSheet.create({
     fontSize: 12,
     marginBottom: 5,
     color: '#555555'
+  },
+  twoColumnContainer: {
+    flexDirection: 'row',
+    marginBottom: 10
+  },
+  column: {
+    flex: 1,
+    marginRight: 10
+  },
+  columnRight: {
+    flex: 1
   }
 });
 
@@ -133,21 +144,28 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
               <Text style={styles.temperature}>
                 {Math.floor(fridayForecast.temp.min)}°F / {Math.floor(fridayForecast.temp.max)}°F
               </Text>
-              <Text style={styles.weatherInfo}>
-                Weather: {fridayForecast.weather[0].description}
-              </Text>
-              <Text style={styles.weatherInfo}>
-                Precipitation: {Math.round(fridayForecast.pop * 100)}%
-              </Text>
-              <Text style={styles.weatherInfo}>
-                Humidity: {fridayForecast.humidity}%
-              </Text>
-              <Text style={styles.weatherInfo}>
-                Wind: {Math.round(fridayForecast.wind_speed)} mph
-              </Text>
-              <Text style={styles.weatherInfo}>
-                UV Index: {Math.round(fridayForecast.uvi)}
-              </Text>
+              <View style={styles.twoColumnContainer}>
+                <View style={styles.column}>
+                  <Text style={styles.weatherInfo}>
+                    Weather: {fridayForecast.weather[0].description}
+                  </Text>
+                  <Text style={styles.weatherInfo}>
+                    Precipitation: {Math.round(fridayForecast.pop * 100)}%
+                  </Text>
+                  <Text style={styles.weatherInfo}>
+                    Humidity: {fridayForecast.humidity}%
+                  </Text>
+                </View>
+                <View style={styles.columnRight}>
+                  <Text style={styles.weatherInfo}>
+                    Wind: {Math.round(fridayForecast.wind_speed)} mph
+                  </Text>
+                  <Text style={styles.weatherInfo}>
+                    UV Index: {Math.round(fridayForecast.uvi)}
+                  </Text>
+
+                </View>
+              </View>
               <Text style={styles.summary}>
                 {fridayForecast.summary}
               </Text>
@@ -163,21 +181,27 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
               <Text style={styles.temperature}>
                 {Math.floor(saturdayForecast.temp.min)}°F / {Math.round(saturdayForecast.temp.max)}°F
               </Text>
-              <Text style={styles.weatherInfo}>
-                Weather: {saturdayForecast.weather[0].description}
-              </Text>
-              <Text style={styles.weatherInfo}>
-                Precipitation: {Math.round(saturdayForecast.pop * 100)}%
-              </Text>
-              <Text style={styles.weatherInfo}>
-                Humidity: {saturdayForecast.humidity}%
-              </Text>
-              <Text style={styles.weatherInfo}>
-                Wind: {Math.round(saturdayForecast.wind_speed)} mph
-              </Text>
-              <Text style={styles.weatherInfo}>
-                UV Index: {Math.round(saturdayForecast.uvi)}
-              </Text>
+              <View style={styles.twoColumnContainer}>
+                <View style={styles.column}>
+                  <Text style={styles.weatherInfo}>
+                    Weather: {saturdayForecast.weather[0].description}
+                  </Text>
+                  <Text style={styles.weatherInfo}>
+                    Precipitation: {Math.round(saturdayForecast.pop * 100)}%
+                  </Text>
+                  <Text style={styles.weatherInfo}>
+                    Humidity: {saturdayForecast.humidity}%
+                  </Text>
+                </View>
+                <View style={styles.columnRight}>
+                  <Text style={styles.weatherInfo}>
+                    Wind: {Math.round(saturdayForecast.wind_speed)} mph
+                  </Text>
+                  <Text style={styles.weatherInfo}>
+                    UV Index: {Math.round(saturdayForecast.uvi)}
+                  </Text>
+                </View>
+              </View>
               <Text style={styles.summary}>
                 {saturdayForecast.summary}
               </Text>
