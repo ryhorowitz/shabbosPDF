@@ -66,7 +66,6 @@ export const CandleProvider = ({ children }) => {
   }, [geoData]);
 
   const value = {
-    geoData,
     candleData,
     loading,
     error
