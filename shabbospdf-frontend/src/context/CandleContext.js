@@ -12,22 +12,47 @@ export const useCandle = () => {
 
 export const CandleProvider = ({ children }) => {
   const [candleData, setCandleData] = useState(null);
+  const [geoData, setGeoData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  // First useEffect to get geo data
   useEffect(() => {
+    const getGeoData = async () => {
+      try {
+        const response = await fetch('https://ipinfo.io/json');
+        const data = await response.json();
+        setGeoData(data);
+      } catch (err) {
+        console.error('Error fetching geo data:', err);
+        setError('Failed to get location data');
+        setLoading(false);
+      }
+    };
+    getGeoData();
+  }, []);
+
+  // Second useEffect to fetch candle times when geoData is available
+  useEffect(() => {
+    if (!geoData) return; // Don't run if geoData is not set yet
+
     const fetchCandleTimes = async () => {
       try {
         setLoading(true);
         setError(null);
         
-        const response = await fetch('https://www.hebcal.com/shabbat?cfg=i2&zip=19147&ue=off&M=on&lg=s&tgt=_top');
+        // Extract location data from geoData
+        const lat = geoData.loc.split(',')[0];
+        const lon = geoData.loc.split(',')[1];
+        const timezone = geoData.timezone;
+        
+        const response = await fetch(`https://www.hebcal.com/shabbat?cfg=json&latitude=${lat}&longitude=${lon}&tzid=${timezone}`);
         
         if (!response.ok) {
           throw new Error('Failed to fetch candle times');
         }
         
-        const data = await response.text();
+        const data = await response.json();
         setCandleData(data);
       } catch (err) {
         console.error('Error fetching candle times:', err);
@@ -38,9 +63,10 @@ export const CandleProvider = ({ children }) => {
     };
 
     fetchCandleTimes();
-  }, []);
+  }, [geoData]);
 
   const value = {
+    geoData,
     candleData,
     loading,
     error

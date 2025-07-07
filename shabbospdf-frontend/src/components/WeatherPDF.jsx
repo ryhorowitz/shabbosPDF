@@ -91,12 +91,12 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
   };
 
   const candleLines = parseCandleData(candleData);
-
+  // console.log('candleData', candleData);
   return (
-    <Document>
+    <Document title='Shabbos Weather & Times'>
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
-          <Text>Shabbos Weather Forecast & Candle Times</Text>
+          <Text>Shabbos Weather & Candle Times {new Date().toLocaleDateString()}</Text>
         </View>
         
         <View style={styles.section}>

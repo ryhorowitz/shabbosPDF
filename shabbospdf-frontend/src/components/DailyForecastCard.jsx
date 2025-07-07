@@ -48,7 +48,6 @@ const DailyForecastCard = ({ day, forecast, loading }) => {
   };
 
   return (
-    console.log('forecast',forecast),
     <Card className="mb-3">
       <Card.Header as="h5" className="bg-primary text-white">
         {day}
