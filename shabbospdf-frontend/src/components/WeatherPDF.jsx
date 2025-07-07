@@ -6,6 +6,12 @@ Font.register({
   family: 'Helvetica',
   src: 'https://fonts.gstatic.com/s/helveticaneue/v70/1Ptsg8zYS_SKggPNyC0IT4ttDfA.ttf'
 });
+Font.register({
+  family: 'NotoSansHebrew',
+  src: '/fonts/static/NotoSansHebrew-Regular.ttf', // adjust path as needed
+  fontStyle: 'normal',
+  fontWeight: 'normal'
+});
 
 const styles = StyleSheet.create({
   page: {
@@ -76,42 +82,51 @@ const styles = StyleSheet.create({
 });
 
 const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
-  // Parse candle data if it's HTML content
-  const parseCandleData = (htmlData) => {
-    if (!htmlData) return null;
-    
-    // Simple parsing to extract text content
-    const tempDiv = document.createElement('div');
-    tempDiv.innerHTML = htmlData;
-    const textContent = tempDiv.textContent || tempDiv.innerText || '';
-    
-    // Extract relevant information
-    const lines = textContent.split('\n').filter(line => line.trim());
-    return lines;
-  };
+  // Extract parsha, candle, and havdalah items
+  console.log('candleData', candleData);
+  let candleItem = candleData.items[0];
+  let parshaItem = candleData.items[1];
+  let havdalahItem = candleData.items[2];
 
-  const candleLines = parseCandleData(candleData);
-  // console.log('candleData', candleData);
   return (
     <Document title='Shabbos Weather & Times'>
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <Text>Shabbos Weather & Candle Times {new Date().toLocaleDateString()}</Text>
         </View>
-        
         <View style={styles.section}>
           {/* Candle Times Section */}
-          {candleLines && candleLines.length > 0 && (
-            <View style={styles.candleSection}>
-              <Text style={styles.candleTitle}>Candle Lighting Times</Text>
-              {candleLines.map((line, index) => (
-                <Text key={index} style={styles.candleInfo}>
-                  {line}
+          <View style={styles.candleSection}>
+            {parshaItem && (
+              <View>
+                <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 4 }}>{parshaItem.title} 
+                  <Text style={{ fontFamily: 'NotoSansHebrew', fontSize: 24 }}>  {parshaItem.hebrew}</Text>
                 </Text>
-              ))}
-            </View>
-          )}
-          
+                {parshaItem.hdate && <Text style={{ fontSize: 14, marginBottom: 8 }}>{parshaItem.hdate}</Text>}
+              </View>
+            )}
+            {candleItem && (
+              <View>
+                <Text style={styles.candleTitle}>Candle Lighting</Text>
+                  <Text style={styles.candleInfo}>
+                    {new Date(candleItem.date).toLocaleString('en-US', {
+                      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                    })}
+                  </Text>
+              </View>
+            )}
+            {havdalahItem && (
+              <View>
+                <Text style={styles.candleTitle}>Havdalah</Text>
+                  <Text style={styles.candleInfo}>
+                    {new Date(havdalahItem.date).toLocaleString('en-US', {
+                      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                    })}
+                  </Text>
+                )
+              </View>
+            )}
+          </View>
           {/* Weather Forecast Section */}
           {fridayForecast && (
             <View style={styles.card}>
@@ -139,7 +154,6 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
               </Text>
             </View>
           )}
-          
           {saturdayForecast && (
             <View style={styles.card}>
               <Text style={styles.dayTitle}>Saturday Weather</Text>
