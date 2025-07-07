@@ -24,14 +24,14 @@ const WeatherContainer = () => {
         <h2>Shabbos Weather Forecast</h2>
       </div>
       <Row>
-        <Col md={6}>
+        <Col md={10}>
           <DailyForecastCard 
             day="Friday" 
             forecast={fridayForecast} 
             loading={loading} 
           />
         </Col>
-        <Col md={6}>
+        <Col md={10}>
           <DailyForecastCard 
             day="Saturday" 
             forecast={saturdayForecast} 

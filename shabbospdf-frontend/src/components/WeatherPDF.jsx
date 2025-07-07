@@ -83,7 +83,6 @@ const styles = StyleSheet.create({
 
 const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
   // Extract parsha, candle, and havdalah items
-  console.log('candleData', candleData);
   let candleItem = candleData.items[0];
   let parshaItem = candleData.items[1];
   let havdalahItem = candleData.items[2];
@@ -93,8 +92,8 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <Text>Shabbos Weather & Candle Times</Text>
-          <Text style={{ fontSize: 20, fontWeight: 'bold', marginBottom: 4 }}>{parshaItem.title} 
-            <Text style={{ fontFamily: 'NotoSansHebrew', fontSize: 24 }}>  {parshaItem.hebrew}</Text>
+          <Text style={{ fontSize: 32, fontWeight: 'bold', marginBottom: 4 }}>{parshaItem.title} 
+            <Text style={{ fontFamily: 'NotoSansHebrew', fontSize: 32 }}>  {parshaItem.hebrew}</Text>
           </Text>
         </View>
         <View style={styles.section}>
@@ -102,7 +101,7 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
           <View style={styles.candleSection}>
             {parshaItem && (
               <View>
-                {parshaItem.hdate && <Text style={{ fontSize: 14, marginBottom: 8 }}>{parshaItem.hdate}</Text>}
+                {parshaItem.hdate && <Text style={{ fontSize: 14, fontWeight: 'bold', marginBottom: 8 }}>{parshaItem.hdate}</Text>}
               </View>
             )}
             {candleItem && (
@@ -152,6 +151,10 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
               <Text style={styles.summary}>
                 {fridayForecast.summary}
               </Text>
+              <Text style={styles.weatherInfo}>Morning {Math.floor(fridayForecast.temp.morn)}ºF</Text>
+              <Text style={styles.weatherInfo}>Afternoon {Math.floor(fridayForecast.temp.day)}ºF</Text>
+              <Text style={styles.weatherInfo}>Evening {Math.floor(fridayForecast.temp.eve)}ºF</Text>
+              <Text style={styles.weatherInfo}>Night {Math.floor(fridayForecast.temp.night)}ºF</Text>
             </View>
           )}
           {saturdayForecast && (
@@ -178,6 +181,10 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
               <Text style={styles.summary}>
                 {saturdayForecast.summary}
               </Text>
+              <Text style={styles.weatherInfo}>Morning {Math.floor(saturdayForecast.temp.morn)}ºF</Text>
+              <Text style={styles.weatherInfo}>Day {Math.floor(saturdayForecast.temp.day)}ºF</Text>
+              <Text style={styles.weatherInfo}>Afternoon {Math.floor(saturdayForecast.temp.eve)}ºF</Text>
+              <Text style={styles.weatherInfo}>Night {Math.floor(saturdayForecast.temp.night)}ºF</Text>
             </View>
           )}
         </View>

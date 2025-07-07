@@ -1,7 +1,15 @@
 import React from 'react';
-import { Card } from 'react-bootstrap';
+import { Card, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 const DailyForecastCard = ({ day, forecast, loading }) => {
+
+/**
+ * Generate list groups
+ * if friday
+ * list day, evening and night temp
+ */
+
+
   if (loading) {
     return (
       <Card className="mb-3">
@@ -71,6 +79,20 @@ const DailyForecastCard = ({ day, forecast, loading }) => {
           <strong>Summary:</strong> {forecast.summary}
         </Card.Text>
       </Card.Body>
+      <ListGroup className="text-start fs-6" variant="flush">
+        <ListGroupItem>
+          <strong>Morning</strong> {Math.floor(forecast.temp.morn)}ºF / feels like {Math.floor(forecast.feels_like.morn)}ºF
+        </ListGroupItem>
+        <ListGroupItem>
+          <strong>Afternoon</strong> {Math.floor(forecast.temp.day)}ºF / feels like {Math.floor(forecast.feels_like.day)}ºF
+        </ListGroupItem>
+        <ListGroupItem>
+          <strong>Evening</strong> {Math.floor(forecast.temp.eve)}ºF / feels like {Math.floor(forecast.feels_like.eve)}ºF
+        </ListGroupItem>
+        <ListGroupItem>
+          <strong>Night</strong> {Math.floor(forecast.temp.night)}ºF / feels like {Math.floor(forecast.feels_like.night)}ºF
+        </ListGroupItem>
+      </ListGroup>
     </Card>
   );
 };
