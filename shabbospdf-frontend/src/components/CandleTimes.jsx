@@ -1,77 +1,105 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useCandle } from '../context/CandleContext.js';
+import { Container, Row, Col, ListGroup, Spinner, Alert } from 'react-bootstrap';
 
 const CandleTimes = () => {
   const { candleData, loading, error } = useCandle();
 
-  useEffect(() => {
-    if (candleData && !loading) {
-      const hebcalElement = document.getElementById('hebcal-shabbat');
-      if (hebcalElement) {
-        // Parse the JSON data and format it for display
-        try {
-          const data = typeof candleData === 'string' ? JSON.parse(candleData) : candleData;
-          
-          // Format the candle times data for display
-          let displayHTML = '<div class="shabbos-times-display">';
-          
-          // data.items[0] candle
-          // data.items[1] Parashas
-          // data.items[2] havdalah
-          
-          if (data.items && Array.isArray(data.items)) {
-            data.items.forEach(item => {
-              if (item.category === 'candles') {
-            
-                displayHTML += `<div class="candle-time-item">`;
-                displayHTML += `<strong>${item.title}</strong></div>`;
-              }
-              if (item.category === 'havdalah') {
-                displayHTML += `<div class="havdalah-time-item">`;
-                displayHTML += `<strong>${item.title}</strong></div>`;
-              }
-              if (item.category === 'parashat') {
-                displayHTML = `<div class="parashas-item">` + displayHTML;
-                displayHTML += `<strong>${item.title} ${item.hebrew}</strong></div>`;
-              }
-            });
-          }
-          // add a line break
-          displayHTML += '<br>';
-          displayHTML += '</div>';
-          hebcalElement.innerHTML = displayHTML;
-        } catch (err) {
-          console.error('Error parsing candle data:', err);
-          hebcalElement.innerHTML = '<p>Error loading candle times</p>';
-        }
-      }
-    }
-  }, [candleData, loading]);
-
   if (loading) {
     return (
-      <div className="candle-times">
-        <div id="hebcal-shabbat">
-          <p>Loading candle times...</p>
-        </div>
-      </div>
+      <Container className="candle-times">
+        <Row className="justify-content-center py-3">
+          <Col xs="auto">
+            <Spinner animation="border" role="status" />
+            <span className="ms-2">Loading candle times...</span>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 
   if (error) {
     return (
-      <div className="candle-times">
-        <div id="hebcal-shabbat">
-          <p>Error loading candle times: {error}</p>
-        </div>
-      </div>
+      <Container className="candle-times">
+        <Row className="justify-content-center">
+          <Col md={8}>
+            <Alert variant="danger" className="text-center">
+              Error loading candle times: {error}
+            </Alert>
+          </Col>
+        </Row>
+      </Container>
     );
   }
 
+  // Extract parsha, candle, and havdalah items
+  let candleItem = candleData.items[0];
+  let parshaItem = candleData.items[1];
+  let havdalahItem = candleData.items[2];
+
   return (
-    <div className="candle-times">
-      <div id="hebcal-shabbat"></div>
-    </div>
+    <Container className="candle-times my-4">
+      {parshaItem && (
+        <div className="mb-3">
+          <Row className="justify-content-center mb-3">
+            <Col xs="auto" className="text-center">
+              <span className="display-4 fw-bold">{parshaItem.title}</span>
+              <span className="ms-3" style={{ fontSize: '2.5rem', fontWeight: 700 }}>{parshaItem.hebrew}</span>
+            </Col>
+          </Row>
+          <Row className="justify-content-center mb-3">
+          <Col xs="auto" className="text-center">
+            {parshaItem.date ? (
+              <span style={{ fontSize: '1.5rem', fontWeight: 700 }}>{parshaItem.hdate}</span>
+                ):(
+                  <div className="text-muted">No Hebrew Date found.</div>
+                )}
+            </Col>
+          </Row>
+        </div>
+      )}
+      <Row className="justify-content-center">
+        <Col md={6}>
+          <ListGroup className="shadow-sm mb-3" style={{ textAlign: 'left' }}>
+            <ListGroup.Item className="">
+              {candleItem.title ? (
+                  <div className="mb-2 d-flex justify-content-between align-items-center">
+                    <strong>{candleItem.title}</strong>
+                    <span > 
+                      {new Date(candleItem.date).toLocaleDateString('en-US', {
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                      })} 
+                      </span>
+                  </div>
+              ) : (
+                <div className="text-muted">No candle lighting times found.</div>
+              )}
+            </ListGroup.Item>
+            <ListGroup.Item>
+              {havdalahItem.title ? (
+                  <div className="mb-2 d-flex justify-content-between align-items-center">
+                    <strong>{havdalahItem.title}</strong>
+                    <span > 
+                      {new Date(havdalahItem.date).toLocaleDateString('en-US', {
+                      weekday: 'long',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                      })} 
+                      </span>
+                  </div>
+              ) : (
+                <div className="text-muted">No havdalah times found.</div>
+              )}
+              
+            </ListGroup.Item>
+          </ListGroup>
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
