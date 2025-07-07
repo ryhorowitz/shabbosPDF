@@ -13,23 +13,31 @@ const CandleTimes = () => {
           const data = typeof candleData === 'string' ? JSON.parse(candleData) : candleData;
           
           // Format the candle times data for display
-          let displayHTML = '<div class="candle-times-display">';
+          let displayHTML = '<div class="shabbos-times-display">';
+          
+          // data.items[0] candle
+          // data.items[1] Parashas
+          // data.items[2] havdalah
           
           if (data.items && Array.isArray(data.items)) {
             data.items.forEach(item => {
               if (item.category === 'candles') {
-                const date = new Date(item.date);
-                const timeString = date.toLocaleTimeString('en-US', { 
-                  hour: 'numeric', 
-                  minute: '2-digit',
-                  hour12: true 
-                });
+            
                 displayHTML += `<div class="candle-time-item">`;
-                displayHTML += `<strong>${item.title}</strong>: ${timeString}</div>`;
+                displayHTML += `<strong>${item.title}</strong></div>`;
+              }
+              if (item.category === 'havdalah') {
+                displayHTML += `<div class="havdalah-time-item">`;
+                displayHTML += `<strong>${item.title}</strong></div>`;
+              }
+              if (item.category === 'parashat') {
+                displayHTML = `<div class="parashas-item">` + displayHTML;
+                displayHTML += `<strong>${item.title} ${item.hebrew}</strong></div>`;
               }
             });
           }
-          
+          // add a line break
+          displayHTML += '<br>';
           displayHTML += '</div>';
           hebcalElement.innerHTML = displayHTML;
         } catch (err) {
