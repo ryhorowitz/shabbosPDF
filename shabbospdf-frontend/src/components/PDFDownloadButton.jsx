@@ -36,8 +36,8 @@ const PDFDownloadButton = () => {
   }
 
   return (
-    <div className="text-center mt-4">
-      <PDFViewer>
+    <div style={{width:"100vw", height:"90vh"}} className="text-center mt-4">
+      <PDFViewer width="100%" height="100%">
         
         <WeatherPDF 
           fridayForecast={fridayForecast} 
@@ -45,13 +45,13 @@ const PDFDownloadButton = () => {
           candleData={candleData}
         />
         </PDFViewer>
-      fileName="shabbos-weather-and-candle-times.pdf"
+      {/* fileName="shabbos-weather-and-candle-times.pdf" */}
     
-      {({ blob, url, loading: pdfLoading, error: pdfError }) => (
+      {/* {({ blob, url, loading: pdfLoading, error: pdfError }) => (
         <Button variant="primary" disabled={pdfLoading}>
           {pdfLoading ? 'Generating PDF...' : 'Download Weather & Candle Times PDF'}
         </Button>
-      )}
+      )} */}
     </div>
   );
 };
