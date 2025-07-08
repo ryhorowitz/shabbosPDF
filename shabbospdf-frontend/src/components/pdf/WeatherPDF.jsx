@@ -1,5 +1,5 @@
 import React from 'react';
-import { Document, Page, Text, View, StyleSheet, Font } from '@react-pdf/renderer';
+import { Document, Page, Text, View, Image, Font } from '@react-pdf/renderer';
 import { usePDFStyles } from '../../context/PDFStylesContext';
 
 // Register a default font
@@ -21,6 +21,24 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
   let candleItem = candleData.items[0];
   let parshaItem = candleData.items[1];
   let havdalahItem = candleData.items[2];
+
+  const getWeatherIcon = (weatherCode) => {
+    // Map weather codes to emoji icons
+    const weatherIcons = {
+      200: 'https://openweathermap.org/img/wn/11d@2x.png', // thunderstorm
+      300: 'https://openweathermap.org/img/wn/10d@2x.png', // drizzle rain
+      500: 'https://openweathermap.org/img/wn/09d@2x.png', // shower rain
+      600: 'https://openweathermap.org/img/wn/013d@2x.png', // snow
+      700: 'https://openweathermap.org/img/wn/50d@2x.png', // fog/mist
+      800: 'https://openweathermap.org/img/wn/01d@2x.png', // clear sky
+      801: 'https://openweathermap.org/img/wn/02d@2x.png', // few clouds
+      802: 'https://openweathermap.org/img/wn/03d@2x.png', // scattered clouds
+      803: 'https://openweathermap.org/img/wn/04d@2x.png', // broken clouds
+      804: 'https://openweathermap.org/img/wn/04d@2x.png', // overcast
+    };
+    const code = Math.floor(weatherCode / 100) * 100;
+    return weatherIcons[code] || '☀';
+  };
 
   return (
     <Document title='Shabbos Weather & Times'>
@@ -75,9 +93,11 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
           ].map(({ label, forecast }) =>
             forecast && (
               <View style={styles.card} key={label}>
-                <Text style={styles.dayTitle}>{label} Weather
-                  <Text style={styles.summary}> {forecast.summary}</Text>
+                <Text style={styles.dayTitle}>{label} Weather</Text>
+                <Text style={{ fontSize: 48, marginBottom: 4 }}>
+                  <Image src={getWeatherIcon(forecast.weather[0].id)}/>
                 </Text>
+                <Text style={styles.summary}>{forecast.summary}</Text>
                 <Text style={styles.temperature}>
                   {Math.floor(forecast.temp.min)}°F / {Math.floor(forecast.temp.max)}°F
                 </Text>
