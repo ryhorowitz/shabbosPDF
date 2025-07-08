@@ -1,5 +1,5 @@
 import React from 'react';
-import { Card, ListGroup, ListGroupItem, Row, Col } from 'react-bootstrap';
+import { Container, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
 
 const DailyForecastCard = ({ day, forecast, loading }) => {
 
@@ -12,27 +12,27 @@ const DailyForecastCard = ({ day, forecast, loading }) => {
 
   if (loading) {
     return (
-      <Card className="mb-3">
-        <Card.Header as="h5" className="bg-secondary text-white">
-          {day}
-        </Card.Header>
-        <Card.Body>
-          <Card.Text>Loading forecast...</Card.Text>
-        </Card.Body>
-      </Card>
+      <Container className="mb-3 p-0 border rounded">
+        <div className="bg-secondary text-white p-2 rounded-top">
+          <h5 className="mb-0">{day}</h5>
+        </div>
+        <div className="p-3">
+          <span>Loading forecast...</span>
+        </div>
+      </Container>
     );
   }
 
   if (!forecast) {
     return (
-      <Card className="mb-3">
-        <Card.Header as="h5" className="bg-secondary text-white">
-          {day}
-        </Card.Header>
-        <Card.Body>
-          <Card.Text>No forecast available</Card.Text>
-        </Card.Body>
-      </Card>
+      <Container className="mb-3 p-0 border rounded">
+        <div className="bg-secondary text-white p-2 rounded-top">
+          <h5 className="mb-0">{day}</h5>
+        </div>
+        <div className="p-3">
+          <span>No forecast available</span>
+        </div>
+      </Container>
     );
   }
 
@@ -56,12 +56,12 @@ const DailyForecastCard = ({ day, forecast, loading }) => {
   };
 
   return (
-    <Card className="mb-3">
-      <Card.Header as="h5" className="bg-primary text-white">
-        {day}
-      </Card.Header>
-      <Card.Body>
-        <div className="mb-2">
+    <Container className="mb-3 p-0 border rounded">
+      <div className="bg-primary text-white p-2 rounded-top">
+        <h5 className="mb-0">{day}</h5>
+      </div>
+      <div className="p-3">
+        <div className="mb-2 d-flex align-items-center">
           <span className="display-1 me-3">{getWeatherIcon(forecast.weather[0].id)}</span>
           <div>
             <small className="text-muted">
@@ -83,22 +83,22 @@ const DailyForecastCard = ({ day, forecast, loading }) => {
             </Col>
           </Row>
         </div>
-      </Card.Body>
-      <ListGroup className="text-start fs-6" variant="flush">
-        <ListGroupItem>
-          <strong>Morning</strong> {Math.floor(forecast.temp.morn)}ºF / feels like {Math.floor(forecast.feels_like.morn)}ºF
-        </ListGroupItem>
-        <ListGroupItem>
-          <strong>Afternoon</strong> {Math.floor(forecast.temp.day)}ºF / feels like {Math.floor(forecast.feels_like.day)}ºF
-        </ListGroupItem>
-        <ListGroupItem>
-          <strong>Evening</strong> {Math.floor(forecast.temp.eve)}ºF / feels like {Math.floor(forecast.feels_like.eve)}ºF
-        </ListGroupItem>
-        <ListGroupItem>
-          <strong>Night</strong> {Math.floor(forecast.temp.night)}ºF / feels like {Math.floor(forecast.feels_like.night)}ºF
-        </ListGroupItem>
-      </ListGroup>
-    </Card>
+        <ListGroup className="text-start fs-6 mt-3" variant="flush">
+          <ListGroupItem>
+            <strong>Morning</strong> {Math.floor(forecast.temp.morn)}ºF / feels like {Math.floor(forecast.feels_like.morn)}ºF
+          </ListGroupItem>
+          <ListGroupItem>
+            <strong>Afternoon</strong> {Math.floor(forecast.temp.day)}ºF / feels like {Math.floor(forecast.feels_like.day)}ºF
+          </ListGroupItem>
+          <ListGroupItem>
+            <strong>Evening</strong> {Math.floor(forecast.temp.eve)}ºF / feels like {Math.floor(forecast.feels_like.eve)}ºF
+          </ListGroupItem>
+          <ListGroupItem>
+            <strong>Night</strong> {Math.floor(forecast.temp.night)}ºF / feels like {Math.floor(forecast.feels_like.night)}ºF
+          </ListGroupItem>
+        </ListGroup>
+      </div>
+    </Container>
   );
 };
 
