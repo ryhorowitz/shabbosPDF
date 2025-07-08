@@ -69,7 +69,7 @@ const DailyForecastCard = ({ day, forecast, loading }) => {
             </small>
           </div>
         </div>
-        <Card.Text className="text-start fs-6">
+        <div className="text-start fs-6">
           <Row>
             <Col md={4}>
               <strong>Weather:</strong> {forecast.weather[0].description}<br/>
@@ -82,7 +82,7 @@ const DailyForecastCard = ({ day, forecast, loading }) => {
               <strong>Summary:</strong> {forecast.summary}
             </Col>
           </Row>
-        </Card.Text>
+        </div>
       </Card.Body>
       <ListGroup className="text-start fs-6" variant="flush">
         <ListGroupItem>
