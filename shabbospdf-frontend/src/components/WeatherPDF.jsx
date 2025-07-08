@@ -23,11 +23,12 @@ const styles = StyleSheet.create({
   header: {
     fontSize: 24,
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom: 0,
     color: '#333333'
   },
   section: {
     margin: 10,
+    marginBottom: 5,
     padding: 10,
     flexGrow: 1
   },
@@ -35,7 +36,7 @@ const styles = StyleSheet.create({
     border: '1px solid #e0e0e0',
     borderRadius: 8,
     padding: 15,
-    marginBottom: 15,
+    marginBottom: 5,
     backgroundColor: '#f9f9f9'
   },
   dayTitle: {
@@ -59,7 +60,7 @@ const styles = StyleSheet.create({
     fontSize: 11,
     fontStyle: 'italic',
     color: '#7f8c8d',
-    marginTop: 10
+    marginTop: 0
   },
   candleSection: {
     border: '1px solid #e0e0e0',
@@ -71,7 +72,7 @@ const styles = StyleSheet.create({
   candleTitle: {
     fontSize: 16,
     fontWeight: 'bold',
-    marginBottom: 10,
+    marginBottom: 5,
     color: '#8b4513'
   },
   candleInfo: {
@@ -81,7 +82,7 @@ const styles = StyleSheet.create({
   },
   twoColumnContainer: {
     flexDirection: 'row',
-    marginBottom: 10
+    marginBottom: 5
   },
   column: {
     flex: 1,
@@ -120,7 +121,7 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
                 <Text style={styles.candleTitle}>Candle Lighting</Text>
                   <Text style={styles.candleInfo}>
                     {new Date(candleItem.date).toLocaleString('en-US', {
-                      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit'
                     })}
                   </Text>
               </View>
@@ -130,7 +131,7 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
                 <Text style={styles.candleTitle}>Havdalah</Text>
                   <Text style={styles.candleInfo}>
                     {new Date(havdalahItem.date).toLocaleString('en-US', {
-                      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: '2-digit'
                     })}
                   </Text>
                 )
@@ -140,7 +141,9 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
           {/* Weather Forecast Section */}
           {fridayForecast && (
             <View style={styles.card}>
-              <Text style={styles.dayTitle}>Friday Weather</Text>
+              <Text style={styles.dayTitle}>Friday Weather
+                <Text style={styles.summary}> {fridayForecast.summary}</Text>
+              </Text>
               <Text style={styles.temperature}>
                 {Math.floor(fridayForecast.temp.min)}°F / {Math.floor(fridayForecast.temp.max)}°F
               </Text>
@@ -166,9 +169,6 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
 
                 </View>
               </View>
-              <Text style={styles.summary}>
-                {fridayForecast.summary}
-              </Text>
               <Text style={styles.weatherInfo}>Morning {Math.floor(fridayForecast.temp.morn)}ºF</Text>
               <Text style={styles.weatherInfo}>Afternoon {Math.floor(fridayForecast.temp.day)}ºF</Text>
               <Text style={styles.weatherInfo}>Evening {Math.floor(fridayForecast.temp.eve)}ºF</Text>
@@ -177,7 +177,9 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
           )}
           {saturdayForecast && (
             <View style={styles.card}>
-              <Text style={styles.dayTitle}>Saturday Weather</Text>
+              <Text style={styles.dayTitle}>Saturday Weather
+                <Text style={styles.summary}>{saturdayForecast.summary}</Text>
+              </Text>
               <Text style={styles.temperature}>
                 {Math.floor(saturdayForecast.temp.min)}°F / {Math.round(saturdayForecast.temp.max)}°F
               </Text>
@@ -202,9 +204,6 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
                   </Text>
                 </View>
               </View>
-              <Text style={styles.summary}>
-                {saturdayForecast.summary}
-              </Text>
               <Text style={styles.weatherInfo}>Morning {Math.floor(saturdayForecast.temp.morn)}ºF</Text>
               <Text style={styles.weatherInfo}>Day {Math.floor(saturdayForecast.temp.day)}ºF</Text>
               <Text style={styles.weatherInfo}>Afternoon {Math.floor(saturdayForecast.temp.eve)}ºF</Text>
