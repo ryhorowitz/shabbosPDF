@@ -1,5 +1,5 @@
 import React from 'react';
-import { Container, Row, Col, ListGroup, ListGroupItem } from 'react-bootstrap';
+import { Container, Row, Col, ListGroup, ListGroupItem, Table } from 'react-bootstrap';
 
 const DailyForecastCard = ({ day, forecast, loading }) => {
 
@@ -72,14 +72,40 @@ const DailyForecastCard = ({ day, forecast, loading }) => {
         <div className="text-start fs-6">
           <Row>
             <Col md={4}>
-              <strong>Weather:</strong> {forecast.weather[0].description}<br/>
-              <strong>Precipitation:</strong> {forecast.pop * 100}%<br/>
-              <strong>Humidity:</strong> {forecast.humidity}%<br/>
+              <Table size="sm" className="mb-0">
+                <tbody>
+                  <tr>
+                    <td><strong>Weather</strong></td>
+                    <td>{forecast.weather[0].description}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Precipitation</strong></td>
+                    <td>{forecast.pop * 100}%</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Humidity</strong></td>
+                    <td>{forecast.humidity}%</td>
+                  </tr>
+                </tbody>
+              </Table>
             </Col>
             <Col md={8}>
-              <strong>Wind:</strong> {Math.round(forecast.wind_speed)} mph<br/>
-              <strong>UV Index:</strong> {Math.round(forecast.uvi)} <br/>
-              <strong>Summary:</strong> {forecast.summary}
+              <Table size="sm" className="mb-0">
+                <tbody>
+                  <tr>
+                    <td><strong>Wind</strong></td>
+                    <td>{Math.round(forecast.wind_speed)} mph</td>
+                  </tr>
+                  <tr>
+                    <td><strong>UV Index</strong></td>
+                    <td>{Math.round(forecast.uvi)}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Summary</strong></td>
+                    <td>{forecast.summary}</td>
+                  </tr>
+                </tbody>
+              </Table>
             </Col>
           </Row>
         </div>
