@@ -10,21 +10,10 @@ function App() {
   return (
     <WeatherProvider>
       <CandleProvider>
-        <div className="App">
-          <header className="App-header">
-            <h1>Erev Shabbos Weather Report</h1>
-          </header>
-          <header>
-            <CandleTimes/>
-          </header>
-          <main>
-            <div className="pdf-download-section">
-              <PDFDownloadButton />
-            </div>
-            <div className="weather-container">
-               <WeatherContainer/>
-            </div>
-          </main>
+        <div className="App" style={{width:"100%", height:"100%"}}>
+            
+          <PDFDownloadButton />
+           
         </div>
       </CandleProvider>
     </WeatherProvider>
