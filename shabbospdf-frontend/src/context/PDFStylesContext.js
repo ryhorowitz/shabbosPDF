@@ -32,8 +32,9 @@ const PDFStyles = StyleSheet.create({
   dayTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginBottom: 10,
-    color: '#2c3e50'
+    marginBottom: 5,
+    color: '#2c3e50',
+    textAlign: 'center'
   },
   weatherInfo: {
     fontSize: 12,
@@ -82,7 +83,11 @@ const PDFStyles = StyleSheet.create({
   },
   columnRight: {
     flex: 1
-  }
+  },
+  weatherHeader: {
+    textAlign: 'center',
+    flexDirection: 'row'
+  },
 });
 
 export const PDFStylesProvider = ({ children }) => (
