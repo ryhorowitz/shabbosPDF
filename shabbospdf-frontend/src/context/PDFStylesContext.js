@@ -67,8 +67,10 @@ const PDFStyles = StyleSheet.create({
   },
   candleInfo: {
     fontSize: 12,
+    fontWeight: 700,
     marginBottom: 5,
-    color: '#555555'
+    color: '#555555',
+    paddingLeft: 16
   },
   twoColumnContainer: {
     flexDirection: 'row',
