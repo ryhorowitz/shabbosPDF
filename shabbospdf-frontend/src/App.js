@@ -4,7 +4,7 @@ import './App.css';
 // import WeatherContainer from './components/WeatherContainer.jsx';
 import { CandleProvider } from './context/CandleContext.js';
 import { WeatherProvider } from './context/WeatherContext.js';
-import PDFDownloadButton from './components/PDFDownloadButton.jsx';
+import PDFDownloadButton from './components/pdf/PDFDownloadButton.jsx';
 
 function App() {
   return (
