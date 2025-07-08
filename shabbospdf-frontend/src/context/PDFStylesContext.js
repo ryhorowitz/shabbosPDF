@@ -1,5 +1,5 @@
 import React, { createContext, useContext } from 'react';
-import { StyleSheet, Font } from '@react-pdf/renderer';
+import { StyleSheet } from '@react-pdf/renderer';
 
 // PDF font and style context
 const PDFStyleContext = createContext();

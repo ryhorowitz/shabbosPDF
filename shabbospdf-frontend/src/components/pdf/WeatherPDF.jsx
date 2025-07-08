@@ -1,12 +1,17 @@
 import React from 'react';
 import { Document, Page, Text, View, Font } from '@react-pdf/renderer';
 import { usePDFStyles } from '../../context/PDFStylesContext';
+import { useWeather } from '../../context/WeatherContext';
+import { useCandle } from '../../context/CandleContext';
 
-const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
+const WeatherPDF = () => {
+  const { getDayForecast} = useWeather();
+  const { candleData } = useCandle();
 
+  const fridayForecast = getDayForecast('Friday');
+  const saturdayForecast = getDayForecast('Saturday');
 
   const styles = usePDFStyles();
-
   // Register a default font
 Font.register({
   family: 'Helvetica',
@@ -18,6 +23,7 @@ Font.register({
   fontStyle: 'normal',
   fontWeight: 'normal'
 });
+
   const days = [
     { label: 'Friday', forecast: fridayForecast },
     { label: 'Saturday', forecast: saturdayForecast }

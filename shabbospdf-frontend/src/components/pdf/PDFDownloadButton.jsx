@@ -1,8 +1,8 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
 import { PDFViewer } from '@react-pdf/renderer';
-import { useWeather } from '../../context/WeatherContext.js';
-import { useCandle } from '../../context/CandleContext.js';
+import { useWeather, WeatherProvider } from '../../context/WeatherContext.js';
+import { CandleProvider, useCandle } from '../../context/CandleContext.js';
 import WeatherPDF from './WeatherPDF.jsx';
 import { PDFStyleProvider } from '../../context/PDFStylesContext.js';
 
@@ -38,22 +38,13 @@ const PDFDownloadButton = () => {
 
   return (
     <div style={{width:"100vw", height:"90vh"}} className="text-center mt-4">
+      <CandleProvider><WeatherProvider>
       <PDFViewer width="100%" height="100%">
         <PDFStyleProvider>
-          <WeatherPDF 
-            fridayForecast={fridayForecast} 
-            saturdayForecast={saturdayForecast}
-            candleData={candleData}
-            />
+          <WeatherPDF/>
         </PDFStyleProvider>
       </PDFViewer>
-      {/* fileName="shabbos-weather-and-candle-times.pdf" */}
-    
-      {/* {({ blob, url, loading: pdfLoading, error: pdfError }) => (
-        <Button variant="primary" disabled={pdfLoading}>
-          {pdfLoading ? 'Generating PDF...' : 'Download Weather & Candle Times PDF'}
-        </Button>
-      )} */}
+        </WeatherProvider></CandleProvider>
     </div>
   );
 };
