@@ -14,7 +14,12 @@ Font.register({
   fontWeight: "normal",
 });
 
-const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
+const WeatherPDF = ({
+  fridayForecast,
+  saturdayForecast,
+  candleData,
+  geoData,
+}) => {
   const styles = usePDFStyles();
   // Extract parsha, candle, and havdalah items
   let candleItem = candleData.items[0];
@@ -43,9 +48,9 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
     <Document title="Shabbos Weather & Times">
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
-          <Text style={{ fontSize: 32, fontWeight: "bold", marginBottom: 4 }}>
+          <Text style={{ fontWeight: "bold", marginBottom: 4 }}>
             {parshaItem.title}
-            <Text style={{ fontFamily: "NotoSansHebrew", fontSize: 32 }}>
+            <Text style={{ fontFamily: "NotoSansHebrew" }}>
               {" "}
               {parshaItem.hebrew}
             </Text>
@@ -60,7 +65,10 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
             </View>
           )}
           <Text>{console.log("fridayForecast", fridayForecast)}</Text>
-          <Text>{console.log("candleData", candleData)}</Text>
+          <Text>{console.log("geoData", geoData)}</Text>
+          <Text style={{ fontSize: 14 }}>
+            {geoData.city}, {geoData.region}
+          </Text>
         </View>
         <View style={styles.section}>
           {/* Candle Times Section */}

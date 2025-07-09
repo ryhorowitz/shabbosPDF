@@ -30,7 +30,7 @@ const PDFStyles = StyleSheet.create({
     backgroundColor: "#f9f9f9",
   },
   dayTitle: {
-    fontSize: 18,
+    fontSize: 16,
     fontWeight: "bold",
     marginBottom: 5,
     color: "#2c3e50",
