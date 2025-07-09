@@ -59,6 +59,8 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
               )}
             </View>
           )}
+          <Text>{console.log("fridayForecast", fridayForecast)}</Text>
+          <Text>{console.log("candleData", candleData)}</Text>
         </View>
         <View style={styles.section}>
           {/* Candle Times Section */}
@@ -110,20 +112,16 @@ const WeatherPDF = ({ fridayForecast, saturdayForecast, candleData }) => {
             ({ label, forecast }) =>
               forecast && (
                 <View style={styles.card} key={label}>
-                  <Text style={styles.dayTitle}>{label} Weather</Text>
                   <View style={styles.weatherHeader}>
-                    <View style={styles.column}>
-                      <Text style={styles.temperature}>
-                        {Math.floor(forecast.temp.min)}°F /{" "}
-                        {Math.floor(forecast.temp.max)}°F
-                      </Text>
-                    </View>
-                    <View style={styles.columnRight}>
-                      <Text style={{ fontSize: 72 }}>
-                        <Image src={getWeatherIcon(forecast.weather[0].id)} />
-                      </Text>
-                      <Text style={styles.summary}>{forecast.summary}</Text>
-                    </View>
+                    <Text style={styles.dayTitle}>{label} Weather</Text>
+                    <Text style={styles.temperature}>
+                      {Math.floor(forecast.temp.min)}°F /{" "}
+                      {Math.floor(forecast.temp.max)}°F
+                    </Text>
+                    <Text style={{ fontSize: 72 }} debug>
+                      <Image src={getWeatherIcon(forecast.weather[0].id)} />
+                    </Text>
+                    <Text style={styles.summary}>{forecast.summary}</Text>
                   </View>
                   <View style={styles.twoColumnContainer}>
                     <View style={styles.column}>

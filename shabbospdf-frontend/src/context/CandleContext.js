@@ -1,11 +1,11 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 const CandleContext = createContext();
 
 export const useCandle = () => {
   const context = useContext(CandleContext);
   if (!context) {
-    throw new Error('useCandle must be used within a CandleProvider');
+    throw new Error("useCandle must be used within a CandleProvider");
   }
   return context;
 };
@@ -25,8 +25,8 @@ export const CandleProvider = ({ children }) => {
         const data = await response.json();
         setGeoData(data);
       } catch (err) {
-        console.error('Error fetching geo data:', err);
-        setError('Failed to get location data');
+        console.error("Error fetching geo data:", err);
+        setError("Failed to get location data");
         setLoading(false);
       }
     };
@@ -41,22 +41,24 @@ export const CandleProvider = ({ children }) => {
       try {
         setLoading(true);
         setError(null);
-        
+
         // Extract location data from geoData
-        const lat = geoData.loc.split(',')[0];
-        const lon = geoData.loc.split(',')[1];
+        const lat = geoData.loc.split(",")[0];
+        const lon = geoData.loc.split(",")[1];
         const timezone = geoData.timezone;
-        
-        const response = await fetch(`https://www.hebcal.com/shabbat?cfg=json&latitude=${lat}&longitude=${lon}&tzid=${timezone}`);
-        
+
+        const response = await fetch(
+          `https://www.hebcal.com/shabbat?cfg=json&latitude=${lat}&longitude=${lon}&tzid=${timezone}`
+        );
+
         if (!response.ok) {
-          throw new Error('Failed to fetch candle times');
+          throw new Error("Failed to fetch candle times");
         }
-        
+
         const data = await response.json();
         setCandleData(data);
       } catch (err) {
-        console.error('Error fetching candle times:', err);
+        console.error("Error fetching candle times:", err);
         setError(err.message);
       } finally {
         setLoading(false);
@@ -69,12 +71,11 @@ export const CandleProvider = ({ children }) => {
   const value = {
     candleData,
     loading,
-    error
+    error,
+    geoData,
   };
 
   return (
-    <CandleContext.Provider value={value}>
-      {children}
-    </CandleContext.Provider>
+    <CandleContext.Provider value={value}>{children}</CandleContext.Provider>
   );
-}; 
+};
