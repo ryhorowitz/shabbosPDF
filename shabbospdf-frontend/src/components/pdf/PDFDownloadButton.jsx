@@ -1,20 +1,20 @@
-import React from 'react';
-import { Button } from 'react-bootstrap';
-import { PDFDownloadLink } from '@react-pdf/renderer';
-import { useWeather } from '../../context/WeatherContext.js';
-import { useCandle } from '../../context/CandleContext.js';
-import WeatherPDF from './WeatherPDF.jsx';
-import { PDFStylesProvider } from '../../context/PDFStylesContext';
+import React from "react";
+import { Button } from "react-bootstrap";
+import { PDFDownloadLink } from "@react-pdf/renderer";
+import { useWeather } from "../../context/WeatherContext.js";
+import { useCandle } from "../../context/CandleContext.js";
+import WeatherPDF from "./WeatherPDF.jsx";
+import { PDFStylesProvider } from "../../context/PDFStylesContext";
 
 const PDFDownloadButton = () => {
   const { getDayForecast, loading: weatherLoading } = useWeather();
-  const { candleData, loading: candleLoading } = useCandle();
+  const { candleData, geoData, loading: candleLoading } = useCandle();
 
-  const fridayForecast = getDayForecast('Friday');
-  const saturdayForecast = getDayForecast('Saturday');
+  const fridayForecast = getDayForecast("Friday");
+  const saturdayForecast = getDayForecast("Saturday");
 
   const isLoading = weatherLoading || candleLoading;
-  const hasData = fridayForecast && saturdayForecast && candleData;
+  const hasData = fridayForecast && saturdayForecast && candleData && geoData;
 
   if (isLoading) {
     return (
@@ -41,10 +41,11 @@ const PDFDownloadButton = () => {
       <PDFDownloadLink
         document={
           <PDFStylesProvider>
-            <WeatherPDF 
-              fridayForecast={fridayForecast} 
+            <WeatherPDF
+              fridayForecast={fridayForecast}
               saturdayForecast={saturdayForecast}
               candleData={candleData}
+              geoData={geoData}
             />
           </PDFStylesProvider>
         }
@@ -52,7 +53,9 @@ const PDFDownloadButton = () => {
       >
         {({ blob, url, loading: pdfLoading, error: pdfError }) => (
           <Button variant="primary" disabled={pdfLoading}>
-            {pdfLoading ? 'Generating PDF...' : 'Download Weather & Candle Times PDF'}
+            {pdfLoading
+              ? "Generating PDF..."
+              : "Download Weather & Candle Times PDF"}
           </Button>
         )}
       </PDFDownloadLink>
@@ -60,4 +63,4 @@ const PDFDownloadButton = () => {
   );
 };
 
-export default PDFDownloadButton; 
+export default PDFDownloadButton;
