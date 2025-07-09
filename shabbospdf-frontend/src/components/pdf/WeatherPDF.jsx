@@ -126,7 +126,7 @@ const WeatherPDF = ({
                       {Math.floor(forecast.temp.min)}°F /{" "}
                       {Math.floor(forecast.temp.max)}°F
                     </Text>
-                    <Text style={{ fontSize: 72 }} debug>
+                    <Text style={{ fontSize: 72 }}>
                       <Image src={getWeatherIcon(forecast.weather[0].id)} />
                     </Text>
                     <Text style={styles.summary}>{forecast.summary}</Text>
