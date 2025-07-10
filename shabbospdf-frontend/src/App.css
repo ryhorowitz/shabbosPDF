@@ -73,3 +73,15 @@
   display: flex;
   justify-content: center;
 }
+
+.daily-forecast-card .table tr,
+.daily-forecast-card .table td {
+  background-color: transparent !important;
+}
+
+.daily-forecast-card-table tr,
+.daily-forecast-card-table td,
+.daily-forecast-card-table th {
+  background-color: transparent !important;
+  border: none !important;
+}

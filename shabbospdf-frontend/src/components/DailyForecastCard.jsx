@@ -83,11 +83,7 @@ const DailyForecastCard = ({ day, forecast, loading }) => {
         <div className="text-start fs-6">
           <Row>
             <Col md={4}>
-              <Table
-                size="sm"
-                className="mb-0 bg-transparent"
-                style={{ backgroundColor: "transparent" }}
-              >
+              <Table size="sm" className="mb-0 daily-forecast-card-table">
                 <tbody>
                   <tr>
                     <td>
@@ -111,11 +107,7 @@ const DailyForecastCard = ({ day, forecast, loading }) => {
               </Table>
             </Col>
             <Col md={8}>
-              <Table
-                size="sm"
-                className="mb-0 bg-transparent"
-                style={{ backgroundColor: "transparent" }}
-              >
+              <Table size="sm" className="mb-0 daily-forecast-card-table">
                 <tbody>
                   <tr>
                     <td>
