@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  Container,
-  Row,
-  Col,
-  ListGroup,
-  ListGroupItem,
-  Table,
-} from "react-bootstrap";
+import { Container, Row, Col, Table } from "react-bootstrap";
 
 const DailyForecastCard = ({ day, forecast, loading }) => {
   /**

@@ -1,5 +1,5 @@
 import React from "react";
-import { Row, Col, Button } from "react-bootstrap";
+import { Row, Col } from "react-bootstrap";
 import { useShabbos } from "../context/shabbosContext.js";
 import DailyForecastCard from "./DailyForecastCard.jsx";
 
