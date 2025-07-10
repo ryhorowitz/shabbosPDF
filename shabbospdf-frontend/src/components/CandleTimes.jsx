@@ -1,9 +1,20 @@
-import React from 'react';
-import { useCandle } from '../context/CandleContext.js';
-import { Container, Row, Col, ListGroup, Spinner, Alert } from 'react-bootstrap';
+import React from "react";
+import { useShabbos } from "../context/shabbosContext.js";
+import {
+  Container,
+  Row,
+  Col,
+  ListGroup,
+  Spinner,
+  Alert,
+} from "react-bootstrap";
 
 const CandleTimes = () => {
-  const { candleData, loading, error } = useCandle();
+  const {
+    candleData,
+    candleLoading: loading,
+    candleError: error,
+  } = useShabbos();
 
   if (loading) {
     return (
@@ -44,57 +55,65 @@ const CandleTimes = () => {
           <Row className="justify-content-center mb-3">
             <Col xs="auto" className="text-center">
               <span className="display-4 fw-bold">{parshaItem.title}</span>
-              <span className="ms-3" style={{ fontSize: '2.5rem', fontWeight: 700 }}>{parshaItem.hebrew}</span>
+              <span
+                className="ms-3"
+                style={{ fontSize: "2.5rem", fontWeight: 700 }}
+              >
+                {parshaItem.hebrew}
+              </span>
             </Col>
           </Row>
           <Row className="justify-content-center mb-3">
-          <Col xs="auto" className="text-center">
-            {parshaItem.date ? (
-              <span style={{ fontSize: '1.5rem', fontWeight: 700 }}>{parshaItem.hdate}</span>
-                ):(
-                  <div className="text-muted">No Hebrew Date found.</div>
-                )}
+            <Col xs="auto" className="text-center">
+              {parshaItem.date ? (
+                <span style={{ fontSize: "1.5rem", fontWeight: 700 }}>
+                  {parshaItem.hdate}
+                </span>
+              ) : (
+                <div className="text-muted">No Hebrew Date found.</div>
+              )}
             </Col>
           </Row>
         </div>
       )}
       <Row className="justify-content-center">
         <Col md={6}>
-          <ListGroup className="shadow-sm mb-3" style={{ textAlign: 'left' }}>
+          <ListGroup className="shadow-sm mb-3" style={{ textAlign: "left" }}>
             <ListGroup.Item className="">
               {candleItem.title ? (
-                  <div className="mb-2 d-flex justify-content-between align-items-center">
-                    <strong>{candleItem.title}</strong>
-                    <span > 
-                      {new Date(candleItem.date).toLocaleDateString('en-US', {
-                      weekday: 'long',
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                      })} 
-                      </span>
-                  </div>
+                <div className="mb-2 d-flex justify-content-between align-items-center">
+                  <strong>{candleItem.title}</strong>
+                  <span>
+                    {new Date(candleItem.date).toLocaleDateString("en-US", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </span>
+                </div>
               ) : (
-                <div className="text-muted">No candle lighting times found.</div>
+                <div className="text-muted">
+                  No candle lighting times found.
+                </div>
               )}
             </ListGroup.Item>
             <ListGroup.Item>
               {havdalahItem.title ? (
-                  <div className="mb-2 d-flex justify-content-between align-items-center">
-                    <strong>{havdalahItem.title}</strong>
-                    <span > 
-                      {new Date(havdalahItem.date).toLocaleDateString('en-US', {
-                      weekday: 'long',
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric'
-                      })} 
-                      </span>
-                  </div>
+                <div className="mb-2 d-flex justify-content-between align-items-center">
+                  <strong>{havdalahItem.title}</strong>
+                  <span>
+                    {new Date(havdalahItem.date).toLocaleDateString("en-US", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </span>
+                </div>
               ) : (
                 <div className="text-muted">No havdalah times found.</div>
               )}
-              
             </ListGroup.Item>
           </ListGroup>
         </Col>
@@ -103,4 +122,4 @@ const CandleTimes = () => {
   );
 };
 
-export default CandleTimes; 
+export default CandleTimes;

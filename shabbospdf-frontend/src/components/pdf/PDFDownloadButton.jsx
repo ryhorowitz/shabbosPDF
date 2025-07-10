@@ -1,14 +1,13 @@
 import React from "react";
 import { Button } from "react-bootstrap";
 import { PDFDownloadLink } from "@react-pdf/renderer";
-import { useWeather } from "../../context/WeatherContext.js";
-import { useCandle } from "../../context/CandleContext.js";
+import { useShabbos } from "../../context/shabbosContext.js";
 import WeatherPDF from "./WeatherPDF.jsx";
 import { PDFStylesProvider } from "../../context/PDFStylesContext";
 
 const PDFDownloadButton = () => {
-  const { getDayForecast, loading: weatherLoading } = useWeather();
-  const { candleData, geoData, loading: candleLoading } = useCandle();
+  const { getDayForecast, weatherLoading, candleData, geoData, candleLoading } =
+    useShabbos();
 
   const fridayForecast = getDayForecast("Friday");
   const saturdayForecast = getDayForecast("Saturday");

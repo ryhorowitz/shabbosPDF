@@ -1,10 +1,14 @@
-import React from 'react';
-import { Row, Col, Button } from 'react-bootstrap';
-import { useWeather } from '../context/WeatherContext.js';
-import DailyForecastCard from './DailyForecastCard.jsx';
+import React from "react";
+import { Row, Col, Button } from "react-bootstrap";
+import { useShabbos } from "../context/shabbosContext.js";
+import DailyForecastCard from "./DailyForecastCard.jsx";
 
 const WeatherContainer = () => {
-  const { loading, error, getDayForecast } = useWeather();
+  const {
+    weatherLoading: loading,
+    weatherError: error,
+    getDayForecast,
+  } = useShabbos();
 
   if (error) {
     return (
@@ -15,8 +19,8 @@ const WeatherContainer = () => {
     );
   }
 
-  const fridayForecast = getDayForecast('Friday');
-  const saturdayForecast = getDayForecast('Saturday');
+  const fridayForecast = getDayForecast("Friday");
+  const saturdayForecast = getDayForecast("Saturday");
 
   return (
     <div className="weather-content">
@@ -25,22 +29,22 @@ const WeatherContainer = () => {
       </div>
       <Row>
         <Col md={10}>
-          <DailyForecastCard 
-            day="Friday" 
-            forecast={fridayForecast} 
-            loading={loading} 
+          <DailyForecastCard
+            day="Friday"
+            forecast={fridayForecast}
+            loading={loading}
           />
         </Col>
         <Col md={10}>
-          <DailyForecastCard 
-            day="Saturday" 
-            forecast={saturdayForecast} 
-            loading={loading} 
-            />
+          <DailyForecastCard
+            day="Saturday"
+            forecast={saturdayForecast}
+            loading={loading}
+          />
         </Col>
       </Row>
     </div>
   );
 };
 
-export default WeatherContainer; 
+export default WeatherContainer;
