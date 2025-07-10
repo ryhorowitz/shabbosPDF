@@ -42,7 +42,6 @@ export const CandleProvider = ({ children }) => {
         setLoading(true);
         setError(null);
 
-        // Extract location data from geoData
         const lat = geoData.loc.split(",")[0];
         const lon = geoData.loc.split(",")[1];
         const timezone = geoData.timezone;
