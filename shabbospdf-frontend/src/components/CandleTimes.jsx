@@ -12,6 +12,7 @@ import {
 const CandleTimes = () => {
   const {
     candleData,
+    geoData,
     candleLoading: loading,
     candleError: error,
   } = useShabbos();
@@ -57,7 +58,7 @@ const CandleTimes = () => {
               <span className="display-4 fw-bold">{parshaItem.title}</span>
               <span
                 className="ms-3"
-                style={{ fontSize: "2.5rem", fontWeight: 700 }}
+                style={{ fontSize: "2rem", fontWeight: 700 }}
               >
                 {parshaItem.hebrew}
               </span>
@@ -72,6 +73,11 @@ const CandleTimes = () => {
               ) : (
                 <div className="text-muted">No Hebrew Date found.</div>
               )}
+            </Col>
+          </Row>
+          <Row className="justify-content-center mb-3">
+            <Col xs="auto" className="text-center">
+              {geoData.city}, {geoData.region}
             </Col>
           </Row>
         </div>
