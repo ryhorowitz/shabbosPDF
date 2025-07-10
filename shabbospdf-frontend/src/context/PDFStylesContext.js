@@ -58,11 +58,11 @@ const PDFStyles = StyleSheet.create({
     marginBottom: 4,
   },
   summary: {
-    fontSize: 9,
+    fontSize: 10,
     fontStyle: "italic",
-    color: "#7f8c8d",
+    color: "#6D8196",
     marginTop: 0,
-    marginBottom: 2,
+    marginBottom: 5,
   },
   candleSection: {
     border: "1px solid #e0e0e0",
@@ -123,7 +123,7 @@ const PDFStyles = StyleSheet.create({
     fontSize: 10,
     color: "#555",
     fontWeight: "normal",
-    marginBottom: 0,
+    marginBottom: 1,
   },
   tempPeriodValue: {
     fontSize: 14,
