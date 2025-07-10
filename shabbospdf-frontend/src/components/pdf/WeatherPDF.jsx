@@ -58,17 +58,26 @@ const WeatherPDF = ({
           {parshaItem && (
             <View>
               {parshaItem.hdate && (
-                <Text style={{ fontSize: 14, fontWeight: "bold" }}>
-                  {parshaItem.hdate}
-                </Text>
+                <View style={{ alignItems: "center", width: "100%" }}>
+                  <Text
+                    style={{
+                      fontSize: 14,
+                      fontWeight: "bold",
+                    }}
+                  >
+                    {parshaItem.hdate}
+                  </Text>
+                </View>
               )}
             </View>
           )}
           <Text>{console.log("fridayForecast", fridayForecast)}</Text>
           <Text>{console.log("geoData", geoData)}</Text>
-          <Text style={{ fontSize: 14 }}>
-            {geoData.city}, {geoData.region}
-          </Text>
+          <View style={{ alignItems: "center", width: "100%" }}>
+            <Text style={{ fontSize: 14, textAlign: "center" }}>
+              {geoData.city}, {geoData.region}
+            </Text>
+          </View>
         </View>
         <View style={styles.section}>
           {/* Candle Times Section */}
@@ -121,13 +130,13 @@ const WeatherPDF = ({
               forecast && (
                 <View style={styles.card} key={label}>
                   <View style={styles.weatherHeader}>
-                    <Text style={styles.dayTitle}>{label} Weather</Text>
+                    <Text style={styles.dayTitle}>{label}</Text>
+                    <Text style={{ fontSize: 72 }}>
+                      <Image src={getWeatherIcon(forecast.weather[0].id)} />
+                    </Text>
                     <Text style={styles.temperature}>
                       {Math.floor(forecast.temp.min)}°F /{" "}
                       {Math.floor(forecast.temp.max)}°F
-                    </Text>
-                    <Text style={{ fontSize: 72 }}>
-                      <Image src={getWeatherIcon(forecast.weather[0].id)} />
                     </Text>
                     <Text style={styles.summary}>{forecast.summary}</Text>
                   </View>
@@ -152,19 +161,44 @@ const WeatherPDF = ({
                       </Text>
                     </View>
                   </View>
-                  <Text style={styles.weatherInfo}>
-                    Morning {Math.floor(forecast.temp.morn)}ºF
-                  </Text>
-                  <Text style={styles.weatherInfo}>
-                    {label === "Saturday" ? "Day" : "Afternoon"}{" "}
-                    {Math.floor(forecast.temp.day)}ºF
-                  </Text>
-                  <Text style={styles.weatherInfo}>
-                    Evening {Math.floor(forecast.temp.eve)}ºF
-                  </Text>
-                  <Text style={styles.weatherInfo}>
-                    Night {Math.floor(forecast.temp.night)}ºF
-                  </Text>
+                  <View style={styles.tempTableRow}>
+                    <View style={styles.tempTableCol}>
+                      <Text style={styles.tempPeriodLabel}>Morning</Text>
+                      <Text style={styles.tempPeriodValue}>
+                        {Math.floor(forecast.temp.morn)}ºF
+                      </Text>
+                      <Text style={styles.feelsLikeTemp}>
+                        Feels like: {Math.floor(forecast.feels_like.morn)}ºF
+                      </Text>
+                    </View>
+                    <View style={styles.tempTableCol}>
+                      <Text style={styles.tempPeriodLabel}>Day</Text>
+                      <Text style={styles.tempPeriodValue}>
+                        {Math.floor(forecast.temp.day)}ºF
+                      </Text>
+                      <Text style={styles.feelsLikeTemp}>
+                        Feels like: {Math.floor(forecast.feels_like.day)}ºF
+                      </Text>
+                    </View>
+                    <View style={styles.tempTableCol}>
+                      <Text style={styles.tempPeriodLabel}>Evening</Text>
+                      <Text style={styles.tempPeriodValue}>
+                        {Math.floor(forecast.temp.eve)}ºF
+                      </Text>
+                      <Text style={styles.feelsLikeTemp}>
+                        Feels like: {Math.floor(forecast.feels_like.eve)}ºF
+                      </Text>
+                    </View>
+                    <View style={styles.tempTableCol}>
+                      <Text style={styles.tempPeriodLabel}>Night</Text>
+                      <Text style={styles.tempPeriodValue}>
+                        {Math.floor(forecast.temp.night)}ºF
+                      </Text>
+                      <Text style={styles.feelsLikeTemp}>
+                        Feels like: {Math.floor(forecast.feels_like.night)}ºF
+                      </Text>
+                    </View>
+                  </View>
                 </View>
               )
           )}
