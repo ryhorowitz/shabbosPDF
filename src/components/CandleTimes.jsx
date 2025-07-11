@@ -56,10 +56,7 @@ const CandleTimes = () => {
           <Row className="justify-content-center mb-3">
             <Col xs="auto" className="text-center">
               <span className="display-4 fw-bold">{parshaItem.title}</span>
-              <span
-                className="ms-3"
-                style={{ fontSize: "2rem", fontWeight: 700 }}
-              >
+              <span className="ms-3 display-4 fw-bold">
                 {parshaItem.hebrew}
               </span>
             </Col>
