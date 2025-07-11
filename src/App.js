@@ -12,7 +12,7 @@ function App() {
       <SeoHelmet />
       <ShabbosProvider>
         <div className="App">
-          <header className="App-header">
+          <header className="App-header text-center mb-4">
             <h1>Erev Shabbos Weather Report</h1>
             <p className="intro-blurb mx-5 px-5">
               Welcome to the Erev Shabbos Weather Report! This app provides you
@@ -21,9 +21,9 @@ function App() {
               informed for a peaceful and organized Shabbos experience.
             </p>
           </header>
-          <header>
+          <div className="mb-4">
             <CandleTimes />
-          </header>
+          </div>
           <main>
             <div className="pdf-download-section">
               <PDFDownloadButton />

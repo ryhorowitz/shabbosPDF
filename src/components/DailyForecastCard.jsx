@@ -2,12 +2,6 @@ import React from "react";
 import { Container, Row, Col, Table } from "react-bootstrap";
 
 const DailyForecastCard = ({ day, forecast, loading }) => {
-  /**
-   * Generate list groups
-   * if friday
-   * list day, evening and night temp
-   */
-
   if (loading) {
     return (
       <Container className="mb-3 p-0 border rounded">
@@ -126,7 +120,7 @@ const DailyForecastCard = ({ day, forecast, loading }) => {
           </Row>
         </div>
         {/* Period temps row */}
-        <div className="d-flex justify-content-between align-items-end mt-3 mb-2">
+        <div className="d-flex flex-column flex-md-row justify-content-between align-items-stretch mt-3 mb-2 gap-2">
           <div className="d-flex flex-column align-items-center flex-fill">
             <span className="small text-muted">Morning</span>
             <span className="display-6 fw-bold">
