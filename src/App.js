@@ -11,6 +11,12 @@ function App() {
       <div className="App">
         <header className="App-header">
           <h1>Erev Shabbos Weather Report</h1>
+          <p className="intro-blurb mx-5 px-5">
+            Welcome to the Erev Shabbos Weather Report! This app provides you
+            with up-to-date weather forecasts and candle lighting times to help
+            you prepare for Shabbos. Download a printable PDF and stay informed
+            for a peaceful and organized Shabbos experience.
+          </p>
         </header>
         <header>
           <CandleTimes />
