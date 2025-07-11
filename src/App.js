@@ -10,7 +10,7 @@ function App() {
     <ShabbosProvider>
       <div className="App">
         <header className="App-header">
-          <h1>Erev Shabbos Weather Report</h1>
+          <h1>Erev Shabbos Weather Report Test DEPLOY</h1>
         </header>
         <header>
           <CandleTimes />
