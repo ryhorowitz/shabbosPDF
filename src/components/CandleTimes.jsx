@@ -8,6 +8,7 @@ import {
   Spinner,
   Alert,
 } from "react-bootstrap";
+import { extractCandleItems } from "../utils/candleDataUtils.js";
 
 const CandleTimes = () => {
   const {
@@ -45,19 +46,8 @@ const CandleTimes = () => {
   }
 
   // Extract parsha, candle, and havdalah items
-  let candleItem, parshaItem, havdalahItem;
-
-  candleData.items.forEach((item) => {
-    if (item.category === "candles") {
-      candleItem = item;
-    }
-    if (item.category === "parashat") {
-      parshaItem = item;
-    }
-    if (item.category === "havdalah") {
-      havdalahItem = item;
-    }
-  });
+  const { candleItem, parshaItem, havdalahItem } =
+    extractCandleItems(candleData);
 
   return (
     <Container className="candle-times my-4">

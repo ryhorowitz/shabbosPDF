@@ -1,6 +1,7 @@
 import React from "react";
 import { Document, Page, Text, View, Image, Font } from "@react-pdf/renderer";
 import { usePDFStyles } from "../../context/PDFStylesContext";
+import { extractCandleItems } from "../../utils/candleDataUtils.js";
 
 // Register a default font
 Font.register({
@@ -22,9 +23,8 @@ const WeatherPDF = ({
 }) => {
   const styles = usePDFStyles();
   // Extract parsha, candle, and havdalah items
-  let candleItem = candleData.items[0];
-  let parshaItem = candleData.items[1];
-  let havdalahItem = candleData.items[2];
+  const { candleItem, parshaItem, havdalahItem } =
+    extractCandleItems(candleData);
 
   const getWeatherIcon = (weatherCode) => {
     // Map weather codes to emoji icons
