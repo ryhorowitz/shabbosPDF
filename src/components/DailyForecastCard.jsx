@@ -106,7 +106,7 @@ const DailyForecastCard = ({ day, forecast, loading }) => {
                     <td>
                       <strong>UV Index</strong>
                     </td>
-                    <td>{Math.round(forecast.uvi)}</td>
+                    <td>{Math.round(forecast.uvi)}/11</td>
                   </tr>
                   <tr>
                     <td>
