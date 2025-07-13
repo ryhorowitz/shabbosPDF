@@ -6,10 +6,11 @@ import { ShabbosProvider } from "./context/shabbosContext.js";
 import PDFDownloadButton from "./components/pdf/PDFDownloadButton.jsx";
 import EmailSignup from "./components/EmailSignup.jsx";
 import SeoHelmet from "./components/SeoHelmet.jsx";
+import { HelmetProvider } from "react-helmet-async";
 
 function App() {
   return (
-    <>
+    <HelmetProvider>
       <SeoHelmet />
       <ShabbosProvider>
         <div className="App">
@@ -36,7 +37,7 @@ function App() {
           </main>
         </div>
       </ShabbosProvider>
-    </>
+    </HelmetProvider>
   );
 }
 
