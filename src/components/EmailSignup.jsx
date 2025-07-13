@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Container, Row, Col, Form, Button, Alert } from "react-bootstrap";
 
 const EmailSignup = () => {
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState(null); // 'success', 'error', null
@@ -9,7 +11,7 @@ const EmailSignup = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!email || !email.includes("@")) {
+    if (!firstName || !lastName || !email || !email.includes("@")) {
       setSubmitStatus("error");
       return;
     }
@@ -18,17 +20,19 @@ const EmailSignup = () => {
     setSubmitStatus(null);
 
     try {
-      const response = await fetch("/api/email-signup", {
+      const response = await fetch("http://localhost:3001/api/v1/users", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ email }),
+        body: JSON.stringify({ firstName, lastName, email }),
       });
 
       if (response.ok) {
         setSubmitStatus("success");
-        setEmail(""); // Clear the form
+        setFirstName(""); // Clear the form
+        setLastName("");
+        setEmail("");
       } else {
         setSubmitStatus("error");
       }
@@ -53,6 +57,34 @@ const EmailSignup = () => {
           </div>
 
           <Form onSubmit={handleSubmit}>
+            <Row className="g-2 mb-3">
+              <Col xs={12} sm={6}>
+                <Form.Control
+                  type="text"
+                  placeholder="First Name"
+                  value={firstName}
+                  onChange={(e) => setFirstName(e.target.value)}
+                  disabled={isSubmitting}
+                  isInvalid={submitStatus === "error" && !firstName}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Please enter your first name.
+                </Form.Control.Feedback>
+              </Col>
+              <Col xs={12} sm={6}>
+                <Form.Control
+                  type="text"
+                  placeholder="Last Name"
+                  value={lastName}
+                  onChange={(e) => setLastName(e.target.value)}
+                  disabled={isSubmitting}
+                  isInvalid={submitStatus === "error" && !lastName}
+                />
+                <Form.Control.Feedback type="invalid">
+                  Please enter your last name.
+                </Form.Control.Feedback>
+              </Col>
+            </Row>
             <Row className="g-2">
               <Col xs={12} sm={8}>
                 <Form.Control
@@ -61,7 +93,7 @@ const EmailSignup = () => {
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={isSubmitting}
-                  isInvalid={submitStatus === "error"}
+                  isInvalid={submitStatus === "error" && !email}
                 />
                 <Form.Control.Feedback type="invalid">
                   Please enter a valid email address.
@@ -71,7 +103,7 @@ const EmailSignup = () => {
                 <Button
                   type="submit"
                   variant="primary"
-                  disabled={isSubmitting || !email}
+                  disabled={isSubmitting || !firstName || !lastName || !email}
                   className="w-100"
                 >
                   {isSubmitting ? "Subscribing..." : "Subscribe"}
