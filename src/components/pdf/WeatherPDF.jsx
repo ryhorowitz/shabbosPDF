@@ -22,7 +22,7 @@ const WeatherPDF = ({
   geoData,
 }) => {
   const styles = usePDFStyles();
-  // Extract parsha, candle, and havdalah items
+
   const { candleItem, parshaItem, havdalahItem } =
     extractCandleItems(candleData);
 

@@ -4,6 +4,7 @@ import CandleTimes from "./components/CandleTimes.jsx";
 import WeatherContainer from "./components/WeatherContainer.jsx";
 import { ShabbosProvider } from "./context/shabbosContext.js";
 import PDFDownloadButton from "./components/pdf/PDFDownloadButton.jsx";
+import EmailSignup from "./components/EmailSignup.jsx";
 import SeoHelmet from "./components/SeoHelmet.jsx";
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
             <div className="weather-container">
               <WeatherContainer />
             </div>
+            <EmailSignup />
           </main>
         </div>
       </ShabbosProvider>

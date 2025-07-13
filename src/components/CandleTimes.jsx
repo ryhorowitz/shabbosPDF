@@ -45,7 +45,6 @@ const CandleTimes = () => {
     );
   }
 
-  // Extract parsha, candle, and havdalah items
   const { candleItem, parshaItem, havdalahItem } =
     extractCandleItems(candleData);
 
