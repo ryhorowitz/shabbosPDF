@@ -25,9 +25,14 @@ const EmailSignup = () => {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ firstName, lastName, email }),
+        body: JSON.stringify({
+          user: {
+            firstName,
+            lastName,
+            email,
+          },
+        }),
       });
-
       if (response.ok) {
         setSubmitStatus("success");
         setFirstName(""); // Clear the form
