@@ -5,6 +5,7 @@ import DailyForecastCard from "./DailyForecastCard.jsx";
 
 const WeatherContainer = () => {
   const {
+    weatherData,
     weatherLoading: loading,
     weatherError: error,
     getDayForecast,
@@ -20,6 +21,7 @@ const WeatherContainer = () => {
   }
 
   const fridayForecast = getDayForecast("Friday");
+  console.log('fridayforcase ', fridayForecast)
   const saturdayForecast = getDayForecast("Saturday");
 
   return (

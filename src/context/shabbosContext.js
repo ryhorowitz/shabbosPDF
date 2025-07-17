@@ -67,15 +67,15 @@ export const ShabbosProvider = ({ children }) => {
   const [weatherError, setWeatherError] = useState(null);
   const weatherApiKey = process.env.REACT_APP_WEATHER_API_KEY;
   const location = geoData?.loc || null;
-  console.log('weatherAPI', weatherApiKey);
-  console.log('location', location);
+  // console.log('weatherAPI', weatherApiKey);
+  // console.log('location', location);
   useEffect(() => {
     const fetchWeather = async () => {
       try {
         setWeatherLoading(true);
         setWeatherError(null);
         const response = await fetch(
-          `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${location}&days=1&aqi=no&alerts=no`
+          `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${location}&days=7&aqi=no&alerts=no`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch weather data");
