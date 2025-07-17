@@ -65,16 +65,17 @@ export const ShabbosProvider = ({ children }) => {
   const [weatherData, setWeatherData] = useState(null);
   const [weatherLoading, setWeatherLoading] = useState(true);
   const [weatherError, setWeatherError] = useState(null);
-  const weatherApiKey = process.env.REACT_APP_OPENWEATHER_API_KEY;
-  const [lat, lon] = geoData?.loc ? geoData.loc.split(",") : [null, null];
-
+  const weatherApiKey = process.env.REACT_APP_WEATHER_API_KEY;
+  const location = geoData?.loc || null;
+  console.log('weatherAPI', weatherApiKey);
+  console.log('location', location);
   useEffect(() => {
     const fetchWeather = async () => {
       try {
         setWeatherLoading(true);
         setWeatherError(null);
         const response = await fetch(
-          `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=imperial&cnt=8&APPID=${weatherApiKey}`
+          `https://api.weatherapi.com/v1/forecast.json?key=${weatherApiKey}&q=${location}&days=1&aqi=no&alerts=no`
         );
         if (!response.ok) {
           throw new Error("Failed to fetch weather data");
@@ -88,10 +89,10 @@ export const ShabbosProvider = ({ children }) => {
         setWeatherLoading(false);
       }
     };
-    if (weatherApiKey && lat && lon) {
+    if (weatherApiKey && location) {
       fetchWeather();
     }
-  }, [weatherApiKey, lat, lon]);
+  }, [weatherApiKey, location]);
 
   const getDayForecast = (dayName) => {
     if (!weatherData?.daily) return null;
