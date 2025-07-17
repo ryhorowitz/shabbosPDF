@@ -94,13 +94,17 @@ export const ShabbosProvider = ({ children }) => {
     }
   }, [weatherApiKey, location]);
 
-  const getDayForecast = (dayName) => {
-    if (!weatherData?.daily) return null;
-    const dayIndex = dayName === "Friday" ? 5 : 6;
-    return weatherData.daily.find((day) => {
-      const date = new Date(day.dt * 1000);
-      return date.getDay() === dayIndex;
+  const getDayForecast = (dayOfWeek) => {
+    if (!weatherData?.forecast?.forecastday) return undefined;
+    return weatherData.forecast.forecastday.find((dailyForecast) => {
+      const day = convertDateStringToDayOfWeek(dailyForecast.date);
+      return day === dayOfWeek;
     });
+  };
+  // dateString = "2025-07-17"
+  const convertDateStringToDayOfWeek = (dateString) => { 
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { weekday: 'long' });
   };
 
   const value = {

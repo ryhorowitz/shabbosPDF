@@ -1,12 +1,17 @@
 import React from "react";
 import { Container, Row, Col, Table } from "react-bootstrap";
 
-const DailyForecastCard = ({ day, forecast, loading }) => {
+const DailyForecastCard = ({ dayString, forecast, loading }) => {
+  console.log('forecast', forecast);
+  // const { astro, date, date_epoch, day, hour } = forecast;
+  const astro = forecast.astro;
+  console.log('astro', astro)
+
   if (loading) {
     return (
       <Container className="mb-3 p-0 border rounded">
         <div className="bg-secondary text-white p-2 rounded-top">
-          <h5 className="mb-0">{day}</h5>
+          <h5 className="mb-0">{dayString}</h5>
         </div>
         <div className="p-3">
           <span>Loading forecast...</span>
@@ -19,7 +24,7 @@ const DailyForecastCard = ({ day, forecast, loading }) => {
     return (
       <Container className="mb-3 p-0 border rounded">
         <div className="bg-secondary text-white p-2 rounded-top">
-          <h5 className="mb-0">{day}</h5>
+          <h5 className="mb-0">{dayString}</h5>
         </div>
         <div className="p-3">
           <span>No forecast available</span>
@@ -50,20 +55,22 @@ const DailyForecastCard = ({ day, forecast, loading }) => {
   return (
     <Container className="mb-3 p-0 border rounded">
       <div className="bg-primary text-white p-2 rounded-top">
-        <h5 className="mb-0">{day}</h5>
+        <h5 className="mb-0">{dayString}</h5>
       </div>
       <div className="p-3">
         <div className="mb-2 d-flex flex-column align-items-center justify-content-center">
           <span className="display-1 mb-1">
-            {getWeatherIcon(forecast.weather[0].id)}
+            {/* {getWeatherIcon(forecast.weather[0].id)} */}
+            {console.log('forecast, ', forecast)}
+            {/* <img src={`https:${forecast.condition.icon}`} alt={forecast.condition.text} style={{ width: 64, height: 64 }} /> */}
           </span>
           <div className="d-flex flex-row align-items-center justify-content-center mb-2">
             <span className="fw-bold fs-4 me-2">
-              {Math.floor(forecast.temp.max)}ºF
+              {/* {Math.floor(forecast.temp.max)}ºF */}
             </span>
             <span className="text-muted">/</span>
             <span className="fw-bold fs-5 ms-2">
-              {Math.floor(forecast.temp.min)}ºF
+              {/* {Math.floor(forecast.temp.min)}ºF */}
             </span>
           </div>
         </div>
@@ -76,19 +83,19 @@ const DailyForecastCard = ({ day, forecast, loading }) => {
                     <td>
                       <strong>Weather</strong>
                     </td>
-                    <td>{forecast.weather[0].description}</td>
+                    {/* <td>{forecast.weather[0].description}</td> */}
                   </tr>
                   <tr>
                     <td>
-                      <strong>Precipitation</strong>
+                      {/* <strong>Precipitation</strong> */}
                     </td>
-                    <td>{forecast.pop * 100}%</td>
+                    {/* <td>{forecast.pop * 100}%</td> */}
                   </tr>
                   <tr>
                     <td>
                       <strong>Humidity</strong>
                     </td>
-                    <td>{forecast.humidity}%</td>
+                    {/* <td>{forecast.humidity}%</td> */}
                   </tr>
                 </tbody>
               </Table>
@@ -100,19 +107,19 @@ const DailyForecastCard = ({ day, forecast, loading }) => {
                     <td>
                       <strong>Wind</strong>
                     </td>
-                    <td>{Math.round(forecast.wind_speed)} mph</td>
+                    {/* <td>{Math.round(forecast.wind_speed)} mph</td> */}
                   </tr>
                   <tr>
                     <td>
                       <strong>UV Index</strong>
                     </td>
-                    <td>{Math.round(forecast.uvi)}/11</td>
+                    {/* <td>{Math.round(forecast.uvi)}/11</td> */}
                   </tr>
                   <tr>
                     <td>
                       <strong>Summary</strong>
                     </td>
-                    <td>{forecast.summary}</td>
+                    {/* <td>{forecast.summary}</td> */}
                   </tr>
                 </tbody>
               </Table>
@@ -124,37 +131,37 @@ const DailyForecastCard = ({ day, forecast, loading }) => {
           <div className="d-flex flex-column align-items-center flex-fill">
             <span className="small text-muted">Morning</span>
             <span className="display-6 fw-bold">
-              {Math.floor(forecast.temp.morn)}ºF
+              {/* {Math.floor(forecast.temp.morn)}ºF */}
             </span>
             <span className="text-secondary small">
-              feels like {Math.floor(forecast.feels_like.morn)}ºF
+              {/* feels like {Math.floor(forecast.feels_like.morn)}ºF */}
             </span>
           </div>
           <div className="d-flex flex-column align-items-center flex-fill">
             <span className="small text-muted">Afternoon</span>
             <span className="display-6 fw-bold">
-              {Math.floor(forecast.temp.day)}ºF
+              {/* {Math.floor(forecast.temp.day)}ºF */}
             </span>
             <span className="text-secondary small">
-              feels like {Math.floor(forecast.feels_like.day)}ºF
+              {/* feels like {Math.floor(forecast.feels_like.day)}ºF */}
             </span>
           </div>
           <div className="d-flex flex-column align-items-center flex-fill">
             <span className="small text-muted">Evening</span>
             <span className="display-6 fw-bold">
-              {Math.floor(forecast.temp.eve)}ºF
+              {/* {Math.floor(forecast.temp.eve)}ºF */}
             </span>
             <span className="text-secondary small">
-              feels like {Math.floor(forecast.feels_like.eve)}ºF
+              {/* feels like {Math.floor(forecast.feels_like.eve)}ºF */}
             </span>
           </div>
           <div className="d-flex flex-column align-items-center flex-fill">
             <span className="small text-muted">Night</span>
             <span className="display-6 fw-bold">
-              {Math.floor(forecast.temp.night)}ºF
+              {/* {Math.floor(forecast.temp.night)}ºF */}
             </span>
             <span className="text-secondary small">
-              feels like {Math.floor(forecast.feels_like.night)}ºF
+              {/* feels like {Math.floor(forecast.feels_like.night)}ºF */}
             </span>
           </div>
         </div>

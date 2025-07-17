@@ -10,7 +10,7 @@ const WeatherContainer = () => {
     weatherError: error,
     getDayForecast,
   } = useShabbos();
-
+  // console.log('getDayForecast', getDayForecast("Friday"))
   if (error) {
     return (
       <div className="weather-content">
@@ -21,7 +21,6 @@ const WeatherContainer = () => {
   }
 
   const fridayForecast = getDayForecast("Friday");
-  console.log('fridayforcase ', fridayForecast)
   const saturdayForecast = getDayForecast("Saturday");
 
   return (
@@ -32,14 +31,14 @@ const WeatherContainer = () => {
       <Row>
         <Col md={10}>
           <DailyForecastCard
-            day="Friday"
+            dayString="Friday"
             forecast={fridayForecast}
             loading={loading}
           />
         </Col>
         <Col md={10}>
           <DailyForecastCard
-            day="Saturday"
+            dayString="Saturday"
             forecast={saturdayForecast}
             loading={loading}
           />
