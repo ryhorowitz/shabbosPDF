@@ -47,80 +47,89 @@ const CandleTimes = () => {
 
   const { candleItem, parshahItem, havdalahItem } =
     extractCandleItems(candleData);
-  const parshahEnglish = 'Parshah ' + parshahItem.title.split(' ')[1]
+  const parshahEnglish = "Parshah " + parshahItem.title.split(" ")[1];
 
   return (
     <Container className="candle-times my-4">
       {parshahItem && (
-        <div className="mb-3">
-          <Row className="justify-content-start mb-1">
-            {/* <Col xs="auto" className="text-center"> */}
-              <span className="display-6 fw-bold">{parshahEnglish}</span>
-              <span className="ms-3 display-4 fw-bold">{parshahItem.hebrew}</span>
-            {/* </Col> */}
-          </Row>
-          <Row className="justify-content-start mb-1">
-            {/* <Col xs="auto" className="text-center"> */}
-              {parshahItem.date ? (
-                <span style={{ fontSize: "1.5rem", fontWeight: 700 }}>
-                  {parshahItem.hdate}
-                </span>
-              ) : (
-                <div className="text-muted">No Hebrew Date found.</div>
-              )}
-            {/* </Col> */}
-          </Row>
-          <Row className="justify-content-center mb-3">
-            <Col
-              xs="auto"
-              className="text-center fs-4 fw-bold"            >
-              {geoData.city}, {geoData.region}
-            </Col>
-          </Row>
-        </div>
+        <Row>
+          {/* Left Column: Parsha Info */}
+          <Col xs={12} md={6} className="mb-3">
+            <div className="text-center">
+              <Row className="justify-content-center mb-3">
+                <Col
+                  xs="auto"
+                  className="text-center"
+                  style={{ fontSize: "1.5rem", fontWeight: 700 }}
+                >
+                  <Row className="justify-content-center">{parshahEnglish}</Row>
+                  <Row className="justify-content-center ms-3">
+                    {parshahItem.hebrew}
+                  </Row>
+                </Col>
+              </Row>
+              <Row className="justify-content-center mb-3">
+                <Col xs="auto" className="text-center">
+                  {parshahItem.date ? (
+                    <span style={{ fontSize: "1.5rem", fontWeight: 700 }}>
+                      {parshahItem.hdate}
+                    </span>
+                  ) : (
+                    <div className="text-muted">No Hebrew Date found.</div>
+                  )}
+                </Col>
+              </Row>
+            </div>
+          </Col>
+
+          {/* Right Column: Candle Times */}
+          <Col xs={12} md={6} className="mb-3">
+            <Row className="justify-content-center mb-3">
+              <Col xs="auto" className="text-center fs-3 fw-bold">
+                {geoData.city}, {geoData.region}
+              </Col>
+            </Row>
+            <ListGroup className="shadow-sm" style={{ textAlign: "left" }}>
+              <ListGroup.Item className="">
+                {candleItem.title ? (
+                  <div className="mb-2 d-flex justify-content-between align-items-center">
+                    <strong>{candleItem.title}</strong>
+                    <span>
+                      {new Date(candleItem.date).toLocaleDateString("en-US", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="text-muted">
+                    No candle lighting times found.
+                  </div>
+                )}
+              </ListGroup.Item>
+              <ListGroup.Item>
+                {havdalahItem.title ? (
+                  <div className="mb-2 d-flex justify-content-between align-items-center">
+                    <strong>{havdalahItem.title}</strong>
+                    <span>
+                      {new Date(havdalahItem.date).toLocaleDateString("en-US", {
+                        weekday: "long",
+                        year: "numeric",
+                        month: "long",
+                        day: "numeric",
+                      })}
+                    </span>
+                  </div>
+                ) : (
+                  <div className="text-muted">No havdalah times found.</div>
+                )}
+              </ListGroup.Item>
+            </ListGroup>
+          </Col>
+        </Row>
       )}
-      <Row className="justify-content-center">
-        <Col md={6}>
-          <ListGroup className="shadow-sm mb-3" style={{ textAlign: "left" }}>
-            <ListGroup.Item className="">
-              {candleItem.title ? (
-                <div className="mb-2 d-flex justify-content-between align-items-center">
-                  <strong>{candleItem.title}</strong>
-                  <span>
-                    {new Date(candleItem.date).toLocaleDateString("en-US", {
-                      weekday: "long",
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </span>
-                </div>
-              ) : (
-                <div className="text-muted">
-                  No candle lighting times found.
-                </div>
-              )}
-            </ListGroup.Item>
-            <ListGroup.Item>
-              {havdalahItem.title ? (
-                <div className="mb-2 d-flex justify-content-between align-items-center">
-                  <strong>{havdalahItem.title}</strong>
-                  <span>
-                    {new Date(havdalahItem.date).toLocaleDateString("en-US", {
-                      weekday: "long",
-                      year: "numeric",
-                      month: "long",
-                      day: "numeric",
-                    })}
-                  </span>
-                </div>
-              ) : (
-                <div className="text-muted">No havdalah times found.</div>
-              )}
-            </ListGroup.Item>
-          </ListGroup>
-        </Col>
-      </Row>
     </Container>
   );
 };
