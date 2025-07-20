@@ -5,12 +5,11 @@ import DailyForecastCard from "./DailyForecastCard.jsx";
 
 const WeatherContainer = () => {
   const {
-    weatherData,
     weatherLoading: loading,
     weatherError: error,
-    getDayForecast,
+    getShabbosForecasts,
+    candleData,
   } = useShabbos();
-  // console.log('getDayForecast', getDayForecast("Friday"))
   if (error) {
     return (
       <div className="weather-content">
@@ -20,8 +19,7 @@ const WeatherContainer = () => {
     );
   }
 
-  const fridayForecast = getDayForecast("Friday");
-  const saturdayForecast = getDayForecast("Saturday");
+  const { friday: fridayPeriods, saturday: saturdayPeriods } = getShabbosForecasts(candleData);
 
   return (
     <div className="weather-content">
@@ -30,18 +28,22 @@ const WeatherContainer = () => {
       </div>
       <Row>
         <Col md={10}>
-          <DailyForecastCard
-            dayString="Friday"
-            forecast={fridayForecast}
-            loading={loading}
-          />
+          {fridayPeriods && fridayPeriods.length > 0 && (
+            <DailyForecastCard
+              dayString="Friday"
+              periods={fridayPeriods}
+              loading={loading}
+            />
+          )}
         </Col>
         <Col md={10}>
-          <DailyForecastCard
-            dayString="Saturday"
-            forecast={saturdayForecast}
-            loading={loading}
-          />
+          {saturdayPeriods && saturdayPeriods.length > 0 && (
+            <DailyForecastCard
+              dayString="Saturday"
+              periods={saturdayPeriods}
+              loading={loading}
+            />
+          )}
         </Col>
       </Row>
     </div>

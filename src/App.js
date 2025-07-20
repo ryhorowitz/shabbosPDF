@@ -27,9 +27,9 @@ function App() {
             <CandleTimes />
           </div>
           <main>
-            <div className="pdf-download-section">
+            {/* <div className="pdf-download-section">
               <PDFDownloadButton />
-            </div>
+            </div> */}
             <div className="weather-container">
               <WeatherContainer />
             </div>
