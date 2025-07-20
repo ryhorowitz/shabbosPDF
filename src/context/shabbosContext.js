@@ -66,6 +66,7 @@ export const ShabbosProvider = ({ children }) => {
   const [weatherData, setWeatherData] = useState(null);
   const [weatherLoading, setWeatherLoading] = useState(true);
   const [weatherError, setWeatherError] = useState(null);
+  const [dailyForecastData, setDailyForecastData] = useState(null);
 
   // Step 1: Get grid info from weather.gov
   useEffect(() => {
@@ -77,8 +78,8 @@ export const ShabbosProvider = ({ children }) => {
         const response = await fetch(pointsUrl);
         if (!response.ok) throw new Error("Failed to fetch grid info");
         const data = await response.json();
-        console.log('data from fetchHourlyURL', data)
         setHourlyURL(data.properties.forecastHourly);
+        setDailyForecastURL(data.properties.forecast);
       } catch (err) {
         setWeatherError("Failed to get grid info");
         setWeatherLoading(false);
@@ -90,19 +91,13 @@ export const ShabbosProvider = ({ children }) => {
   // Step 2: Get hourly forecast from weather.gov
   useEffect(() => {
     const fetchHourlyForecast = async () => {
-      if (!hourlyURL) {
-        console.log('No HOURLY URL')
-        return;
-      
-      }
+      if (!hourlyURL) return;
       try {
         setWeatherLoading(true);
         setWeatherError(null);
-        console.log('hourlyURL', hourlyURL)
         const response = await fetch(hourlyURL);
         if (!response.ok) throw new Error("Failed to fetch hourly forecast");
         const data = await response.json();
-        console.log('data from fetchHourlyForecast ', data)
         setWeatherData(data.properties.periods);
       } catch (err) {
         setWeatherError("Failed to fetch weather data");
@@ -112,6 +107,23 @@ export const ShabbosProvider = ({ children }) => {
     };
     if (hourlyURL) fetchHourlyForecast();
   }, [hourlyURL]);
+
+  // Step 3: Get daily (12hr) forecast from weather.gov
+  const [dailyForecastURL, setDailyForecastURL] = useState(null);
+  useEffect(() => {
+    const fetchDailyForecast = async () => {
+      if (!dailyForecastURL) return;
+      try {
+        const response = await fetch(dailyForecastURL);
+        if (!response.ok) throw new Error("Failed to fetch daily forecast");
+        const data = await response.json();
+        setDailyForecastData(data.properties.periods);
+      } catch (err) {
+        setWeatherError("Failed to fetch daily forecast");
+      }
+    };
+    if (dailyForecastURL) fetchDailyForecast();
+  }, [dailyForecastURL]);
 
   // Helper: Get forecast periods for a given date and list of hours (local time)
   const getForecastForDateAndHours = (dateObj, hoursArr) => {
@@ -137,6 +149,19 @@ export const ShabbosProvider = ({ children }) => {
     });
   };
 
+  // Helper: Get daily summary for a given date (returns the first period that matches the date)
+  const getDailySummaryForDate = (dateObj) => {
+    if (!dailyForecastData) return null;
+    return dailyForecastData.find((period) => {
+      const periodDate = new Date(period.startTime);
+      return (
+        periodDate.getFullYear() === dateObj.getFullYear() &&
+        periodDate.getMonth() === dateObj.getMonth() &&
+        periodDate.getDate() === dateObj.getDate()
+      );
+    });
+  };
+
   // Helper: Get Friday and Saturday forecast periods for the required hours
   const getShabbosForecasts = (candleData) => {
     // Use extractCandleItems to get Friday and Saturday dates
@@ -159,6 +184,23 @@ export const ShabbosProvider = ({ children }) => {
     };
   };
 
+  // Helper: Get Friday and Saturday daily summaries
+  const getShabbosDailySummaries = (candleData) => {
+    if (!candleData) return { friday: null, saturday: null };
+    let fridayDate = null;
+    let saturdayDate = null;
+    try {
+      const { candleItem, havdalahItem } = require("../utils/candleDataUtils.js").extractCandleItems(candleData);
+      if (candleItem && candleItem.date) fridayDate = new Date(candleItem.date);
+      if (havdalahItem && havdalahItem.date) saturdayDate = new Date(havdalahItem.date);
+      if (saturdayDate) saturdayDate.setHours(0, 0, 0, 0);
+    } catch (e) {}
+    return {
+      friday: fridayDate ? getDailySummaryForDate(fridayDate) : null,
+      saturday: fridayDate ? getDailySummaryForDate(new Date(fridayDate.getTime() + 24*60*60*1000)) : null,
+    };
+  };
+
   const value = {
     // Candle
     candleData,
@@ -170,6 +212,7 @@ export const ShabbosProvider = ({ children }) => {
     weatherLoading,
     weatherError,
     getShabbosForecasts,
+    getShabbosDailySummaries,
   };
 
   return (

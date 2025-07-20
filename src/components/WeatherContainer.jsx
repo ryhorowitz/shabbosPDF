@@ -8,6 +8,7 @@ const WeatherContainer = () => {
     weatherLoading: loading,
     weatherError: error,
     getShabbosForecasts,
+    getShabbosDailySummaries,
     candleData,
   } = useShabbos();
   if (error) {
@@ -20,6 +21,7 @@ const WeatherContainer = () => {
   }
 
   const { friday: fridayPeriods, saturday: saturdayPeriods } = getShabbosForecasts(candleData);
+  const { friday: fridaySummary, saturday: saturdaySummary } = getShabbosDailySummaries(candleData);
 
   return (
     <div className="weather-content">
@@ -32,6 +34,7 @@ const WeatherContainer = () => {
             <DailyForecastCard
               dayString="Friday"
               periods={fridayPeriods}
+              summary={fridaySummary}
               loading={loading}
             />
           )}
@@ -41,6 +44,7 @@ const WeatherContainer = () => {
             <DailyForecastCard
               dayString="Saturday"
               periods={saturdayPeriods}
+              summary={saturdaySummary}
               loading={loading}
             />
           )}

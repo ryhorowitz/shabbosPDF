@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Row } from "react-bootstrap";
 
-const DailyForecastCard = ({ dayString, periods, loading }) => {
+const DailyForecastCard = ({ dayString, periods, loading, summary }) => {
   if (loading) {
     return (
       <Container className="mb-3 p-0 border rounded">
@@ -34,6 +34,30 @@ const DailyForecastCard = ({ dayString, periods, loading }) => {
         <h5 className="mb-0" style={{ fontSize: '1.1rem' }}>{dayString}</h5>
       </div>
       <div className="p-3">
+        {/* Daily summary container */}
+        {summary && (
+          <div className="mb-3 p-2 border rounded bg-light d-flex align-items-center" style={{ fontSize: '0.95rem', gap: 12 }}>
+            {summary.icon && (
+              <img src={summary.icon} alt={summary.shortForecast} style={{ width: 36, height: 36, marginRight: 8 }} />
+            )}
+            <div style={{ flex: 1 }}>
+              <div className="fw-bold" style={{ fontSize: '1.05rem' }}>{summary.name || summary.shortForecast}</div>
+              <div style={{ fontSize: '0.95rem' }}>{summary.detailedForecast}</div>
+              <div className="d-flex flex-wrap" style={{ gap: 16, fontSize: '0.92rem', marginTop: 2 }}>
+                {summary.probabilityOfPrecipitation && summary.probabilityOfPrecipitation.value !== null && (
+                  <span>Precip: {summary.probabilityOfPrecipitation.value}%</span>
+                )}
+                {summary.relativeHumidity && summary.relativeHumidity.value !== null && (
+                  <span>Humidity: {summary.relativeHumidity.value}%</span>
+                )}
+                {summary.windSpeed && (
+                  <span>Wind: {summary.windSpeed} {summary.windDirection}</span>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+        {/* Detailed hourly rows */}
         {periods.map((period, idx) => (
           <Row key={period?.startTime || idx} className="mb-2 align-items-center" style={{ fontSize: '0.95rem' }}>
             <div className="fw-bold mb-1" style={{ fontSize: '0.95rem' }}>
@@ -62,7 +86,6 @@ const DailyForecastCard = ({ dayString, periods, loading }) => {
                   {period.temperature}°{period.temperatureUnit}
                 </div>
                 <div style={{ fontSize: '0.95rem', flex: 1 }}>{period.shortForecast}</div>
-
               </div>
             ) : (
               <div className="text-muted" style={{ fontSize: '0.95rem' }}>No data</div>
