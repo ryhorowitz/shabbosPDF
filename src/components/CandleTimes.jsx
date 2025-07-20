@@ -74,7 +74,7 @@ const CandleTimes = () => {
           <Row className="justify-content-center mb-3">
             <Col
               xs="auto"
-              className="text-center fs-3 fw-bold"
+              className="text-center fs-4 fw-bold"
               // style={{ fontSize: "1.25rem", fontWeight: 600 }}
             >
               {geoData.city}, {geoData.region}
