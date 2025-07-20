@@ -41,7 +41,7 @@ const DailyForecastCard = ({ dayString, periods, loading, summary }) => {
               <img src={summary.icon} alt={summary.shortForecast} style={{ width: 36, height: 36, marginRight: 8 }} />
             )}
             <div style={{ flex: 1 }}>
-              <div className="fw-bold" style={{ fontSize: '1.05rem' }}>{summary.name || summary.shortForecast}</div>
+              {/* <div className="fw-bold" style={{ fontSize: '1.05rem' }}>{summary.name || summary.shortForecast}</div> */}
               <div style={{ fontSize: '0.95rem' }}>{summary.detailedForecast}</div>
               <div className="d-flex flex-wrap" style={{ gap: 16, fontSize: '0.92rem', marginTop: 2 }}>
                 {summary.probabilityOfPrecipitation && summary.probabilityOfPrecipitation.value !== null && (

@@ -45,38 +45,35 @@ const CandleTimes = () => {
     );
   }
 
-  const { candleItem, parshaItem, havdalahItem } =
+  const { candleItem, parshahItem, havdalahItem } =
     extractCandleItems(candleData);
+  const parshahEnglish = 'Parshah ' + parshahItem.title.split(' ')[1]
 
   return (
     <Container className="candle-times my-4">
-      {parshaItem && (
+      {parshahItem && (
         <div className="mb-3">
-          <Row className="justify-content-center mb-3">
-            <Col xs="auto" className="text-center">
-              <span className="display-6 fw-bold">{parshaItem.title}</span>
-              <span className="ms-3 display-4 fw-bold">
-                {parshaItem.hebrew}
-              </span>
-            </Col>
+          <Row className="justify-content-start mb-1">
+            {/* <Col xs="auto" className="text-center"> */}
+              <span className="display-6 fw-bold">{parshahEnglish}</span>
+              <span className="ms-3 display-4 fw-bold">{parshahItem.hebrew}</span>
+            {/* </Col> */}
           </Row>
-          <Row className="justify-content-center mb-3">
-            <Col xs="auto" className="text-center">
-              {parshaItem.date ? (
+          <Row className="justify-content-start mb-1">
+            {/* <Col xs="auto" className="text-center"> */}
+              {parshahItem.date ? (
                 <span style={{ fontSize: "1.5rem", fontWeight: 700 }}>
-                  {parshaItem.hdate}
+                  {parshahItem.hdate}
                 </span>
               ) : (
                 <div className="text-muted">No Hebrew Date found.</div>
               )}
-            </Col>
+            {/* </Col> */}
           </Row>
           <Row className="justify-content-center mb-3">
             <Col
               xs="auto"
-              className="text-center fs-4 fw-bold"
-              // style={{ fontSize: "1.25rem", fontWeight: 600 }}
-            >
+              className="text-center fs-4 fw-bold"            >
               {geoData.city}, {geoData.region}
             </Col>
           </Row>

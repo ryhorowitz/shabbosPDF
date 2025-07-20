@@ -23,7 +23,7 @@ const WeatherPDF = ({
 }) => {
   const styles = usePDFStyles();
 
-  const { candleItem, parshaItem, havdalahItem } =
+  const { candleItem, parshahItem, havdalahItem } =
     extractCandleItems(candleData);
 
   const getWeatherIcon = (weatherCode) => {
@@ -49,15 +49,15 @@ const WeatherPDF = ({
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <Text style={{ fontWeight: "bold", marginBottom: 4 }}>
-            {parshaItem.title}
+            {parshahItem.title}
             <Text style={{ fontFamily: "NotoSansHebrew" }}>
               {" "}
-              {parshaItem.hebrew}
+              {parshahItem.hebrew}
             </Text>
           </Text>
-          {parshaItem && (
+          {parshahItem && (
             <View>
-              {parshaItem.hdate && (
+              {parshahItem.hdate && (
                 <View style={{ alignItems: "center", width: "100%" }}>
                   <Text
                     style={{
@@ -65,7 +65,7 @@ const WeatherPDF = ({
                       fontWeight: "bold",
                     }}
                   >
-                    {parshaItem.hdate}
+                    {parshahItem.hdate}
                   </Text>
                 </View>
               )}
