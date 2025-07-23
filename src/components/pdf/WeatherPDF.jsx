@@ -1,5 +1,5 @@
 import React from "react";
-import { Document, Page, Text, View, Image, Font } from "@react-pdf/renderer";
+import { Document, Page, Text, View, Font } from "@react-pdf/renderer";
 import { usePDFStyles } from "../../context/PDFStylesContext";
 import { extractCandleItems } from "../../utils/candleDataUtils.js";
 

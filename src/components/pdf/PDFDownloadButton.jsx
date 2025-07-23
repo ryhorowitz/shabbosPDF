@@ -1,11 +1,13 @@
-import React from "react";
-import { Button } from "react-bootstrap";
+import React, { useState } from "react";
+import { Button, ButtonGroup } from "react-bootstrap";
 import { PDFDownloadLink } from "@react-pdf/renderer";
 import { useShabbos } from "../../context/shabbosContext.js";
 import WeatherPDF from "./WeatherPDF.jsx";
 import { PDFStylesProvider } from "../../context/PDFStylesContext";
 
 const PDFDownloadButton = () => {
+  const [pdfBlobUrl, setPdfBlobUrl] = useState(null);
+
   const {
     getShabbosForecasts,
     getShabbosDailySummaries,
@@ -49,31 +51,54 @@ const PDFDownloadButton = () => {
     );
   }
 
+  const pdfDocument = (
+    <PDFStylesProvider>
+      <WeatherPDF
+        fridayPeriods={fridayPeriods}
+        saturdayPeriods={saturdayPeriods}
+        fridaySummary={fridaySummary}
+        saturdaySummary={saturdaySummary}
+        candleData={candleData}
+        geoData={geoData}
+      />
+    </PDFStylesProvider>
+  );
+
+  const handlePreviewClick = () => {
+    if (pdfBlobUrl) {
+      window.open(pdfBlobUrl, "_blank");
+    }
+  };
+
   return (
     <div className="text-center mt-4">
-      <PDFDownloadLink
-        document={
-          <PDFStylesProvider>
-            <WeatherPDF
-              fridayPeriods={fridayPeriods}
-              saturdayPeriods={saturdayPeriods}
-              fridaySummary={fridaySummary}
-              saturdaySummary={saturdaySummary}
-              candleData={candleData}
-              geoData={geoData}
-            />
-          </PDFStylesProvider>
-        }
-        fileName="shabbos-weather-and-candle-times.pdf"
-      >
-        {({ blob, url, loading: pdfLoading, error: pdfError }) => (
-          <Button variant="primary" disabled={pdfLoading}>
-            {pdfLoading
-              ? "Generating PDF..."
-              : "Download Weather & Candle Times PDF"}
-          </Button>
-        )}
-      </PDFDownloadLink>
+      <ButtonGroup className="mb-3">
+        <PDFDownloadLink
+          document={pdfDocument}
+          fileName="shabbos-weather-and-candle-times.pdf"
+        >
+          {({ blob, url, loading: pdfLoading, error: pdfError }) => {
+            // Store the blob URL for preview
+            if (blob && !pdfBlobUrl) {
+              setPdfBlobUrl(url);
+            }
+
+            return (
+              <Button variant="primary" disabled={pdfLoading}>
+                {pdfLoading ? "Generating PDF..." : "Download PDF"}
+              </Button>
+            );
+          }}
+        </PDFDownloadLink>
+
+        <Button
+          variant="outline-primary"
+          onClick={handlePreviewClick}
+          disabled={!pdfBlobUrl}
+        >
+          Preview PDF
+        </Button>
+      </ButtonGroup>
     </div>
   );
 };
