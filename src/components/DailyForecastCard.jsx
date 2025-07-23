@@ -94,14 +94,14 @@ const DailyForecastCard = ({ dayString, periods, loading, summary }) => {
             <div className="fw-bold mb-1" style={{ fontSize: "0.95rem" }}>
               {(() => {
                 if (dayString === "Friday") {
-                  if (idx === 0) return "Afternoon (4pm)";
-                  if (idx === 1) return "Evening (8pm)";
-                  if (idx === 2) return "Night (12am)";
+                  if (idx === 0) return "Afternoon 4pm";
+                  if (idx === 1) return "Evening 8pm";
+                  if (idx === 2) return "Night 12am";
                 } else if (dayString === "Saturday") {
-                  if (idx === 0) return "Morning (8am)";
-                  if (idx === 1) return "Day (12pm)";
-                  if (idx === 2) return "Afternoon (4pm)";
-                  if (idx === 3) return "Evening (8pm)";
+                  if (idx === 0) return "Morning 8am";
+                  if (idx === 1) return "Day 12pm";
+                  if (idx === 2) return "Afternoon 4pm";
+                  if (idx === 3) return "Evening 8pm";
                 }
                 return period?.name || "";
               })()}
