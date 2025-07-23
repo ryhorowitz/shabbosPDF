@@ -8,6 +8,7 @@ import EmailSignup from "./components/EmailSignup.jsx";
 import SeoHelmet from "./components/SeoHelmet.jsx";
 import { HelmetProvider } from "react-helmet-async";
 import { Row, Col } from "react-bootstrap";
+import { getSidebarStyles } from "./utils/sidebarStyles.js";
 
 function App() {
   return (
@@ -40,13 +41,7 @@ function App() {
                 md={4}
                 lg={3}
                 className="sidebar"
-                style={{
-                  position: "sticky",
-                  top: "20px",
-                  height: "fit-content",
-                  maxHeight: "calc(100vh - 40px)",
-                  overflowY: "auto",
-                }}
+                style={getSidebarStyles()}
               >
                 <CandleTimes />
               </Col>
