@@ -131,6 +131,66 @@ const PDFStyles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 0,
   },
+  // New summary styles
+  summaryContainer: {
+    marginTop: 8,
+    padding: 8,
+    backgroundColor: "#f8f9fa",
+    borderRadius: 6,
+    border: "1px solid #e9ecef",
+  },
+  summaryMainRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    marginBottom: 6,
+  },
+  summaryLeft: {
+    flex: 2,
+    marginRight: 12,
+  },
+  summaryRight: {
+    flex: 1,
+    alignItems: "flex-end",
+  },
+  summaryTemp: {
+    fontSize: 16,
+    fontWeight: "bold",
+    color: "#e74c3c",
+    marginBottom: 2,
+  },
+  summaryCondition: {
+    fontSize: 10,
+    color: "#495057",
+    fontStyle: "italic",
+    lineHeight: 1.2,
+  },
+  weatherDetail: {
+    alignItems: "flex-end",
+    marginBottom: 4,
+  },
+  detailLabel: {
+    fontSize: 8,
+    color: "#6c757d",
+    fontWeight: "bold",
+    textTransform: "uppercase",
+    marginBottom: 1,
+  },
+  detailValue: {
+    fontSize: 9,
+    color: "#495057",
+    fontWeight: "bold",
+  },
+  detailedForecastContainer: {
+    borderTop: "1px solid #dee2e6",
+    paddingTop: 6,
+  },
+  detailedForecastText: {
+    fontSize: 9,
+    color: "#6c757d",
+    lineHeight: 1.3,
+    fontStyle: "italic",
+  },
 });
 
 export const PDFStylesProvider = ({ children }) => (

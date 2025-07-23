@@ -48,6 +48,25 @@ const WeatherPDF = ({
     return period.name || "";
   };
 
+  // Error handling
+  if (!fridayPeriods || !saturdayPeriods || !candleData || !geoData) {
+    console.error("WeatherPDF: Missing required props", {
+      fridayPeriods: !!fridayPeriods,
+      saturdayPeriods: !!saturdayPeriods,
+      candleData: !!candleData,
+      geoData: !!geoData,
+    });
+    return (
+      <Document title="Shabbos Weather & Times">
+        <Page size="A4" style={styles.page}>
+          <View style={styles.header}>
+            <Text>Error: Missing data for PDF generation</Text>
+          </View>
+        </Page>
+      </Document>
+    );
+  }
+
   return (
     <Document title="Shabbos Weather & Times">
       <Page size="A4" style={styles.page}>
@@ -143,52 +162,71 @@ const WeatherPDF = ({
                 <View style={styles.card} key={label}>
                   <View style={styles.weatherHeader}>
                     <Text style={styles.dayTitle}>{label}</Text>
-                    {summary && (
-                      <>
-                        <Text style={styles.temperature}>
-                          {summary.temperature}°{summary.temperatureUnit}
-                        </Text>
-                        <Text style={styles.summary}>
-                          {summary.shortForecast}
-                        </Text>
-                      </>
-                    )}
                   </View>
 
-                  {summary && (
-                    <View style={styles.twoColumnContainer}>
-                      <View style={styles.column}>
-                        <Text style={styles.weatherInfo}>
-                          Weather: {summary.shortForecast}
-                        </Text>
-                        {summary.probabilityOfPrecipitation && (
-                          <Text style={styles.weatherInfo}>
-                            Precipitation:{" "}
-                            {summary.probabilityOfPrecipitation.value}%
+                  {summary && summary.temperature && (
+                    <View style={styles.summaryContainer}>
+                      {/* Main weather info row */}
+                      <View style={styles.summaryMainRow}>
+                        <View style={styles.summaryLeft}>
+                          <Text style={styles.summaryTemp}>
+                            {summary.temperature}°
+                            {summary.temperatureUnit || "F"}
                           </Text>
-                        )}
+                          <Text style={styles.summaryCondition}>
+                            {summary.shortForecast || "No forecast available"}
+                          </Text>
+                        </View>
+                        <View style={styles.summaryRight}>
+                          {summary.windSpeed && (
+                            <View style={styles.weatherDetail}>
+                              <Text style={styles.detailLabel}>Wind</Text>
+                              <Text style={styles.detailValue}>
+                                {summary.windSpeed}{" "}
+                                {summary.windDirection || ""}
+                              </Text>
+                            </View>
+                          )}
+                          {summary.probabilityOfPrecipitation &&
+                            summary.probabilityOfPrecipitation.value && (
+                              <View style={styles.weatherDetail}>
+                                <Text style={styles.detailLabel}>
+                                  Precipitation
+                                </Text>
+                                <Text style={styles.detailValue}>
+                                  {summary.probabilityOfPrecipitation.value}%
+                                </Text>
+                              </View>
+                            )}
+                        </View>
                       </View>
-                      <View style={styles.columnRight}>
-                        <Text style={styles.weatherInfo}>
-                          Wind: {summary.windSpeed} {summary.windDirection}
-                        </Text>
-                      </View>
+
+                      {/* Detailed forecast */}
+                      {summary.detailedForecast && (
+                        <View style={styles.detailedForecastContainer}>
+                          <Text style={styles.detailedForecastText}>
+                            {summary.detailedForecast}
+                          </Text>
+                        </View>
+                      )}
                     </View>
                   )}
 
                   <View style={styles.tempTableRow}>
                     {periods.map(
                       (period, idx) =>
-                        period && (
+                        period &&
+                        period.temperature && (
                           <View style={styles.tempTableCol} key={idx}>
                             <Text style={styles.tempPeriodLabel}>
                               {getTimeLabel(period, label)}
                             </Text>
                             <Text style={styles.tempPeriodValue}>
-                              {period.temperature}°{period.temperatureUnit}
+                              {period.temperature}°
+                              {period.temperatureUnit || "F"}
                             </Text>
                             <Text style={styles.feelsLikeTemp}>
-                              {period.shortForecast}
+                              {period.shortForecast || "No forecast"}
                             </Text>
                           </View>
                         )
