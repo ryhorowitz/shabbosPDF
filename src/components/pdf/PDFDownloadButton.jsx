@@ -6,14 +6,28 @@ import WeatherPDF from "./WeatherPDF.jsx";
 import { PDFStylesProvider } from "../../context/PDFStylesContext";
 
 const PDFDownloadButton = () => {
-  const { getDayForecast, weatherLoading, candleData, geoData, candleLoading } =
-    useShabbos();
+  const {
+    getShabbosForecasts,
+    getShabbosDailySummaries,
+    weatherLoading,
+    candleData,
+    geoData,
+    candleLoading,
+  } = useShabbos();
 
-  const fridayForecast = getDayForecast("Friday");
-  const saturdayForecast = getDayForecast("Saturday");
+  const { friday: fridayPeriods, saturday: saturdayPeriods } =
+    getShabbosForecasts(candleData);
+  const { friday: fridaySummary, saturday: saturdaySummary } =
+    getShabbosDailySummaries(candleData);
 
   const isLoading = weatherLoading || candleLoading;
-  const hasData = fridayForecast && saturdayForecast && candleData && geoData;
+  const hasData =
+    fridayPeriods &&
+    saturdayPeriods &&
+    fridayPeriods.length > 0 &&
+    saturdayPeriods.length > 0 &&
+    candleData &&
+    geoData;
 
   if (isLoading) {
     return (
@@ -41,8 +55,10 @@ const PDFDownloadButton = () => {
         document={
           <PDFStylesProvider>
             <WeatherPDF
-              fridayForecast={fridayForecast}
-              saturdayForecast={saturdayForecast}
+              fridayPeriods={fridayPeriods}
+              saturdayPeriods={saturdayPeriods}
+              fridaySummary={fridaySummary}
+              saturdaySummary={saturdaySummary}
               candleData={candleData}
               geoData={geoData}
             />

@@ -16,8 +16,10 @@ Font.register({
 });
 
 const WeatherPDF = ({
-  fridayForecast,
-  saturdayForecast,
+  fridayPeriods,
+  saturdayPeriods,
+  fridaySummary,
+  saturdaySummary,
   candleData,
   geoData,
 }) => {
@@ -26,22 +28,24 @@ const WeatherPDF = ({
   const { candleItem, parshahItem, havdalahItem } =
     extractCandleItems(candleData);
 
-  const getWeatherIcon = (weatherCode) => {
-    // Map weather codes to emoji icons
-    const weatherIcons = {
-      200: "https://openweathermap.org/img/wn/11d@2x.png", // thunderstorm
-      300: "https://openweathermap.org/img/wn/10d@2x.png", // drizzle rain
-      500: "https://openweathermap.org/img/wn/09d@2x.png", // shower rain
-      600: "https://openweathermap.org/img/wn/013d@2x.png", // snow
-      700: "https://openweathermap.org/img/wn/50d@2x.png", // fog/mist
-      800: "https://openweathermap.org/img/wn/01d@2x.png", // clear sky
-      801: "https://openweathermap.org/img/wn/02d@2x.png", // few clouds
-      802: "https://openweathermap.org/img/wn/03d@2x.png", // scattered clouds
-      803: "https://openweathermap.org/img/wn/04d@2x.png", // broken clouds
-      804: "https://openweathermap.org/img/wn/04d@2x.png", // overcast
-    };
-    const code = Math.floor(weatherCode / 100) * 100;
-    return weatherIcons[code] || "☀";
+  const getTimeLabel = (period, dayLabel) => {
+    if (dayLabel === "Friday") {
+      if (period.temperature) {
+        const hour = new Date(period.startTime).getHours();
+        if (hour === 16) return "Afternoon (4pm)";
+        if (hour === 20) return "Evening (8pm)";
+        if (hour === 0) return "Night (12am)";
+      }
+    } else if (dayLabel === "Saturday") {
+      if (period.temperature) {
+        const hour = new Date(period.startTime).getHours();
+        if (hour === 8) return "Morning (8am)";
+        if (hour === 12) return "Day (12pm)";
+        if (hour === 16) return "Afternoon (4pm)";
+        if (hour === 20) return "Evening (8pm)";
+      }
+    }
+    return period.name || "";
   };
 
   return (
@@ -71,8 +75,6 @@ const WeatherPDF = ({
               )}
             </View>
           )}
-          <Text>{console.log("fridayForecast", fridayForecast)}</Text>
-          <Text>{console.log("geoData", geoData)}</Text>
           <View style={{ alignItems: "center", width: "100%" }}>
             <Text style={{ fontSize: 14, textAlign: "center" }}>
               {geoData.city}, {geoData.region}
@@ -121,83 +123,76 @@ const WeatherPDF = ({
               </View>
             )}
           </View>
+
           {/* Weather Forecast Section */}
           {[
-            { label: "Friday", forecast: fridayForecast },
-            { label: "Saturday", forecast: saturdayForecast },
+            {
+              label: "Friday",
+              periods: fridayPeriods,
+              summary: fridaySummary,
+            },
+            {
+              label: "Saturday",
+              periods: saturdayPeriods,
+              summary: saturdaySummary,
+            },
           ].map(
-            ({ label, forecast }) =>
-              forecast && (
+            ({ label, periods, summary }) =>
+              periods &&
+              periods.length > 0 && (
                 <View style={styles.card} key={label}>
                   <View style={styles.weatherHeader}>
                     <Text style={styles.dayTitle}>{label}</Text>
-                    <Text style={{ fontSize: 72 }}>
-                      <Image src={getWeatherIcon(forecast.weather[0].id)} />
-                    </Text>
-                    <Text style={styles.temperature}>
-                      {Math.floor(forecast.temp.min)}°F /{" "}
-                      {Math.floor(forecast.temp.max)}°F
-                    </Text>
-                    <Text style={styles.summary}>{forecast.summary}</Text>
+                    {summary && (
+                      <>
+                        <Text style={styles.temperature}>
+                          {summary.temperature}°{summary.temperatureUnit}
+                        </Text>
+                        <Text style={styles.summary}>
+                          {summary.shortForecast}
+                        </Text>
+                      </>
+                    )}
                   </View>
-                  <View style={styles.twoColumnContainer}>
-                    <View style={styles.column}>
-                      <Text style={styles.weatherInfo}>
-                        Weather: {forecast.weather[0].description}
-                      </Text>
-                      <Text style={styles.weatherInfo}>
-                        Precipitation: {Math.round(forecast.pop * 100)}%
-                      </Text>
-                      <Text style={styles.weatherInfo}>
-                        Humidity: {forecast.humidity}%
-                      </Text>
+
+                  {summary && (
+                    <View style={styles.twoColumnContainer}>
+                      <View style={styles.column}>
+                        <Text style={styles.weatherInfo}>
+                          Weather: {summary.shortForecast}
+                        </Text>
+                        {summary.probabilityOfPrecipitation && (
+                          <Text style={styles.weatherInfo}>
+                            Precipitation:{" "}
+                            {summary.probabilityOfPrecipitation.value}%
+                          </Text>
+                        )}
+                      </View>
+                      <View style={styles.columnRight}>
+                        <Text style={styles.weatherInfo}>
+                          Wind: {summary.windSpeed} {summary.windDirection}
+                        </Text>
+                      </View>
                     </View>
-                    <View style={styles.columnRight}>
-                      <Text style={styles.weatherInfo}>
-                        Wind: {Math.round(forecast.wind_speed)} mph
-                      </Text>
-                      <Text style={styles.weatherInfo}>
-                        UV Index: {Math.round(forecast.uvi)}
-                      </Text>
-                    </View>
-                  </View>
+                  )}
+
                   <View style={styles.tempTableRow}>
-                    <View style={styles.tempTableCol}>
-                      <Text style={styles.tempPeriodLabel}>Morning</Text>
-                      <Text style={styles.tempPeriodValue}>
-                        {Math.floor(forecast.temp.morn)}ºF
-                      </Text>
-                      <Text style={styles.feelsLikeTemp}>
-                        Feels like: {Math.floor(forecast.feels_like.morn)}ºF
-                      </Text>
-                    </View>
-                    <View style={styles.tempTableCol}>
-                      <Text style={styles.tempPeriodLabel}>Day</Text>
-                      <Text style={styles.tempPeriodValue}>
-                        {Math.floor(forecast.temp.day)}ºF
-                      </Text>
-                      <Text style={styles.feelsLikeTemp}>
-                        Feels like: {Math.floor(forecast.feels_like.day)}ºF
-                      </Text>
-                    </View>
-                    <View style={styles.tempTableCol}>
-                      <Text style={styles.tempPeriodLabel}>Evening</Text>
-                      <Text style={styles.tempPeriodValue}>
-                        {Math.floor(forecast.temp.eve)}ºF
-                      </Text>
-                      <Text style={styles.feelsLikeTemp}>
-                        Feels like: {Math.floor(forecast.feels_like.eve)}ºF
-                      </Text>
-                    </View>
-                    <View style={styles.tempTableCol}>
-                      <Text style={styles.tempPeriodLabel}>Night</Text>
-                      <Text style={styles.tempPeriodValue}>
-                        {Math.floor(forecast.temp.night)}ºF
-                      </Text>
-                      <Text style={styles.feelsLikeTemp}>
-                        Feels like: {Math.floor(forecast.feels_like.night)}ºF
-                      </Text>
-                    </View>
+                    {periods.map(
+                      (period, idx) =>
+                        period && (
+                          <View style={styles.tempTableCol} key={idx}>
+                            <Text style={styles.tempPeriodLabel}>
+                              {getTimeLabel(period, label)}
+                            </Text>
+                            <Text style={styles.tempPeriodValue}>
+                              {period.temperature}°{period.temperatureUnit}
+                            </Text>
+                            <Text style={styles.feelsLikeTemp}>
+                              {period.shortForecast}
+                            </Text>
+                          </View>
+                        )
+                    )}
                   </View>
                 </View>
               )

@@ -7,6 +7,7 @@ import PDFDownloadButton from "./components/pdf/PDFDownloadButton.jsx";
 import EmailSignup from "./components/EmailSignup.jsx";
 import SeoHelmet from "./components/SeoHelmet.jsx";
 import { HelmetProvider } from "react-helmet-async";
+import { Row, Col } from "react-bootstrap";
 
 function App() {
   return (
@@ -32,17 +33,35 @@ function App() {
             </p>
           </header>
           <main>
-            <div>
-              <CandleTimes />
-            </div>
+            <Row>
+              {/* Sidebar: Candle Times */}
+              <Col
+                xs={12}
+                md={4}
+                lg={3}
+                className="sidebar"
+                style={{
+                  position: "sticky",
+                  top: "20px",
+                  height: "fit-content",
+                  maxHeight: "calc(100vh - 40px)",
+                  overflowY: "auto",
+                }}
+              >
+                <CandleTimes />
+              </Col>
 
-            {/* <div className="pdf-download-section">
-              <PDFDownloadButton />
-            </div> */}
-            <div className="weather-container">
-              <WeatherContainer />
-            </div>
-            <EmailSignup />
+              {/* Main Content: Weather and Email */}
+              <Col xs={12} md={8} lg={9} className="main-content">
+                <div className="weather-container">
+                  <WeatherContainer />
+                </div>
+                <div className="pdf-download-section">
+                  <PDFDownloadButton />
+                </div>
+                <EmailSignup />
+              </Col>
+            </Row>
           </main>
         </div>
       </ShabbosProvider>
