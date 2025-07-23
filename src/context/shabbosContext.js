@@ -17,22 +17,62 @@ export const ShabbosProvider = ({ children }) => {
   const [candleLoading, setCandleLoading] = useState(true);
   const [candleError, setCandleError] = useState(null);
 
-  const ipinfoApiKey = process.env.REACT_APP_IPINFO_API_KEY;
-
   useEffect(() => {
     const getGeoData = async () => {
-      try {
-        const response = await fetch(`https://ipinfo.io?token=${ipinfoApiKey}`);
-        const data = await response.json();
-        setGeoData(data);
-      } catch (err) {
-        console.error("Error fetching geo data:", err);
+      // Use browser geolocation with reverse geocoding
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          async (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+            console.log(`Location: Latitude: ${lat}, Longitude: ${lon}`);
+            console.log("Position:", position);
+
+            // Try to get city and region from coordinates using reverse geocoding
+            let city = "Unknown";
+            let region = "Unknown";
+
+            try {
+              // Use a free reverse geocoding service
+              const reverseGeocodeResponse = await fetch(
+                `https://api.bigdatacloud.net/data/reverse-geocode-client?latitude=${lat}&longitude=${lon}&localityLanguage=en`
+              );
+              if (reverseGeocodeResponse.ok) {
+                const geoData = await reverseGeocodeResponse.json();
+                city = geoData.city || geoData.locality || "Unknown";
+                region =
+                  geoData.principalSubdivision ||
+                  geoData.countryName ||
+                  "Unknown";
+                console.log("Reverse geocoding result:", geoData);
+              }
+            } catch (reverseError) {
+              console.error("Reverse geocoding failed:", reverseError);
+            }
+
+            // Create geoData object with same structure as ipinfo.io
+            const fallbackGeoData = {
+              loc: `${lat},${lon}`,
+              timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+              city: city,
+              region: region,
+            };
+            setGeoData(fallbackGeoData);
+          },
+          (error) => {
+            console.error("Geolocation error:", error);
+            setCandleError("Failed to get location data");
+            setCandleLoading(false);
+          }
+        );
+      } else {
+        console.error("Geolocation not supported");
         setCandleError("Failed to get location data");
         setCandleLoading(false);
       }
     };
     getGeoData();
-  }, [ipinfoApiKey]);
+  }, []);
 
   useEffect(() => {
     if (!geoData) return;
@@ -70,7 +110,7 @@ export const ShabbosProvider = ({ children }) => {
 
   // Step 1: Get grid info from weather.gov
   useEffect(() => {
-    const fetchHourlyURL= async () => {
+    const fetchHourlyURL = async () => {
       if (!geoData) return;
       try {
         const [lat, lon] = geoData.loc.split(",");
@@ -172,15 +212,24 @@ export const ShabbosProvider = ({ children }) => {
     let fridayDate = null;
     let saturdayDate = null;
     try {
-      const { candleItem, havdalahItem } = require("../utils/candleDataUtils.js").extractCandleItems(candleData);
+      const { candleItem, havdalahItem } =
+        require("../utils/candleDataUtils.js").extractCandleItems(candleData);
       if (candleItem && candleItem.date) fridayDate = new Date(candleItem.date);
-      if (havdalahItem && havdalahItem.date) saturdayDate = new Date(havdalahItem.date);
+      if (havdalahItem && havdalahItem.date)
+        saturdayDate = new Date(havdalahItem.date);
       // For Saturday, use the date part of havdalah (should be Sat night)
       if (saturdayDate) saturdayDate.setHours(0, 0, 0, 0);
     } catch (e) {}
     return {
-      friday: fridayDate ? getForecastForDateAndHours(fridayDate, [16, 20, 0]) : [],
-      saturday: fridayDate ? getForecastForDateAndHours(new Date(fridayDate.getTime() + 24*60*60*1000), [8, 12, 16, 20]) : [],
+      friday: fridayDate
+        ? getForecastForDateAndHours(fridayDate, [16, 20, 0])
+        : [],
+      saturday: fridayDate
+        ? getForecastForDateAndHours(
+            new Date(fridayDate.getTime() + 24 * 60 * 60 * 1000),
+            [8, 12, 16, 20]
+          )
+        : [],
     };
   };
 
@@ -190,14 +239,20 @@ export const ShabbosProvider = ({ children }) => {
     let fridayDate = null;
     let saturdayDate = null;
     try {
-      const { candleItem, havdalahItem } = require("../utils/candleDataUtils.js").extractCandleItems(candleData);
+      const { candleItem, havdalahItem } =
+        require("../utils/candleDataUtils.js").extractCandleItems(candleData);
       if (candleItem && candleItem.date) fridayDate = new Date(candleItem.date);
-      if (havdalahItem && havdalahItem.date) saturdayDate = new Date(havdalahItem.date);
+      if (havdalahItem && havdalahItem.date)
+        saturdayDate = new Date(havdalahItem.date);
       if (saturdayDate) saturdayDate.setHours(0, 0, 0, 0);
     } catch (e) {}
     return {
       friday: fridayDate ? getDailySummaryForDate(fridayDate) : null,
-      saturday: fridayDate ? getDailySummaryForDate(new Date(fridayDate.getTime() + 24*60*60*1000)) : null,
+      saturday: fridayDate
+        ? getDailySummaryForDate(
+            new Date(fridayDate.getTime() + 24 * 60 * 60 * 1000)
+          )
+        : null,
     };
   };
 
