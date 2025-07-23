@@ -32,17 +32,17 @@ const WeatherPDF = ({
     if (dayLabel === "Friday") {
       if (period.temperature) {
         const hour = new Date(period.startTime).getHours();
-        if (hour === 16) return "Afternoon (4pm)";
-        if (hour === 20) return "Evening (8pm)";
-        if (hour === 0) return "Night (12am)";
+        if (hour === 16) return "Afternoon 4pm";
+        if (hour === 20) return "Evening 8pm";
+        if (hour === 0) return "Night 12am";
       }
     } else if (dayLabel === "Saturday") {
       if (period.temperature) {
         const hour = new Date(period.startTime).getHours();
-        if (hour === 8) return "Morning (8am)";
-        if (hour === 12) return "Day (12pm)";
-        if (hour === 16) return "Afternoon (4pm)";
-        if (hour === 20) return "Evening (8pm)";
+        if (hour === 8) return "Morning 8am";
+        if (hour === 12) return "Day 12pm";
+        if (hour === 16) return "Afternoon 4pm";
+        if (hour === 20) return "Evening 8pm";
       }
     }
     return period.name || "";
