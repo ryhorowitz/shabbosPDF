@@ -20,8 +20,10 @@ const WeatherContainer = () => {
     );
   }
 
-  const { friday: fridayPeriods, saturday: saturdayPeriods } = getShabbosForecasts(candleData);
-  const { friday: fridaySummary, saturday: saturdaySummary } = getShabbosDailySummaries(candleData);
+  const { friday: fridayPeriods, saturday: saturdayPeriods } =
+    getShabbosForecasts(candleData);
+  const { friday: fridaySummary, saturday: saturdaySummary } =
+    getShabbosDailySummaries(candleData);
 
   return (
     <div className="weather-content">
@@ -29,7 +31,7 @@ const WeatherContainer = () => {
         <h2>Shabbos Weather Forecast</h2>
       </div>
       <Row>
-        <Col md={10}>
+        <Col md={12}>
           {fridayPeriods && fridayPeriods.length > 0 && (
             <DailyForecastCard
               dayString="Friday"
@@ -39,7 +41,7 @@ const WeatherContainer = () => {
             />
           )}
         </Col>
-        <Col md={10}>
+        <Col md={12}>
           {saturdayPeriods && saturdayPeriods.length > 0 && (
             <DailyForecastCard
               dayString="Saturday"

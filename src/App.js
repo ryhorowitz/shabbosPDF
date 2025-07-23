@@ -38,7 +38,7 @@ function App() {
               {/* Sidebar: Candle Times */}
               <Col
                 xs={12}
-                md={4}
+                md={12}
                 lg={3}
                 className="sidebar"
                 style={getSidebarStyles()}
@@ -47,7 +47,7 @@ function App() {
               </Col>
 
               {/* Main Content: Weather and Email */}
-              <Col xs={12} md={8} lg={9} className="main-content">
+              <Col xs={12} md={12} lg={9} className="main-content">
                 <div className="weather-container">
                   <WeatherContainer />
                 </div>
