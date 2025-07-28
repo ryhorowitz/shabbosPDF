@@ -2,6 +2,7 @@ import React from "react";
 import { Document, Page, Text, View, Font } from "@react-pdf/renderer";
 import { usePDFStyles } from "../../context/PDFStylesContext";
 import { extractCandleItems } from "../../utils/candleDataUtils.js";
+import { cleanDetailedForecast } from "../../utils/forecastUtils.js";
 
 // Register a default font
 Font.register({
@@ -215,15 +216,6 @@ const WeatherPDF = ({
                               )}
                           </View>
                         </View>
-
-                        {/* Detailed forecast */}
-                        {summary.detailedForecast && (
-                          <View style={styles.detailedForecastContainer}>
-                            <Text style={styles.detailedForecastText}>
-                              {summary.detailedForecast}
-                            </Text>
-                          </View>
-                        )}
                       </View>
                     )}
 
@@ -257,13 +249,15 @@ const WeatherPDF = ({
               {
                 label: "Friday",
                 hourlyData: fridayHourly,
+                summary: fridaySummary,
               },
               {
                 label: "Saturday",
                 hourlyData: saturdayHourly,
+                summary: saturdaySummary,
               },
             ].map(
-              ({ label, hourlyData }) =>
+              ({ label, hourlyData, summary }) =>
                 hourlyData &&
                 hourlyData.length > 0 && (
                   <View style={styles.card} key={`${label}-hourly`}>
@@ -272,6 +266,43 @@ const WeatherPDF = ({
                         {label} Hourly Forecast
                       </Text>
                     </View>
+
+                    {/* Daily summary container */}
+                    {summary && summary.temperature && (
+                      <View style={styles.summaryContainer}>
+                        {/* Main weather info row */}
+                        <View style={styles.summaryMainRow}>
+                          <View style={styles.summaryLeft}>
+                            <Text style={styles.summaryTemp}>
+                              {summary.temperature}°
+                              {summary.temperatureUnit || "F"}
+                            </Text>
+                          </View>
+                          <View style={styles.summaryRight}>
+                            {summary.windSpeed && (
+                              <View style={styles.weatherDetail}>
+                                <Text style={styles.detailLabel}>Wind</Text>
+                                <Text style={styles.detailValue}>
+                                  {summary.windSpeed}{" "}
+                                  {summary.windDirection || ""}
+                                </Text>
+                              </View>
+                            )}
+                            {summary.probabilityOfPrecipitation &&
+                              summary.probabilityOfPrecipitation.value && (
+                                <View style={styles.weatherDetail}>
+                                  <Text style={styles.detailLabel}>
+                                    Precipitation
+                                  </Text>
+                                  <Text style={styles.detailValue}>
+                                    {summary.probabilityOfPrecipitation.value}%
+                                  </Text>
+                                </View>
+                              )}
+                          </View>
+                        </View>
+                      </View>
+                    )}
 
                     {/* Hourly Table Header */}
                     <View style={styles.hourlyTableHeader}>
