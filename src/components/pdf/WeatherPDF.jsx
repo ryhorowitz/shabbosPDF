@@ -20,8 +20,11 @@ const WeatherPDF = ({
   saturdayPeriods,
   fridaySummary,
   saturdaySummary,
+  fridayHourly,
+  saturdayHourly,
   candleData,
   geoData,
+  forecastType = "daily", // "daily" or "hourly"
 }) => {
   const styles = usePDFStyles();
 
@@ -46,6 +49,17 @@ const WeatherPDF = ({
       }
     }
     return period.name || "";
+  };
+
+  const formatHourlyTime = (startTime) => {
+    const date = new Date(startTime);
+    return date
+      .toLocaleTimeString("en-US", {
+        hour: "numeric",
+        hour12: true,
+      })
+      .replace(":00", "")
+      .toLowerCase();
   };
 
   // Error handling
@@ -144,97 +158,159 @@ const WeatherPDF = ({
           </View>
 
           {/* Weather Forecast Section */}
-          {[
-            {
-              label: "Friday",
-              periods: fridayPeriods,
-              summary: fridaySummary,
-            },
-            {
-              label: "Saturday",
-              periods: saturdayPeriods,
-              summary: saturdaySummary,
-            },
-          ].map(
-            ({ label, periods, summary }) =>
-              periods &&
-              periods.length > 0 && (
-                <View style={styles.card} key={label}>
-                  <View style={styles.weatherHeader}>
-                    <Text style={styles.dayTitle}>{label}</Text>
-                  </View>
+          {forecastType === "daily" &&
+            [
+              {
+                label: "Friday",
+                periods: fridayPeriods,
+                summary: fridaySummary,
+              },
+              {
+                label: "Saturday",
+                periods: saturdayPeriods,
+                summary: saturdaySummary,
+              },
+            ].map(
+              ({ label, periods, summary }) =>
+                periods &&
+                periods.length > 0 && (
+                  <View style={styles.card} key={label}>
+                    <View style={styles.weatherHeader}>
+                      <Text style={styles.dayTitle}>{label}</Text>
+                    </View>
 
-                  {summary && summary.temperature && (
-                    <View style={styles.summaryContainer}>
-                      {/* Main weather info row */}
-                      <View style={styles.summaryMainRow}>
-                        <View style={styles.summaryLeft}>
-                          <Text style={styles.summaryTemp}>
-                            {summary.temperature}°
-                            {summary.temperatureUnit || "F"}
-                          </Text>
-                          <Text style={styles.summaryCondition}>
-                            {summary.shortForecast || "No forecast available"}
-                          </Text>
-                        </View>
-                        <View style={styles.summaryRight}>
-                          {summary.windSpeed && (
-                            <View style={styles.weatherDetail}>
-                              <Text style={styles.detailLabel}>Wind</Text>
-                              <Text style={styles.detailValue}>
-                                {summary.windSpeed}{" "}
-                                {summary.windDirection || ""}
-                              </Text>
-                            </View>
-                          )}
-                          {summary.probabilityOfPrecipitation &&
-                            summary.probabilityOfPrecipitation.value && (
+                    {summary && summary.temperature && (
+                      <View style={styles.summaryContainer}>
+                        {/* Main weather info row */}
+                        <View style={styles.summaryMainRow}>
+                          <View style={styles.summaryLeft}>
+                            <Text style={styles.summaryTemp}>
+                              {summary.temperature}°
+                              {summary.temperatureUnit || "F"}
+                            </Text>
+                            <Text style={styles.summaryCondition}>
+                              {summary.shortForecast || "No forecast available"}
+                            </Text>
+                          </View>
+                          <View style={styles.summaryRight}>
+                            {summary.windSpeed && (
                               <View style={styles.weatherDetail}>
-                                <Text style={styles.detailLabel}>
-                                  Precipitation
-                                </Text>
+                                <Text style={styles.detailLabel}>Wind</Text>
                                 <Text style={styles.detailValue}>
-                                  {summary.probabilityOfPrecipitation.value}%
+                                  {summary.windSpeed}{" "}
+                                  {summary.windDirection || ""}
                                 </Text>
                               </View>
                             )}
+                            {summary.probabilityOfPrecipitation &&
+                              summary.probabilityOfPrecipitation.value && (
+                                <View style={styles.weatherDetail}>
+                                  <Text style={styles.detailLabel}>
+                                    Precipitation
+                                  </Text>
+                                  <Text style={styles.detailValue}>
+                                    {summary.probabilityOfPrecipitation.value}%
+                                  </Text>
+                                </View>
+                              )}
+                          </View>
                         </View>
-                      </View>
 
-                      {/* Detailed forecast */}
-                      {summary.detailedForecast && (
-                        <View style={styles.detailedForecastContainer}>
-                          <Text style={styles.detailedForecastText}>
-                            {summary.detailedForecast}
-                          </Text>
-                        </View>
-                      )}
-                    </View>
-                  )}
-
-                  <View style={styles.tempTableRow}>
-                    {periods.map(
-                      (period, idx) =>
-                        period &&
-                        period.temperature && (
-                          <View style={styles.tempTableCol} key={idx}>
-                            <Text style={styles.tempPeriodLabel}>
-                              {getTimeLabel(period, label)}
-                            </Text>
-                            <Text style={styles.tempPeriodValue}>
-                              {period.temperature}°
-                              {period.temperatureUnit || "F"}
-                            </Text>
-                            <Text style={styles.feelsLikeTemp}>
-                              {period.shortForecast || "No forecast"}
+                        {/* Detailed forecast */}
+                        {summary.detailedForecast && (
+                          <View style={styles.detailedForecastContainer}>
+                            <Text style={styles.detailedForecastText}>
+                              {summary.detailedForecast}
                             </Text>
                           </View>
-                        )
+                        )}
+                      </View>
                     )}
+
+                    <View style={styles.tempTableRow}>
+                      {periods.map(
+                        (period, idx) =>
+                          period &&
+                          period.temperature && (
+                            <View style={styles.tempTableCol} key={idx}>
+                              <Text style={styles.tempPeriodLabel}>
+                                {getTimeLabel(period, label)}
+                              </Text>
+                              <Text style={styles.tempPeriodValue}>
+                                {period.temperature}°
+                                {period.temperatureUnit || "F"}
+                              </Text>
+                              <Text style={styles.feelsLikeTemp}>
+                                {period.shortForecast || "No forecast"}
+                              </Text>
+                            </View>
+                          )
+                      )}
+                    </View>
                   </View>
-                </View>
-              )
-          )}
+                )
+            )}
+
+          {/* Hourly Forecast Section */}
+          {forecastType === "hourly" &&
+            [
+              {
+                label: "Friday",
+                hourlyData: fridayHourly,
+              },
+              {
+                label: "Saturday",
+                hourlyData: saturdayHourly,
+              },
+            ].map(
+              ({ label, hourlyData }) =>
+                hourlyData &&
+                hourlyData.length > 0 && (
+                  <View style={styles.card} key={`${label}-hourly`}>
+                    <View style={styles.weatherHeader}>
+                      <Text style={styles.dayTitle}>
+                        {label} Hourly Forecast
+                      </Text>
+                    </View>
+
+                    {/* Hourly Table Header */}
+                    <View style={styles.hourlyTableHeader}>
+                      <Text style={styles.hourlyHeaderCell}>Time</Text>
+                      <Text style={styles.hourlyHeaderCell}>Temp</Text>
+                      <Text style={styles.hourlyHeaderCell}>Weather</Text>
+                      <Text style={styles.hourlyHeaderCell}>Precip</Text>
+                      <Text style={styles.hourlyHeaderCell}>Wind</Text>
+                    </View>
+
+                    {/* Hourly Rows */}
+                    {hourlyData.map((hour, idx) => (
+                      <View style={styles.hourlyTableRow} key={idx}>
+                        <Text style={styles.hourlyCell}>
+                          {hour ? formatHourlyTime(hour.startTime) : "N/A"}
+                        </Text>
+                        <Text style={styles.hourlyCell}>
+                          {hour
+                            ? `${hour.temperature}°${hour.temperatureUnit}`
+                            : "N/A"}
+                        </Text>
+                        <Text style={styles.hourlyCell}>
+                          {hour?.shortForecast || "N/A"}
+                        </Text>
+                        <Text style={styles.hourlyCell}>
+                          {hour?.probabilityOfPrecipitation?.value !== null
+                            ? `${hour.probabilityOfPrecipitation.value}%`
+                            : "0%"}
+                        </Text>
+                        <Text style={styles.hourlyCell}>
+                          {hour && hour.windSpeed && hour.windDirection
+                            ? `${hour.windDirection} ${hour.windSpeed}`
+                            : "N/A"}
+                        </Text>
+                      </View>
+                    ))}
+                  </View>
+                )
+            )}
         </View>
       </Page>
     </Document>

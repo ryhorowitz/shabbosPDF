@@ -7,10 +7,12 @@ import { PDFStylesProvider } from "../../context/PDFStylesContext";
 
 const PDFDownloadButton = () => {
   const [pdfBlobUrl, setPdfBlobUrl] = useState(null);
+  const [pdfForecastType, setPdfForecastType] = useState("daily"); // "daily" or "hourly"
 
   const {
     getShabbosForecasts,
     getShabbosDailySummaries,
+    getShabbosHourlyForecasts,
     weatherLoading,
     candleData,
     geoData,
@@ -21,6 +23,8 @@ const PDFDownloadButton = () => {
     getShabbosForecasts(candleData);
   const { friday: fridaySummary, saturday: saturdaySummary } =
     getShabbosDailySummaries(candleData);
+  const { friday: fridayHourly, saturday: saturdayHourly } =
+    getShabbosHourlyForecasts(candleData);
 
   const isLoading = weatherLoading || candleLoading;
   const hasData =
@@ -58,8 +62,11 @@ const PDFDownloadButton = () => {
         saturdayPeriods={saturdayPeriods}
         fridaySummary={fridaySummary}
         saturdaySummary={saturdaySummary}
+        fridayHourly={fridayHourly}
+        saturdayHourly={saturdayHourly}
         candleData={candleData}
         geoData={geoData}
+        forecastType={pdfForecastType}
       />
     </PDFStylesProvider>
   );
@@ -70,8 +77,36 @@ const PDFDownloadButton = () => {
     }
   };
 
+  const handleForecastTypeChange = (newType) => {
+    setPdfForecastType(newType);
+    // Reset the blob URL when forecast type changes
+    setPdfBlobUrl(null);
+  };
+
   return (
     <div className="text-center mt-4">
+      {/* PDF Forecast Type Toggle */}
+      <div className="mb-3">
+        <ButtonGroup size="sm">
+          <Button
+            variant={
+              pdfForecastType === "daily" ? "primary" : "outline-primary"
+            }
+            onClick={() => handleForecastTypeChange("daily")}
+          >
+            General Forecast
+          </Button>
+          <Button
+            variant={
+              pdfForecastType === "hourly" ? "primary" : "outline-primary"
+            }
+            onClick={() => handleForecastTypeChange("hourly")}
+          >
+            Hourly Forecast
+          </Button>
+        </ButtonGroup>
+      </div>
+
       <ButtonGroup className="mb-3">
         <PDFDownloadLink
           document={pdfDocument}
@@ -79,7 +114,7 @@ const PDFDownloadButton = () => {
         >
           {({ blob, url, loading: pdfLoading, error: pdfError }) => {
             // Store the blob URL for preview
-            if (blob && !pdfBlobUrl) {
+            if (blob && url) {
               setPdfBlobUrl(url);
             }
 

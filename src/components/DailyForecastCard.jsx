@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row } from "react-bootstrap";
+import { cleanDetailedForecast } from "../utils/forecastUtils.js";
 
 const DailyForecastCard = ({ dayString, periods, loading, summary }) => {
   if (loading) {
@@ -59,7 +60,7 @@ const DailyForecastCard = ({ dayString, periods, loading, summary }) => {
             <div style={{ flex: 1 }}>
               {/* <div className="fw-bold" style={{ fontSize: '1.05rem' }}>{summary.name || summary.shortForecast}</div> */}
               <div style={{ fontSize: "0.95rem" }}>
-                {summary.detailedForecast}
+                {cleanDetailedForecast(summary.detailedForecast)}
               </div>
               <div
                 className="d-flex flex-wrap"

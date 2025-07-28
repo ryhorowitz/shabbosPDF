@@ -191,6 +191,35 @@ const PDFStyles = StyleSheet.create({
     lineHeight: 1.3,
     fontStyle: "italic",
   },
+  // Hourly forecast table styles
+  hourlyTableHeader: {
+    flexDirection: "row",
+    backgroundColor: "#f8f9fa",
+    borderBottom: "1px solid #dee2e6",
+    paddingVertical: 4,
+    marginBottom: 2,
+  },
+  hourlyHeaderCell: {
+    flex: 1,
+    fontSize: 8,
+    fontWeight: "bold",
+    color: "#495057",
+    textAlign: "center",
+    paddingHorizontal: 2,
+  },
+  hourlyTableRow: {
+    flexDirection: "row",
+    borderBottom: "1px solid #f1f3f4",
+    paddingVertical: 3,
+    alignItems: "center",
+  },
+  hourlyCell: {
+    flex: 1,
+    fontSize: 7,
+    color: "#495057",
+    textAlign: "center",
+    paddingHorizontal: 2,
+  },
 });
 
 export const PDFStylesProvider = ({ children }) => (

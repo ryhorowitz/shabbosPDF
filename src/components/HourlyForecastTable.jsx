@@ -1,8 +1,9 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import humidityIcon from "../humidity-droplet-icon.svg";
+import humidityIcon from "../img/humidity-droplet-icon.svg";
+import { cleanDetailedForecast } from "../utils/forecastUtils.js";
 
-const HourlyForecastTable = ({ dayString, hourlyData, loading }) => {
+const HourlyForecastTable = ({ dayString, hourlyData, loading, summary }) => {
   if (loading) {
     return (
       <Container className="mb-3 p-0 border rounded">
@@ -64,6 +65,47 @@ const HourlyForecastTable = ({ dayString, hourlyData, loading }) => {
         </h5>
       </div>
       <div className="p-3 bg-gradient-info">
+        {/* Daily summary container */}
+        {summary && (
+          <div
+            className="mb-3 p-2 border rounded bg-light d-flex align-items-center"
+            style={{ fontSize: "0.95rem", gap: 12 }}
+          >
+            {summary.icon && (
+              <img
+                src={summary.icon}
+                alt={summary.shortForecast}
+                style={{ width: 100, height: 100, marginRight: 8 }}
+              />
+            )}
+            <div style={{ flex: 1 }}>
+              <div style={{ fontSize: "0.95rem" }}>
+                {cleanDetailedForecast(summary.detailedForecast)}
+              </div>
+              <div
+                className="d-flex flex-wrap"
+                style={{ gap: 16, fontSize: "0.92rem", marginTop: 2 }}
+              >
+                {summary.probabilityOfPrecipitation &&
+                  summary.probabilityOfPrecipitation.value !== null && (
+                    <span>
+                      Precip: {summary.probabilityOfPrecipitation.value}%
+                    </span>
+                  )}
+                {summary.relativeHumidity &&
+                  summary.relativeHumidity.value !== null && (
+                    <span>Humidity: {summary.relativeHumidity.value}%</span>
+                  )}
+                {summary.windSpeed && (
+                  <span>
+                    Wind: {summary.windSpeed} {summary.windDirection}
+                  </span>
+                )}
+              </div>
+            </div>
+          </div>
+        )}
+
         {/* Table Header */}
         <Row
           className="mb-2 fw-bold text-center"
