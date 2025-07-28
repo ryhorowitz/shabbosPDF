@@ -53,7 +53,7 @@ const DailyForecastCard = ({ dayString, periods, loading, summary }) => {
               <img
                 src={summary.icon}
                 alt={summary.shortForecast}
-                style={{ width: 36, height: 36, marginRight: 8 }}
+                style={{ width: 100, height: 100, marginRight: 8 }}
               />
             )}
             <div style={{ flex: 1 }}>
@@ -113,7 +113,7 @@ const DailyForecastCard = ({ dayString, periods, loading, summary }) => {
                     <img
                       src={period.icon}
                       alt={period.shortForecast}
-                      style={{ width: 28, height: 28 }}
+                      style={{ width: 50, height: 50 }}
                     />
                   )}
                 </div>
