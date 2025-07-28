@@ -2,6 +2,7 @@ import React from "react";
 import { Row, Col } from "react-bootstrap";
 import { useShabbos } from "../context/shabbosContext.js";
 import DailyForecastCard from "./DailyForecastCard.jsx";
+import HourlyForecastTable from "./HourlyForecastTable.jsx";
 
 const WeatherContainer = () => {
   const {
@@ -9,6 +10,7 @@ const WeatherContainer = () => {
     weatherError: error,
     getShabbosForecasts,
     getShabbosDailySummaries,
+    getShabbosHourlyForecasts,
     candleData,
   } = useShabbos();
   if (error) {
@@ -24,6 +26,8 @@ const WeatherContainer = () => {
     getShabbosForecasts(candleData);
   const { friday: fridaySummary, saturday: saturdaySummary } =
     getShabbosDailySummaries(candleData);
+  const { friday: fridayHourly, saturday: saturdayHourly } =
+    getShabbosHourlyForecasts(candleData);
 
   return (
     <div className="weather-content">
@@ -47,6 +51,28 @@ const WeatherContainer = () => {
               dayString="Saturday"
               periods={saturdayPeriods}
               summary={saturdaySummary}
+              loading={loading}
+            />
+          )}
+        </Col>
+      </Row>
+
+      {/* Hourly Forecast Tables */}
+      <Row>
+        <Col md={12}>
+          {fridayHourly && fridayHourly.length > 0 && (
+            <HourlyForecastTable
+              dayString="Friday"
+              hourlyData={fridayHourly}
+              loading={loading}
+            />
+          )}
+        </Col>
+        <Col md={12}>
+          {saturdayHourly && saturdayHourly.length > 0 && (
+            <HourlyForecastTable
+              dayString="Saturday"
+              hourlyData={saturdayHourly}
               loading={loading}
             />
           )}

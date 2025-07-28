@@ -256,6 +256,50 @@ export const ShabbosProvider = ({ children }) => {
     };
   };
 
+  // Helper: Get hourly forecasts for a specific date range
+  const getHourlyForecastsForDateRange = (startDate, endDate) => {
+    if (!weatherData) return [];
+
+    return weatherData.filter((period) => {
+      const periodDate = new Date(period.startTime);
+      return periodDate >= startDate && periodDate <= endDate;
+    });
+  };
+
+  // Helper: Get Friday and Saturday hourly forecasts
+  const getShabbosHourlyForecasts = (candleData) => {
+    if (!candleData) return { friday: [], saturday: [] };
+
+    let fridayDate = null;
+    let saturdayDate = null;
+    try {
+      const { candleItem, havdalahItem } =
+        require("../utils/candleDataUtils.js").extractCandleItems(candleData);
+      if (candleItem && candleItem.date) fridayDate = new Date(candleItem.date);
+      if (havdalahItem && havdalahItem.date)
+        saturdayDate = new Date(havdalahItem.date);
+    } catch (e) {}
+
+    if (!fridayDate) return { friday: [], saturday: [] };
+
+    // Friday: from 4pm to 11pm (candle lighting to end of Friday)
+    const fridayStart = new Date(fridayDate);
+    fridayStart.setHours(16, 0, 0, 0);
+    const fridayEnd = new Date(fridayDate);
+    fridayEnd.setHours(23, 59, 59, 999);
+
+    // Saturday: from 8am to 8pm (morning to evening)
+    const saturdayStart = new Date(fridayDate.getTime() + 24 * 60 * 60 * 1000);
+    saturdayStart.setHours(8, 0, 0, 0);
+    const saturdayEnd = new Date(fridayDate.getTime() + 24 * 60 * 60 * 1000);
+    saturdayEnd.setHours(20, 59, 59, 999);
+
+    return {
+      friday: getHourlyForecastsForDateRange(fridayStart, fridayEnd),
+      saturday: getHourlyForecastsForDateRange(saturdayStart, saturdayEnd),
+    };
+  };
+
   const value = {
     // Candle
     candleData,
@@ -268,6 +312,7 @@ export const ShabbosProvider = ({ children }) => {
     weatherError,
     getShabbosForecasts,
     getShabbosDailySummaries,
+    getShabbosHourlyForecasts,
   };
 
   return (
