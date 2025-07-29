@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import humidityIcon from "../img/humidity-droplet-icon.svg";
 import { cleanDetailedForecast } from "../utils/forecastUtils.js";
+import { getWeatherIcon } from "../utils/weatherIconMapping.js";
 
 const HourlyForecastTable = ({ dayString, hourlyData, loading, summary }) => {
   if (loading) {
@@ -71,11 +72,15 @@ const HourlyForecastTable = ({ dayString, hourlyData, loading, summary }) => {
             className="mb-3 p-2 border rounded bg-light d-flex align-items-center"
             style={{ fontSize: "0.95rem", gap: 12 }}
           >
-            {summary.icon && (
+            {summary.shortForecast && (
               <img
-                src={summary.icon}
+                src={getWeatherIcon(summary.shortForecast, true)}
                 alt={summary.shortForecast}
                 style={{ width: 100, height: 100, marginRight: 8 }}
+                onError={(e) => {
+                  // Fallback to API icon if custom icon fails to load
+                  e.target.src = summary.icon || "/img/weather/default.svg";
+                }}
               />
             )}
             <div style={{ flex: 1 }}>
@@ -134,11 +139,15 @@ const HourlyForecastTable = ({ dayString, hourlyData, loading, summary }) => {
                 className="d-flex align-items-center justify-content-center"
                 style={{ gap: 8 }}
               >
-                {hour?.icon && (
+                {hour?.shortForecast && (
                   <img
-                    src={hour.icon}
+                    src={getWeatherIcon(hour.shortForecast, hour.isDaytime)}
                     alt={hour.shortForecast}
                     style={{ width: 32, height: 32 }}
+                    onError={(e) => {
+                      // Fallback to API icon if custom icon fails to load
+                      e.target.src = hour.icon || "/img/weather/default.svg";
+                    }}
                   />
                 )}
                 <span style={{ fontSize: "0.7rem" }}>
