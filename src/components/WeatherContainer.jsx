@@ -3,6 +3,7 @@ import { Row, Col, ButtonGroup, Button } from "react-bootstrap";
 import { useShabbos } from "../context/shabbosContext.js";
 import DailyForecastCard from "./DailyForecastCard.jsx";
 import HourlyForecastTable from "./HourlyForecastTable.jsx";
+import PDFDownloadButton from "./pdf/PDFDownloadButton.jsx";
 
 const WeatherContainer = ({ forecastType, setForecastType }) => {
   const {
@@ -31,23 +32,43 @@ const WeatherContainer = ({ forecastType, setForecastType }) => {
 
   return (
     <div className="weather-content">
-      <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2 className="me-4">Shabbos Weather Forecast</h2>
-        <ButtonGroup size="sm">
+      <div className="d-flex justify-content-between align-items-center mb-3">
+        <h2 className="me-4 mb-0">Shabbos Weather Forecast</h2>
+        <ButtonGroup size="lg" className="shadow-sm">
           <Button
             variant={forecastType === "daily" ? "primary" : "outline-primary"}
             onClick={() => setForecastType("daily")}
+            className="px-4 py-2 fw-semibold"
+            style={{
+              borderWidth: "2px",
+              borderRadius:
+                forecastType === "daily" ? "8px 0 0 8px" : "8px 0 0 8px",
+              transition: "all 0.2s ease-in-out",
+            }}
           >
             General Forecast
           </Button>
           <Button
             variant={forecastType === "hourly" ? "primary" : "outline-primary"}
             onClick={() => setForecastType("hourly")}
+            className="px-4 py-2 fw-semibold"
+            style={{
+              borderWidth: "2px",
+              borderRadius:
+                forecastType === "hourly" ? "0 8px 8px 0" : "0 8px 8px 0",
+              transition: "all 0.2s ease-in-out",
+            }}
           >
             Hourly Forecast
           </Button>
         </ButtonGroup>
       </div>
+
+      {/* PDF Download Button */}
+      <div className="mb-4">
+        <PDFDownloadButton forecastType={forecastType} />
+      </div>
+
       {forecastType === "daily" ? (
         <Row>
           <Col md={12}>

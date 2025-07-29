@@ -76,9 +76,18 @@ const PDFDownloadButton = ({ forecastType }) => {
     }
   };
 
+  const handlePrintClick = () => {
+    if (pdfBlobUrl) {
+      const printWindow = window.open(pdfBlobUrl, "_blank");
+      printWindow.onload = () => {
+        printWindow.print();
+      };
+    }
+  };
+
   return (
     <div className="text-center mt-4">
-      <ButtonGroup className="mb-3">
+      <ButtonGroup size="lg" className="shadow-sm">
         <PDFDownloadLink
           document={pdfDocument}
           fileName="shabbos-weather-and-candle-times.pdf"
@@ -90,8 +99,17 @@ const PDFDownloadButton = ({ forecastType }) => {
             }
 
             return (
-              <Button variant="primary" disabled={pdfLoading}>
-                {pdfLoading ? "Generating PDF..." : "Download PDF"}
+              <Button
+                variant="success"
+                disabled={pdfLoading}
+                className="px-4 py-2 fw-semibold"
+                style={{
+                  borderWidth: "2px",
+                  borderRadius: "8px 0 0 8px",
+                  transition: "all 0.2s ease-in-out",
+                }}
+              >
+                {pdfLoading ? "Generating PDF..." : "📄 Download PDF"}
               </Button>
             );
           }}
@@ -101,8 +119,27 @@ const PDFDownloadButton = ({ forecastType }) => {
           variant="outline-primary"
           onClick={handlePreviewClick}
           disabled={!pdfBlobUrl}
+          className="px-4 py-2 fw-semibold"
+          style={{
+            borderWidth: "2px",
+            transition: "all 0.2s ease-in-out",
+          }}
         >
-          Preview PDF
+          👁️ Preview PDF
+        </Button>
+
+        <Button
+          variant="outline-secondary"
+          onClick={handlePrintClick}
+          disabled={!pdfBlobUrl}
+          className="px-4 py-2 fw-semibold"
+          style={{
+            borderWidth: "2px",
+            borderRadius: "0 8px 8px 0",
+            transition: "all 0.2s ease-in-out",
+          }}
+        >
+          🖨️ Print PDF
         </Button>
       </ButtonGroup>
     </div>

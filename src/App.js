@@ -45,9 +45,6 @@ function App() {
                     setForecastType={setForecastType}
                   />
                 </div>
-                <div className="pdf-download-section">
-                  <PDFDownloadButton forecastType={forecastType} />
-                </div>
                 {/* <EmailSignup /> */}
               </Col>
 

@@ -62,7 +62,7 @@ const HourlyForecastTable = ({ dayString, hourlyData, loading, summary }) => {
           className="mb-0 justify-content-center d-flex"
           style={{ fontSize: "1.5rem" }}
         >
-          {dayString} Hourly Forecast
+          {dayString}
         </h5>
       </div>
       <div className="p-3 bg-gradient-info">
