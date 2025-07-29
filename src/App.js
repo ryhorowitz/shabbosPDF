@@ -43,7 +43,7 @@ function App() {
                 <div className="pdf-download-section">
                   <PDFDownloadButton />
                 </div>
-                <EmailSignup />
+                {/* <EmailSignup /> */}
               </Col>
 
               {/* Sidebar: Candle Times */}

@@ -34,7 +34,7 @@ const WeatherContainer = () => {
   return (
     <div className="weather-content">
       <div className="d-flex justify-content-between align-items-center mb-4">
-        <h2>Shabbos Weather Forecast</h2>
+        <h2 className="me-4">Shabbos Weather Forecast</h2>
         <ButtonGroup size="sm">
           <Button
             variant={forecastType === "daily" ? "primary" : "outline-primary"}
