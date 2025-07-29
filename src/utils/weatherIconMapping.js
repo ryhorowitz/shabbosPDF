@@ -3,50 +3,138 @@
  * Maps weather conditions from the API to custom weather icons
  */
 
-// Import weather icons (you'll need to add these to your project)
-// Example structure - replace with your actual icon imports
+import { isDaytimeEnhanced } from "./dayNightUtils.js";
+
+// Weather icons based on actual files in public/img/weather/
+// Using fallbacks for missing day/night combinations
 const weatherIcons = {
   // Clear/Sunny conditions
-  sunny: "/img/weather/sunny.svg",
-  clear: "/img/weather/clear.svg",
-  mostlyClear: "/img/weather/mostly-clear.svg",
-  mostlySunny: "/img/weather/mostly-sunny.svg",
+  sunny: {
+    day: "/img/weather/sunny-day.svg",
+    night: "/img/weather/sunny-day.svg", // Fallback to day version
+  },
+  clear: {
+    day: "/img/weather/sunny-day.svg", // Using sunny-day as fallback
+    night: "/img/weather/clear-night.svg",
+  },
+  mostlyClear: {
+    day: "/img/weather/mostly-cloudy-day.svg", // Using mostly-cloudy as fallback
+    night: "/img/weather/clear-night.svg",
+  },
+  mostlySunny: {
+    day: "/img/weather/sunny-day.svg",
+    night: "/img/weather/sunny-day.svg", // Fallback to day version
+  },
 
   // Cloudy conditions
-  cloudy: "/img/weather/cloudy.svg",
-  mostlyCloudy: "/img/weather/mostly-cloudy.svg",
-  partlyCloudy: "/img/weather/partly-cloudy.svg",
+  cloudy: {
+    day: "/img/weather/mostly-cloudy-day.svg",
+    night: "/img/weather/mostly-cloudy-day.svg", // Fallback to day version
+  },
+  mostlyCloudy: {
+    day: "/img/weather/mostly-cloudy-day.svg",
+    night: "/img/weather/mostly-cloudy-day.svg", // Fallback to day version
+  },
+  partlyCloudy: {
+    day: "/img/weather/partly-cloudy-day.svg",
+    night: "/img/weather/partly-cloudy-night.svg",
+  },
+  partlySunny: {
+    day: "/img/weather/partly-cloudy-day.svg", // Using partly-cloudy as fallback
+    night: "/img/weather/partly-cloudy-night.svg",
+  },
 
   // Rain conditions
-  rain: "/img/weather/rain.svg",
-  lightRain: "/img/weather/light-rain.svg",
-  heavyRain: "/img/weather/heavy-rain.svg",
-  rainShowers: "/img/weather/rain-showers.svg",
+  rain: {
+    day: "/img/weather/rain-day.svg",
+    night: "/img/weather/rain-night.svg",
+  },
+  lightRain: {
+    day: "/img/weather/rain-day.svg", // Using rain as fallback
+    night: "/img/weather/rain-night.svg",
+  },
+  heavyRain: {
+    day: "/img/weather/rain-day.svg", // Using rain as fallback
+    night: "/img/weather/rain-night.svg",
+  },
+  rainShowers: {
+    day: "/img/weather/rain-day.svg", // Using rain as fallback
+    night: "/img/weather/rain-night.svg",
+  },
 
   // Thunderstorm conditions
-  thunderstorm: "/img/weather/thunderstorm.svg",
-  thunderstorms: "/img/weather/thunderstorms.svg",
+  thunderstorm: {
+    day: "/img/weather/thunderstorms-day.svg",
+    night: "/img/weather/thunderstorms-day.svg", // Fallback to day version
+  },
+  thunderstorms: {
+    day: "/img/weather/thunderstorms-day.svg",
+    night: "/img/weather/thunderstorms-day.svg", // Fallback to day version
+  },
 
-  // Snow conditions
-  snow: "/img/weather/snow.svg",
-  lightSnow: "/img/weather/light-snow.svg",
-  heavySnow: "/img/weather/heavy-snow.svg",
+  // Snow conditions (using rain as fallback)
+  snow: {
+    day: "/img/weather/rain-day.svg", // Using rain as fallback
+    night: "/img/weather/rain-night.svg",
+  },
+  lightSnow: {
+    day: "/img/weather/rain-day.svg", // Using rain as fallback
+    night: "/img/weather/rain-night.svg",
+  },
+  heavySnow: {
+    day: "/img/weather/rain-day.svg", // Using rain as fallback
+    night: "/img/weather/rain-night.svg",
+  },
 
-  // Mixed conditions
-  rainAndSnow: "/img/weather/rain-snow.svg",
-  sleet: "/img/weather/sleet.svg",
+  // Mixed conditions (using rain as fallback)
+  rainAndSnow: {
+    day: "/img/weather/rain-day.svg", // Using rain as fallback
+    night: "/img/weather/rain-night.svg",
+  },
+  sleet: {
+    day: "/img/weather/rain-day.svg", // Using rain as fallback
+    night: "/img/weather/rain-night.svg",
+  },
 
   // Fog/Mist conditions
-  fog: "/img/weather/fog.svg",
-  mist: "/img/weather/mist.svg",
-  haze: "/img/weather/haze.svg",
+  fog: {
+    day: "/img/weather/patchy-fog-day.svg", // Using patchy-fog as fallback
+    night: "/img/weather/patchy-fog-night.svg",
+  },
+  mist: {
+    day: "/img/weather/patchy-fog-day.svg", // Using patchy-fog as fallback
+    night: "/img/weather/patchy-fog-night.svg",
+  },
+  haze: {
+    day: "/img/weather/patchy-fog-day.svg", // Using patchy-fog as fallback
+    night: "/img/weather/patchy-fog-night.svg",
+  },
+  patchyFog: {
+    day: "/img/weather/patchy-fog-day.svg",
+    night: "/img/weather/patchy-fog-night.svg",
+  },
 
-  // Wind conditions
-  windy: "/img/weather/windy.svg",
-  breezy: "/img/weather/breezy.svg",
+  // Wind conditions (using partly-cloudy as fallback)
+  windy: {
+    day: "/img/weather/partly-cloudy-day.svg", // Using partly-cloudy as fallback
+    night: "/img/weather/partly-cloudy-night.svg",
+  },
+  breezy: {
+    day: "/img/weather/partly-cloudy-day.svg", // Using partly-cloudy as fallback
+    night: "/img/weather/partly-cloudy-night.svg",
+  },
+
+  // Smoke/Haze conditions (using patchy-fog as fallback)
+  smoke: {
+    day: "/img/weather/patchy-fog-day.svg", // Using patchy-fog as fallback
+    night: "/img/weather/patchy-fog-night.svg",
+  },
 
   // Default fallback
-  default: "/img/weather/default.svg",
+  default: {
+    day: "/img/weather/sunny-day.svg", // Using sunny-day as default
+    night: "/img/weather/clear-night.svg",
+  },
 };
 
 /**
@@ -60,6 +148,9 @@ export const getWeatherIconKey = (shortForecast, isDaytime = true) => {
 
   const forecast = shortForecast.toLowerCase();
 
+  // Handle complex multi-condition forecasts (e.g., "Partly Cloudy then Slight Chance Rain Showers")
+  // We'll use the first condition for the icon, but could be enhanced to show transitions
+
   // Clear/Sunny conditions
   if (forecast.includes("sunny")) return "sunny";
   if (forecast.includes("clear")) return "clear";
@@ -72,6 +163,9 @@ export const getWeatherIconKey = (shortForecast, isDaytime = true) => {
     if (forecast.includes("partly cloudy")) return "partlyCloudy";
     return "cloudy";
   }
+
+  // Partly Sunny conditions
+  if (forecast.includes("partly sunny")) return "partlySunny";
 
   // Rain conditions
   if (forecast.includes("rain")) {
@@ -103,13 +197,19 @@ export const getWeatherIconKey = (shortForecast, isDaytime = true) => {
   if (forecast.includes("sleet")) return "sleet";
 
   // Fog/Mist conditions
-  if (forecast.includes("fog")) return "fog";
+  if (forecast.includes("fog")) {
+    if (forecast.includes("patchy fog")) return "patchyFog";
+    return "fog";
+  }
   if (forecast.includes("mist")) return "mist";
   if (forecast.includes("haze")) return "haze";
 
   // Wind conditions
   if (forecast.includes("windy")) return "windy";
   if (forecast.includes("breezy")) return "breezy";
+
+  // Smoke conditions
+  if (forecast.includes("smoke")) return "smoke";
 
   // Chance conditions - use the base weather type
   if (forecast.includes("chance")) {
@@ -143,7 +243,33 @@ export const getWeatherIconKey = (shortForecast, isDaytime = true) => {
  */
 export const getWeatherIcon = (shortForecast, isDaytime = true) => {
   const iconKey = getWeatherIconKey(shortForecast, isDaytime);
-  return weatherIcons[iconKey] || weatherIcons.default;
+  const timeOfDay = isDaytime ? "day" : "night";
+  return weatherIcons[iconKey]?.[timeOfDay] || weatherIcons.default[timeOfDay];
+};
+
+/**
+ * Enhanced weather icon function that automatically determines day/night
+ * @param {string} shortForecast - The short forecast text from the API
+ * @param {Object} weatherData - Weather data object with isDaytime property
+ * @param {number} latitude - Latitude of the location
+ * @param {number} longitude - Longitude of the location
+ * @param {Date} currentTime - Current time (defaults to now)
+ * @returns {string} - The icon URL
+ */
+export const getWeatherIconEnhanced = (
+  shortForecast,
+  weatherData,
+  latitude,
+  longitude,
+  currentTime = new Date()
+) => {
+  const isDay = isDaytimeEnhanced(
+    weatherData,
+    currentTime,
+    latitude,
+    longitude
+  );
+  return getWeatherIcon(shortForecast, isDay);
 };
 
 /**
@@ -155,9 +281,74 @@ export const getAvailableIconKeys = () => {
 };
 
 /**
- * Gets all weather icon URLs
- * @returns {Object} - Object with icon keys and URLs
+ * Gets all weather icon URLs (both day and night versions)
+ * @returns {Object} - Object with icon keys and day/night URLs
  */
 export const getAllWeatherIcons = () => {
   return { ...weatherIcons };
+};
+
+/**
+ * Maps all discovered shortForecast values to their corresponding icon keys
+ * This function can be used for testing and validation
+ * @returns {Object} - Mapping of shortForecast values to icon keys
+ */
+export const getForecastToIconMapping = () => {
+  const discoveredForecasts = [
+    "Chance Rain Showers",
+    "Chance Rain Showers then Chance Showers And Thunderstorms",
+    "Chance Showers And Thunderstorms",
+    "Chance Showers And Thunderstorms then Mostly Cloudy",
+    "Chance Showers And Thunderstorms then Partly Cloudy",
+    "Chance Showers And Thunderstorms then Showers And Thunderstorms Likely",
+    "Chance Showers And Thunderstorms then Slight Chance Showers And Thunderstorms",
+    "Clear",
+    "Mostly Clear",
+    "Mostly Clear then Patchy Fog",
+    "Mostly Cloudy",
+    "Mostly Cloudy then Patchy Fog",
+    "Mostly Cloudy then Slight Chance Rain Showers",
+    "Mostly Sunny",
+    "Mostly Sunny then Chance Showers And Thunderstorms",
+    "Mostly Sunny then Slight Chance Showers And Thunderstorms",
+    "Partly Cloudy",
+    "Partly Cloudy then Chance Showers And Thunderstorms",
+    "Partly Cloudy then Patchy Fog",
+    "Partly Cloudy then Slight Chance Rain Showers",
+    "Partly Cloudy then Slight Chance Showers And Thunderstorms",
+    "Partly Sunny",
+    "Partly Sunny then Chance Showers And Thunderstorms",
+    "Partly Sunny then Showers And Thunderstorms Likely",
+    "Partly Sunny then Slight Chance Showers And Thunderstorms",
+    "Patchy Fog",
+    "Patchy Fog then Chance Showers And Thunderstorms",
+    "Patchy Fog then Mostly Sunny",
+    "Patchy Fog then Partly Sunny",
+    "Patchy Fog then Sunny",
+    "Rain Showers Likely",
+    "Showers And Thunderstorms",
+    "Showers And Thunderstorms Likely",
+    "Showers And Thunderstorms Likely then Chance Showers And Thunderstorms",
+    "Showers And Thunderstorms Likely then Showers And Thunderstorms",
+    "Showers And Thunderstorms then Chance Showers And Thunderstorms",
+    "Slight Chance Rain Showers",
+    "Slight Chance Rain Showers then Chance Showers And Thunderstorms",
+    "Slight Chance Rain Showers then Partly Cloudy",
+    "Slight Chance Rain Showers then Slight Chance Showers And Thunderstorms",
+    "Slight Chance Showers And Thunderstorms",
+    "Slight Chance Showers And Thunderstorms then Chance Showers And Thunderstorms",
+    "Slight Chance Showers And Thunderstorms then Mostly Clear",
+    "Slight Chance Showers And Thunderstorms then Partly Cloudy",
+    "Slight Chance Showers And Thunderstorms then Showers And Thunderstorms Likely",
+    "Sunny",
+    "Sunny then Patchy Smoke",
+    "Sunny then Slight Chance Showers And Thunderstorms",
+  ];
+
+  const mapping = {};
+  discoveredForecasts.forEach((forecast) => {
+    mapping[forecast] = getWeatherIconKey(forecast, true);
+  });
+
+  return mapping;
 };

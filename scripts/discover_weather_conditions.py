@@ -7,13 +7,25 @@ locations = [
     ["PHI", 50, 76],  # Philadelphia
     ["OKX", 33, 35],  # New York
     ["LOX", 154, 44],  # Los Angeles
+    ["LOT", 74, 70],  # Chicago
+    ["HGX", 70, 96],  # Houston
+    ["PSR", 65, 60],  # Phoenix
     ["SEW", 129, 68],  # Seattle
-    ["MFL", 110, 57],  # Miami
-    ["MPX", 107, 71],  # Minneapolis
     ["BOU", 62, 61],  # Denver
     ["SLC", 122, 146],  # Salt Lake City
     ["HNX", 97, 47],  # Central California
     ["TOP", 44, 59],  # Kansas
+    ["BOX", 70, 84],  # Boston
+    ["MPX", 107, 71],  # Minneapolis
+    ["AFC", 121, 98],  # Anchorage
+    ["HFO", 22, 20],  # Honolulu
+    ["VEF", 90, 60],  # Las Vegas
+    ["DTX", 60, 75],  # Detroit
+    ["FFC", 60, 75],  # Atlanta
+    ["LSX", 80, 68],  # St. Louis
+    ["LIX", 70, 60],  # New Orleans
+    ["MTR", 88, 126],  # San Francisco
+    ["MFL", 110, 57],  # Miami
 ]
 
 headers = {
