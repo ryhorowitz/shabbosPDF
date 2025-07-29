@@ -4,9 +4,7 @@ import { useShabbos } from "../context/shabbosContext.js";
 import DailyForecastCard from "./DailyForecastCard.jsx";
 import HourlyForecastTable from "./HourlyForecastTable.jsx";
 
-const WeatherContainer = () => {
-  const [forecastType, setForecastType] = useState("daily"); // "daily" or "hourly"
-
+const WeatherContainer = ({ forecastType, setForecastType }) => {
   const {
     weatherLoading: loading,
     weatherError: error,

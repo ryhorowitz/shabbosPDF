@@ -9,8 +9,10 @@ import SeoHelmet from "./components/SeoHelmet.jsx";
 import { HelmetProvider } from "react-helmet-async";
 import { Row, Col } from "react-bootstrap";
 import { getSidebarStyles } from "./utils/sidebarStyles.js";
+import { useState } from "react";
 
 function App() {
+  const [forecastType, setForecastType] = useState("daily"); // "daily" or "hourly"
   return (
     <HelmetProvider>
       <SeoHelmet />
@@ -38,10 +40,13 @@ function App() {
               {/* Main Content: Weather and Email */}
               <Col xs={12} md={12} lg={9} className="main-content">
                 <div className="weather-container">
-                  <WeatherContainer />
+                  <WeatherContainer
+                    forecastType={forecastType}
+                    setForecastType={setForecastType}
+                  />
                 </div>
                 <div className="pdf-download-section">
-                  <PDFDownloadButton />
+                  <PDFDownloadButton forecastType={forecastType} />
                 </div>
                 {/* <EmailSignup /> */}
               </Col>

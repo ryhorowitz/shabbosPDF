@@ -5,9 +5,8 @@ import { useShabbos } from "../../context/shabbosContext.js";
 import WeatherPDF from "./WeatherPDF.jsx";
 import { PDFStylesProvider } from "../../context/PDFStylesContext";
 
-const PDFDownloadButton = () => {
+const PDFDownloadButton = ({ forecastType }) => {
   const [pdfBlobUrl, setPdfBlobUrl] = useState(null);
-  const [pdfForecastType, setPdfForecastType] = useState("daily"); // "daily" or "hourly"
 
   const {
     getShabbosForecasts,
@@ -66,7 +65,7 @@ const PDFDownloadButton = () => {
         saturdayHourly={saturdayHourly}
         candleData={candleData}
         geoData={geoData}
-        forecastType={pdfForecastType}
+        forecastType={forecastType}
       />
     </PDFStylesProvider>
   );
@@ -77,36 +76,8 @@ const PDFDownloadButton = () => {
     }
   };
 
-  const handleForecastTypeChange = (newType) => {
-    setPdfForecastType(newType);
-    // Reset the blob URL when forecast type changes
-    setPdfBlobUrl(null);
-  };
-
   return (
     <div className="text-center mt-4">
-      {/* PDF Forecast Type Toggle */}
-      <div className="mb-3">
-        <ButtonGroup size="sm">
-          <Button
-            variant={
-              pdfForecastType === "daily" ? "primary" : "outline-primary"
-            }
-            onClick={() => handleForecastTypeChange("daily")}
-          >
-            General Forecast
-          </Button>
-          <Button
-            variant={
-              pdfForecastType === "hourly" ? "primary" : "outline-primary"
-            }
-            onClick={() => handleForecastTypeChange("hourly")}
-          >
-            Hourly Forecast
-          </Button>
-        </ButtonGroup>
-      </div>
-
       <ButtonGroup className="mb-3">
         <PDFDownloadLink
           document={pdfDocument}
