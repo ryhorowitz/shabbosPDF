@@ -5,135 +5,135 @@
 
 import { isDaytimeEnhanced } from "./dayNightUtils.js";
 
-// Weather icons based on actual files in public/img/weather/
+// Weather icons based on actual files in public/assets/weather/
 // Using fallbacks for missing day/night combinations
 const weatherIcons = {
   // Clear/Sunny conditions
   sunny: {
-    day: "/img/weather/sunny-day.svg",
-    night: "/img/weather/sunny-day.svg", // Fallback to day version
+    day: "/assets/weather/sunny-day.svg",
+    night: "/assets/weather/sunny-day.svg", // Fallback to day version
   },
   clear: {
-    day: "/img/weather/sunny-day.svg", // Using sunny-day as fallback
-    night: "/img/weather/clear-night.svg",
+    day: "/assets/weather/sunny-day.svg", // Using sunny-day as fallback
+    night: "/assets/weather/clear-night.svg",
   },
   mostlyClear: {
-    day: "/img/weather/mostly-cloudy-day.svg", // Using mostly-cloudy as fallback
-    night: "/img/weather/clear-night.svg",
+    day: "/assets/weather/mostly-cloudy-day.svg", // Using mostly-cloudy as fallback
+    night: "/assets/weather/clear-night.svg",
   },
   mostlySunny: {
-    day: "/img/weather/sunny-day.svg",
-    night: "/img/weather/sunny-day.svg", // Fallback to day version
+    day: "/assets/weather/sunny-day.svg",
+    night: "/assets/weather/sunny-day.svg", // Fallback to day version
   },
 
   // Cloudy conditions
   cloudy: {
-    day: "/img/weather/mostly-cloudy-day.svg",
-    night: "/img/weather/mostly-cloudy-day.svg", // Fallback to day version
+    day: "/assets/weather/mostly-cloudy-day.svg",
+    night: "/assets/weather/mostly-cloudy-day.svg", // Fallback to day version
   },
   mostlyCloudy: {
-    day: "/img/weather/mostly-cloudy-day.svg",
-    night: "/img/weather/mostly-cloudy-day.svg", // Fallback to day version
+    day: "/assets/weather/mostly-cloudy-day.svg",
+    night: "/assets/weather/mostly-cloudy-day.svg", // Fallback to day version
   },
   partlyCloudy: {
-    day: "/img/weather/partly-cloudy-day.svg",
-    night: "/img/weather/partly-cloudy-night.svg",
+    day: "/assets/weather/partly-cloudy-day.svg",
+    night: "/assets/weather/partly-cloudy-night.svg",
   },
   partlySunny: {
-    day: "/img/weather/partly-cloudy-day.svg", // Using partly-cloudy as fallback
-    night: "/img/weather/partly-cloudy-night.svg",
+    day: "/assets/weather/partly-cloudy-day.svg", // Using partly-cloudy as fallback
+    night: "/assets/weather/partly-cloudy-night.svg",
   },
 
   // Rain conditions
   rain: {
-    day: "/img/weather/rain-day.svg",
-    night: "/img/weather/rain-night.svg",
+    day: "/assets/weather/rain-day.svg",
+    night: "/assets/weather/rain-night.svg",
   },
   lightRain: {
-    day: "/img/weather/rain-day.svg", // Using rain as fallback
-    night: "/img/weather/rain-night.svg",
+    day: "/assets/weather/rain-day.svg", // Using rain as fallback
+    night: "/assets/weather/rain-night.svg",
   },
   heavyRain: {
-    day: "/img/weather/rain-day.svg", // Using rain as fallback
-    night: "/img/weather/rain-night.svg",
+    day: "/assets/weather/rain-day.svg", // Using rain as fallback
+    night: "/assets/weather/rain-night.svg",
   },
   rainShowers: {
-    day: "/img/weather/rain-day.svg", // Using rain as fallback
-    night: "/img/weather/rain-night.svg",
+    day: "/assets/weather/rain-day.svg", // Using rain as fallback
+    night: "/assets/weather/rain-night.svg",
   },
 
   // Thunderstorm conditions
   thunderstorm: {
-    day: "/img/weather/thunderstorms-day.svg",
-    night: "/img/weather/thunderstorms-day.svg", // Fallback to day version
+    day: "/assets/weather/thunderstorms-day.svg",
+    night: "/assets/weather/thunderstorms-day.svg", // Fallback to day version
   },
   thunderstorms: {
-    day: "/img/weather/thunderstorms-day.svg",
-    night: "/img/weather/thunderstorms-day.svg", // Fallback to day version
+    day: "/assets/weather/thunderstorms-day.svg",
+    night: "/assets/weather/thunderstorms-day.svg", // Fallback to day version
   },
 
   // Snow conditions (using rain as fallback)
   snow: {
-    day: "/img/weather/rain-day.svg", // Using rain as fallback
-    night: "/img/weather/rain-night.svg",
+    day: "/assets/weather/rain-day.svg", // Using rain as fallback
+    night: "/assets/weather/rain-night.svg",
   },
   lightSnow: {
-    day: "/img/weather/rain-day.svg", // Using rain as fallback
-    night: "/img/weather/rain-night.svg",
+    day: "/assets/weather/rain-day.svg", // Using rain as fallback
+    night: "/assets/weather/rain-night.svg",
   },
   heavySnow: {
-    day: "/img/weather/rain-day.svg", // Using rain as fallback
-    night: "/img/weather/rain-night.svg",
+    day: "/assets/weather/rain-day.svg", // Using rain as fallback
+    night: "/assets/weather/rain-night.svg",
   },
 
   // Mixed conditions (using rain as fallback)
   rainAndSnow: {
-    day: "/img/weather/rain-day.svg", // Using rain as fallback
-    night: "/img/weather/rain-night.svg",
+    day: "/assets/weather/rain-day.svg", // Using rain as fallback
+    night: "/assets/weather/rain-night.svg",
   },
   sleet: {
-    day: "/img/weather/rain-day.svg", // Using rain as fallback
-    night: "/img/weather/rain-night.svg",
+    day: "/assets/weather/rain-day.svg", // Using rain as fallback
+    night: "/assets/weather/rain-night.svg",
   },
 
   // Fog/Mist conditions
   fog: {
-    day: "/img/weather/patchy-fog-day.svg", // Using patchy-fog as fallback
-    night: "/img/weather/patchy-fog-night.svg",
+    day: "/assets/weather/patchy-fog-day.svg", // Using patchy-fog as fallback
+    night: "/assets/weather/patchy-fog-night.svg",
   },
   mist: {
-    day: "/img/weather/patchy-fog-day.svg", // Using patchy-fog as fallback
-    night: "/img/weather/patchy-fog-night.svg",
+    day: "/assets/weather/patchy-fog-day.svg", // Using patchy-fog as fallback
+    night: "/assets/weather/patchy-fog-night.svg",
   },
   haze: {
-    day: "/img/weather/patchy-fog-day.svg", // Using patchy-fog as fallback
-    night: "/img/weather/patchy-fog-night.svg",
+    day: "/assets/weather/patchy-fog-day.svg", // Using patchy-fog as fallback
+    night: "/assets/weather/patchy-fog-night.svg",
   },
   patchyFog: {
-    day: "/img/weather/patchy-fog-day.svg",
-    night: "/img/weather/patchy-fog-night.svg",
+    day: "/assets/weather/patchy-fog-day.svg",
+    night: "/assets/weather/patchy-fog-night.svg",
   },
 
   // Wind conditions (using partly-cloudy as fallback)
   windy: {
-    day: "/img/weather/partly-cloudy-day.svg", // Using partly-cloudy as fallback
-    night: "/img/weather/partly-cloudy-night.svg",
+    day: "/assets/weather/partly-cloudy-day.svg", // Using partly-cloudy as fallback
+    night: "/assets/weather/partly-cloudy-night.svg",
   },
   breezy: {
-    day: "/img/weather/partly-cloudy-day.svg", // Using partly-cloudy as fallback
-    night: "/img/weather/partly-cloudy-night.svg",
+    day: "/assets/weather/partly-cloudy-day.svg", // Using partly-cloudy as fallback
+    night: "/assets/weather/partly-cloudy-night.svg",
   },
 
   // Smoke/Haze conditions (using patchy-fog as fallback)
   smoke: {
-    day: "/img/weather/patchy-fog-day.svg", // Using patchy-fog as fallback
-    night: "/img/weather/patchy-fog-night.svg",
+    day: "/assets/weather/patchy-fog-day.svg", // Using patchy-fog as fallback
+    night: "/assets/weather/patchy-fog-night.svg",
   },
 
   // Default fallback
   default: {
-    day: "/img/weather/sunny-day.svg", // Using sunny-day as default
-    night: "/img/weather/clear-night.svg",
+    day: "/assets/weather/sunny-day.svg", // Using sunny-day as default
+    night: "/assets/weather/clear-night.svg",
   },
 };
 

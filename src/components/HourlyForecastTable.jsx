@@ -1,6 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
-import humidityIcon from "../img/humidity-droplet-icon.svg";
+import humidityIcon from "../assets/humidity-droplet-icon.svg";
 import { cleanDetailedForecast } from "../utils/forecastUtils.js";
 import { getWeatherIcon } from "../utils/weatherIconMapping.js";
 
@@ -79,7 +79,8 @@ const HourlyForecastTable = ({ dayString, hourlyData, loading, summary }) => {
                 style={{ width: 100, height: 100, marginRight: 8 }}
                 onError={(e) => {
                   // Fallback to API icon if custom icon fails to load
-                  e.target.src = summary.icon || "/img/weather/default.svg";
+                  e.target.src =
+                    summary.icon || "/assets/weather/sunny-day.svg";
                 }}
               />
             )}
@@ -146,7 +147,8 @@ const HourlyForecastTable = ({ dayString, hourlyData, loading, summary }) => {
                     style={{ width: 32, height: 32 }}
                     onError={(e) => {
                       // Fallback to API icon if custom icon fails to load
-                      e.target.src = hour.icon || "/img/weather/default.svg";
+                      e.target.src =
+                        hour.icon || "/assets/weather/sunny-day.svg";
                     }}
                   />
                 )}

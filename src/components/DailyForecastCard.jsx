@@ -1,6 +1,7 @@
 import React from "react";
 import { Container, Row } from "react-bootstrap";
 import { cleanDetailedForecast } from "../utils/forecastUtils.js";
+import { getWeatherIcon } from "../utils/weatherIconMapping.js";
 
 const DailyForecastCard = ({ dayString, periods, loading, summary }) => {
   if (loading) {
@@ -50,11 +51,16 @@ const DailyForecastCard = ({ dayString, periods, loading, summary }) => {
             className="mb-3 p-2 border rounded bg-light d-flex align-items-center"
             style={{ fontSize: "0.95rem", gap: 12 }}
           >
-            {summary.icon && (
+            {summary.shortForecast && (
               <img
-                src={summary.icon}
+                src={getWeatherIcon(summary.shortForecast, true)}
                 alt={summary.shortForecast}
                 style={{ width: 100, height: 100, marginRight: 8 }}
+                onError={(e) => {
+                  // Fallback to API icon if custom icon fails to load
+                  e.target.src =
+                    summary.icon || "/assets/weather/sunny-day.svg";
+                }}
               />
             )}
             <div style={{ flex: 1 }}>
@@ -110,11 +116,19 @@ const DailyForecastCard = ({ dayString, periods, loading, summary }) => {
             {period ? (
               <div className="d-flex align-items-center" style={{ gap: 12 }}>
                 <div style={{ fontSize: 28, minWidth: 32 }}>
-                  {period.icon && (
+                  {period.shortForecast && (
                     <img
-                      src={period.icon}
+                      src={getWeatherIcon(
+                        period.shortForecast,
+                        period.isDaytime
+                      )}
                       alt={period.shortForecast}
                       style={{ width: 50, height: 50 }}
+                      onError={(e) => {
+                        // Fallback to API icon if custom icon fails to load
+                        e.target.src =
+                          period.icon || "/assets/weather/sunny-day.svg";
+                      }}
                     />
                   )}
                 </div>
