@@ -37,11 +37,11 @@ function App() {
             <Row>
               {/* Main Content: Weather and Email */}
               <Col xs={12} md={12} lg={9} className="main-content">
-                <div className="weather-container">
-                  <WeatherContainer />
-                </div>
                 <div className="pdf-download-section">
                   <PDFDownloadButton />
+                </div>
+                <div className="weather-container">
+                  <WeatherContainer />
                 </div>
                 <EmailSignup />
               </Col>

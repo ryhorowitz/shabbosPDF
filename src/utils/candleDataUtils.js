@@ -34,3 +34,9 @@ export const extractCandleItems = (candleData) => {
     havdalahItem,
   };
 };
+
+export const formatParshahTitle = (parshahItem) => {
+  if (!parshahItem || !parshahItem.title) return "Parshah";
+  const titleParts = parshahItem.title.split(" ");
+  return "Parshah " + titleParts[1];
+};

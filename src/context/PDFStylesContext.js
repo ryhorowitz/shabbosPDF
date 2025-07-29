@@ -44,7 +44,7 @@ const PDFStyles = StyleSheet.create({
     fontWeight: "bold",
     marginBottom: 2,
     color: "#2c3e50",
-    textAlign: "center",
+    textAlign: "left",
   },
   weatherInfo: {
     fontSize: 9,
@@ -67,8 +67,8 @@ const PDFStyles = StyleSheet.create({
   candleSection: {
     border: "1px solid #e0e0e0",
     borderRadius: 10,
-    padding: 12,
-    marginBottom: 12,
+    padding: 6,
+    marginBottom: 10,
     backgroundColor: "#fffbe6",
     width: "90%",
     maxWidth: 420,
@@ -100,7 +100,7 @@ const PDFStyles = StyleSheet.create({
     flex: 1,
   },
   weatherHeader: {
-    textAlign: "center",
+    textAlign: "left",
   },
   tempTableRow: {
     flexDirection: "row",
@@ -146,21 +146,26 @@ const PDFStyles = StyleSheet.create({
     marginBottom: 6,
   },
   summaryLeft: {
-    flex: 2,
+    flex: 1,
     marginRight: 12,
+  },
+  summaryCenter: {
+    flex: 1,
+    alignItems: "center",
   },
   summaryRight: {
     flex: 1,
     alignItems: "flex-end",
   },
   summaryTemp: {
-    fontSize: 16,
+    // paddingLeft: 1,
+    fontSize: 28,
     fontWeight: "bold",
     color: "#e74c3c",
-    marginBottom: 2,
+    marginBottom: 10,
   },
   summaryCondition: {
-    fontSize: 10,
+    fontSize: 12,
     color: "#495057",
     fontStyle: "italic",
     lineHeight: 1.2,
@@ -196,8 +201,8 @@ const PDFStyles = StyleSheet.create({
     flexDirection: "row",
     backgroundColor: "#f8f9fa",
     borderBottom: "1px solid #dee2e6",
-    paddingVertical: 4,
-    marginBottom: 2,
+    paddingVertical: 2,
+    marginBottom: 1,
   },
   hourlyHeaderCell: {
     flex: 1,
@@ -210,7 +215,7 @@ const PDFStyles = StyleSheet.create({
   hourlyTableRow: {
     flexDirection: "row",
     borderBottom: "1px solid #f1f3f4",
-    paddingVertical: 3,
+    paddingVertical: 1,
     alignItems: "center",
   },
   hourlyCell: {

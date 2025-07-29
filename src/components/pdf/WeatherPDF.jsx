@@ -1,8 +1,11 @@
 import React from "react";
 import { Document, Page, Text, View, Font, Svg } from "@react-pdf/renderer";
 import { usePDFStyles } from "../../context/PDFStylesContext";
-import { extractCandleItems } from "../../utils/candleDataUtils.js";
-import { cleanDetailedForecast } from "../../utils/forecastUtils.js";
+import {
+  extractCandleItems,
+  formatParshahTitle,
+} from "../../utils/candleDataUtils.js";
+// import { cleanDetailedForecast } from "../../utils/forecastUtils.js";
 import { getPDFWeatherIcon } from "../../utils/pdfWeatherIcons.js";
 
 // Register a default font
@@ -32,6 +35,8 @@ const WeatherPDF = ({
 
   const { candleItem, parshahItem, havdalahItem } =
     extractCandleItems(candleData);
+
+  const parshahEnglish = formatParshahTitle(parshahItem);
 
   const getTimeLabel = (period, dayLabel) => {
     if (dayLabel === "Friday") {
@@ -88,7 +93,7 @@ const WeatherPDF = ({
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <Text style={{ fontWeight: "bold", marginBottom: 4 }}>
-            {parshahItem.title}
+            {parshahEnglish}
             <Text style={{ fontFamily: "NotoSansHebrew" }}>
               {" "}
               {parshahItem.hebrew}
@@ -119,44 +124,50 @@ const WeatherPDF = ({
         <View style={styles.section}>
           {/* Candle Times Section */}
           <View style={styles.candleSection}>
-            {candleItem && (
-              <View>
-                <Text style={styles.candleTitle}>
-                  Candle Lighting{" "}
-                  {new Date(candleItem.date).toLocaleString("en-US", {
-                    hour: "numeric",
-                    minute: "2-digit",
-                  })}
-                </Text>
-                <Text style={styles.candleInfo}>
-                  {new Date(candleItem.date).toLocaleString("en-US", {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </Text>
-              </View>
-            )}
-            {havdalahItem && (
-              <View>
-                <Text style={styles.candleTitle}>
-                  Havdalah{" "}
-                  {new Date(havdalahItem.date).toLocaleString("en-US", {
-                    hour: "numeric",
-                    minute: "2-digit",
-                  })}
-                </Text>
-                <Text style={styles.candleInfo}>
-                  {new Date(havdalahItem.date).toLocaleString("en-US", {
-                    weekday: "long",
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </Text>
-              </View>
-            )}
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              {candleItem && (
+                <View
+                  style={{ flex: 1, marginRight: 20, alignItems: "center" }}
+                >
+                  <Text style={styles.candleTitle}>
+                    Candle Lighting{" "}
+                    {new Date(candleItem.date).toLocaleString("en-US", {
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })}
+                  </Text>
+                  <Text style={styles.candleInfo}>
+                    {new Date(candleItem.date).toLocaleString("en-US", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </Text>
+                </View>
+              )}
+              {havdalahItem && (
+                <View style={{ flex: 1, marginLeft: 20, alignItems: "center" }}>
+                  <Text style={styles.candleTitle}>
+                    Havdalah{" "}
+                    {new Date(havdalahItem.date).toLocaleString("en-US", {
+                      hour: "numeric",
+                      minute: "2-digit",
+                    })}
+                  </Text>
+                  <Text style={styles.candleInfo}>
+                    {new Date(havdalahItem.date).toLocaleString("en-US", {
+                      weekday: "long",
+                      year: "numeric",
+                      month: "long",
+                      day: "numeric",
+                    })}
+                  </Text>
+                </View>
+              )}
+            </View>
           </View>
 
           {/* Weather Forecast Section */}
@@ -188,7 +199,6 @@ const WeatherPDF = ({
                           <View style={styles.summaryLeft}>
                             <View
                               style={{
-                                flexDirection: "row",
                                 alignItems: "center",
                                 marginBottom: 4,
                               }}
@@ -197,15 +207,27 @@ const WeatherPDF = ({
                                 getPDFWeatherIcon(
                                   summary.shortForecast,
                                   true,
-                                  24
+                                  48
                                 )}
-                              <Text style={styles.summaryTemp}>
-                                {summary.temperature}°
-                                {summary.temperatureUnit || "F"}
+                              <Text style={styles.summaryCondition}>
+                                {summary.shortForecast ||
+                                  "No forecast available"}
                               </Text>
                             </View>
-                            <Text style={styles.summaryCondition}>
-                              {summary.shortForecast || "No forecast available"}
+                          </View>
+                          <View style={styles.summaryCenter}>
+                            <Text
+                              style={{
+                                fontSize: 10,
+                                color: "#9CA3AF",
+                                textAlign: "center",
+                              }}
+                            >
+                              high:
+                            </Text>
+                            <Text style={styles.summaryTemp}>
+                              {summary.temperature}°
+                              {summary.temperatureUnit || "F"}
                             </Text>
                           </View>
                           <View style={styles.summaryRight}>
@@ -304,7 +326,6 @@ const WeatherPDF = ({
                           <View style={styles.summaryLeft}>
                             <View
                               style={{
-                                flexDirection: "row",
                                 alignItems: "center",
                                 marginBottom: 4,
                               }}
@@ -313,13 +334,28 @@ const WeatherPDF = ({
                                 getPDFWeatherIcon(
                                   summary.shortForecast,
                                   true,
-                                  24
+                                  48
                                 )}
-                              <Text style={styles.summaryTemp}>
-                                {summary.temperature}°
-                                {summary.temperatureUnit || "F"}
+                              <Text style={styles.summaryCondition}>
+                                {summary.shortForecast ||
+                                  "No forecast available"}
                               </Text>
                             </View>
+                          </View>
+                          <View style={styles.summaryCenter}>
+                            <Text
+                              style={{
+                                fontSize: 10,
+                                color: "#9CA3AF",
+                                textAlign: "center",
+                              }}
+                            >
+                              high:
+                            </Text>
+                            <Text style={styles.summaryTemp}>
+                              {summary.temperature}°
+                              {summary.temperatureUnit || "F"}
+                            </Text>
                           </View>
                           <View style={styles.summaryRight}>
                             {summary.windSpeed && (
@@ -349,25 +385,35 @@ const WeatherPDF = ({
 
                     {/* Hourly Table Header */}
                     <View style={styles.hourlyTableHeader}>
-                      <Text style={styles.hourlyHeaderCell}>Time</Text>
-                      <Text style={styles.hourlyHeaderCell}>Temp</Text>
-                      <Text style={styles.hourlyHeaderCell}>Weather</Text>
-                      <Text style={styles.hourlyHeaderCell}>Precip</Text>
-                      <Text style={styles.hourlyHeaderCell}>Wind</Text>
+                      <Text style={{ ...styles.hourlyHeaderCell, flex: 0.6 }}>
+                        Time
+                      </Text>
+                      <Text style={{ ...styles.hourlyHeaderCell, flex: 0.6 }}>
+                        Temp
+                      </Text>
+                      <Text style={{ ...styles.hourlyHeaderCell, flex: 2.5 }}>
+                        Weather
+                      </Text>
+                      <Text style={{ ...styles.hourlyHeaderCell, flex: 0.8 }}>
+                        Precip
+                      </Text>
+                      <Text style={{ ...styles.hourlyHeaderCell, flex: 1.5 }}>
+                        Wind
+                      </Text>
                     </View>
 
                     {/* Hourly Rows */}
                     {hourlyData.map((hour, idx) => (
                       <View style={styles.hourlyTableRow} key={idx}>
-                        <Text style={styles.hourlyCell}>
+                        <Text style={{ ...styles.hourlyCell, flex: 0.6 }}>
                           {hour ? formatHourlyTime(hour.startTime) : "N/A"}
                         </Text>
-                        <Text style={styles.hourlyCell}>
+                        <Text style={{ ...styles.hourlyCell, flex: 0.6 }}>
                           {hour
                             ? `${hour.temperature}°${hour.temperatureUnit}`
                             : "N/A"}
                         </Text>
-                        <View style={styles.hourlyCell}>
+                        <View style={{ ...styles.hourlyCell, flex: 2.5 }}>
                           <View
                             style={{
                               flexDirection: "row",
@@ -386,12 +432,12 @@ const WeatherPDF = ({
                             </Text>
                           </View>
                         </View>
-                        <Text style={styles.hourlyCell}>
+                        <Text style={{ ...styles.hourlyCell, flex: 0.8 }}>
                           {hour?.probabilityOfPrecipitation?.value !== null
                             ? `${hour.probabilityOfPrecipitation.value}%`
                             : "0%"}
                         </Text>
-                        <Text style={styles.hourlyCell}>
+                        <Text style={{ ...styles.hourlyCell, flex: 1.5 }}>
                           {hour && hour.windSpeed && hour.windDirection
                             ? `${hour.windDirection} ${hour.windSpeed}`
                             : "N/A"}
