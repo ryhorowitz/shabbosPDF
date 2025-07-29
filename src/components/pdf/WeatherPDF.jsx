@@ -1,8 +1,9 @@
 import React from "react";
-import { Document, Page, Text, View, Font } from "@react-pdf/renderer";
+import { Document, Page, Text, View, Font, Svg } from "@react-pdf/renderer";
 import { usePDFStyles } from "../../context/PDFStylesContext";
 import { extractCandleItems } from "../../utils/candleDataUtils.js";
 import { cleanDetailedForecast } from "../../utils/forecastUtils.js";
+import { getPDFWeatherIcon } from "../../utils/pdfWeatherIcons.js";
 
 // Register a default font
 Font.register({
@@ -185,10 +186,24 @@ const WeatherPDF = ({
                         {/* Main weather info row */}
                         <View style={styles.summaryMainRow}>
                           <View style={styles.summaryLeft}>
-                            <Text style={styles.summaryTemp}>
-                              {summary.temperature}°
-                              {summary.temperatureUnit || "F"}
-                            </Text>
+                            <View
+                              style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                                marginBottom: 4,
+                              }}
+                            >
+                              {summary.shortForecast &&
+                                getPDFWeatherIcon(
+                                  summary.shortForecast,
+                                  true,
+                                  24
+                                )}
+                              <Text style={styles.summaryTemp}>
+                                {summary.temperature}°
+                                {summary.temperatureUnit || "F"}
+                              </Text>
+                            </View>
                             <Text style={styles.summaryCondition}>
                               {summary.shortForecast || "No forecast available"}
                             </Text>
@@ -228,10 +243,24 @@ const WeatherPDF = ({
                               <Text style={styles.tempPeriodLabel}>
                                 {getTimeLabel(period, label)}
                               </Text>
-                              <Text style={styles.tempPeriodValue}>
-                                {period.temperature}°
-                                {period.temperatureUnit || "F"}
-                              </Text>
+                              <View
+                                style={{
+                                  flexDirection: "row",
+                                  alignItems: "center",
+                                  marginBottom: 2,
+                                }}
+                              >
+                                {period.shortForecast &&
+                                  getPDFWeatherIcon(
+                                    period.shortForecast,
+                                    period.isDaytime,
+                                    16
+                                  )}
+                                <Text style={styles.tempPeriodValue}>
+                                  {period.temperature}°
+                                  {period.temperatureUnit || "F"}
+                                </Text>
+                              </View>
                               <Text style={styles.feelsLikeTemp}>
                                 {period.shortForecast || "No forecast"}
                               </Text>
@@ -273,10 +302,24 @@ const WeatherPDF = ({
                         {/* Main weather info row */}
                         <View style={styles.summaryMainRow}>
                           <View style={styles.summaryLeft}>
-                            <Text style={styles.summaryTemp}>
-                              {summary.temperature}°
-                              {summary.temperatureUnit || "F"}
-                            </Text>
+                            <View
+                              style={{
+                                flexDirection: "row",
+                                alignItems: "center",
+                                marginBottom: 4,
+                              }}
+                            >
+                              {summary.shortForecast &&
+                                getPDFWeatherIcon(
+                                  summary.shortForecast,
+                                  true,
+                                  24
+                                )}
+                              <Text style={styles.summaryTemp}>
+                                {summary.temperature}°
+                                {summary.temperatureUnit || "F"}
+                              </Text>
+                            </View>
                           </View>
                           <View style={styles.summaryRight}>
                             {summary.windSpeed && (
@@ -324,9 +367,25 @@ const WeatherPDF = ({
                             ? `${hour.temperature}°${hour.temperatureUnit}`
                             : "N/A"}
                         </Text>
-                        <Text style={styles.hourlyCell}>
-                          {hour?.shortForecast || "N/A"}
-                        </Text>
+                        <View style={styles.hourlyCell}>
+                          <View
+                            style={{
+                              flexDirection: "row",
+                              alignItems: "center",
+                              justifyContent: "center",
+                            }}
+                          >
+                            {hour?.shortForecast &&
+                              getPDFWeatherIcon(
+                                hour.shortForecast,
+                                hour.isDaytime,
+                                12
+                              )}
+                            <Text style={{ fontSize: 8 }}>
+                              {hour?.shortForecast || "N/A"}
+                            </Text>
+                          </View>
+                        </View>
                         <Text style={styles.hourlyCell}>
                           {hour?.probabilityOfPrecipitation?.value !== null
                             ? `${hour.probabilityOfPrecipitation.value}%`
