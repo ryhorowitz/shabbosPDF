@@ -98,7 +98,7 @@ const DailyForecastCard = ({ dayString, periods, loading, summary }) => {
             className="mb-2 align-items-center"
             style={{ fontSize: "0.95rem" }}
           >
-            <div className="fw-bold mb-1" style={{ fontSize: "0.95rem" }}>
+            <div className="fw-bold mb-1 ml-3" style={{ fontSize: "0.95rem" }}>
               {(() => {
                 if (dayString === "Friday") {
                   if (idx === 0) return "Afternoon 4pm";
@@ -114,7 +114,10 @@ const DailyForecastCard = ({ dayString, periods, loading, summary }) => {
               })()}
             </div>
             {period ? (
-              <div className="d-flex align-items-center" style={{ gap: 12 }}>
+              <div
+                className="d-flex align-items-center"
+                style={{ gap: 12, marginLeft: 12 }}
+              >
                 <div style={{ fontSize: 28, minWidth: 32 }}>
                   {period.shortForecast && (
                     <img
