@@ -21,6 +21,8 @@
   align-items: center;
   justify-content: center;
   color: white;
+  position: relative;
+  z-index: 1001;
 }
 
 /* main {
@@ -101,13 +103,18 @@
     overflow-y: auto !important;
     background-color: #f8f9fa !important;
     border-right: 1px solid #dee2e6 !important;
-    padding: 1rem !important;
+    padding: 1rem 1rem 1rem 1rem !important;
+    padding-top: 2rem !important;
     z-index: 1000 !important;
+    box-sizing: border-box !important;
+    margin: 0 !important;
+    transform: none !important;
   }
 
   .main-content {
     margin-left: 25% !important;
     max-width: 75% !important;
+    margin-top: 0 !important;
   }
 
   .weather-container {
