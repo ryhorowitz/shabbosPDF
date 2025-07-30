@@ -32,8 +32,7 @@ const CandleTimes = () => {
 
   const { candleItem, parshahItem, havdalahItem } =
     extractCandleItems(candleData);
-  const parshahEnglish = "Parshah " + parshahItem.title.split(" ")[1];
-
+  const parshahEnglish = "Parshas " + parshahItem.title.split(" ")[1];
   return (
     <div className="candle-times text-center">
       {parshahItem && (

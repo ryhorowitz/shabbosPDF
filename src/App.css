@@ -89,11 +89,30 @@
   border: none !important;
 }
 
-/* Sidebar sticky positioning for large screens */
-@media (min-width: 992px) {
+/* Fixed sidebar positioning for medium screens and larger */
+@media (min-width: 768px) {
   .sidebar {
-    position: sticky !important;
-    top: 20px !important;
+    position: fixed !important;
+    top: 18vh !important; /* Start below the header */
+    left: 0 !important;
+    height: calc(100vh - 18vh) !important; /* Full height minus header */
+    width: 25% !important;
+    max-width: 300px !important;
+    overflow-y: auto !important;
+    background-color: #f8f9fa !important;
+    border-right: 1px solid #dee2e6 !important;
+    padding: 1rem !important;
+    z-index: 1000 !important;
+  }
+
+  .main-content {
+    margin-left: 25% !important;
+    max-width: 75% !important;
+  }
+
+  .weather-container {
+    margin-left: 0 !important;
+    max-width: 100% !important;
   }
 }
 
@@ -184,15 +203,57 @@
   }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 991px) and (min-width: 768px) {
   .weather-container {
     margin: 40px auto;
     max-width: 90%;
     padding: 40px;
   }
 }
-@media (max-width: 991px) {
+@media (max-width: 767px) {
   .sidebar {
     position: static !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    height: auto !important;
+    margin-bottom: 2rem !important;
+  }
+
+  .main-content {
+    margin-left: 0 !important;
+    max-width: 100% !important;
+  }
+
+  /* Remove container padding on mobile for full width */
+  .App {
+    padding: 0 !important;
+  }
+
+  .weather-container {
+    margin: 20px 0 !important;
+    max-width: 100% !important;
+    border-radius: 0 !important;
+    padding: 20px 10px !important;
+  }
+
+  /* Remove any Bootstrap container padding */
+  .container,
+  .container-fluid {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+  }
+
+  /* Ensure rows and columns don't add extra padding */
+  .row {
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+
+  .col,
+  .col-xs-12,
+  .col-sm-12,
+  .col-md-12 {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
   }
 }

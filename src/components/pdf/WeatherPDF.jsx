@@ -64,6 +64,8 @@ const WeatherPDF = ({
       .toLowerCase();
   };
 
+  const parshahEnglish = "Parshas " + parshahItem.title.split(" ")[1];
+
   // Error handling
   if (!fridayPeriods || !saturdayPeriods || !candleData || !geoData) {
     console.error("WeatherPDF: Missing required props", {
@@ -88,7 +90,7 @@ const WeatherPDF = ({
       <Page size="A4" style={styles.page}>
         <View style={styles.header}>
           <Text style={{ fontWeight: "bold", marginBottom: 4 }}>
-            {parshahItem.title}
+            {parshahEnglish}
             <Text style={{ fontFamily: "NotoSansHebrew" }}>
               {" "}
               {parshahItem.hebrew}
