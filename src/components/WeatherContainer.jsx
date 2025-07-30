@@ -32,41 +32,16 @@ const WeatherContainer = ({ forecastType, setForecastType }) => {
 
   return (
     <div className="weather-content">
-      <div className="d-flex justify-content-between align-items-center mb-3">
-        <h2 className="me-4 mb-0">Shabbos Weather Forecast</h2>
-        <ButtonGroup size="lg" className="shadow-sm">
-          <Button
-            variant={forecastType === "daily" ? "primary" : "outline-primary"}
-            onClick={() => setForecastType("daily")}
-            className="px-4 py-2 fw-semibold"
-            style={{
-              borderWidth: "2px",
-              borderRadius:
-                forecastType === "daily" ? "8px 0 0 8px" : "8px 0 0 8px",
-              transition: "all 0.2s ease-in-out",
-            }}
-          >
-            General Forecast
-          </Button>
-          <Button
-            variant={forecastType === "hourly" ? "primary" : "outline-primary"}
-            onClick={() => setForecastType("hourly")}
-            className="px-4 py-2 fw-semibold"
-            style={{
-              borderWidth: "2px",
-              borderRadius:
-                forecastType === "hourly" ? "0 8px 8px 0" : "0 8px 8px 0",
-              transition: "all 0.2s ease-in-out",
-            }}
-          >
-            Hourly Forecast
-          </Button>
-        </ButtonGroup>
+      <div className="mb-3">
+        <h2 className="mb-0">Shabbos Weather Forecast</h2>
       </div>
 
-      {/* PDF Download Button */}
+      {/* PDF Download Button with Forecast Toggle */}
       <div className="mb-4">
-        <PDFDownloadButton forecastType={forecastType} />
+        <PDFDownloadButton
+          forecastType={forecastType}
+          setForecastType={setForecastType}
+        />
       </div>
 
       {forecastType === "daily" ? (

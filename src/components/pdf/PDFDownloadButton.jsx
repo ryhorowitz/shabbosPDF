@@ -5,7 +5,7 @@ import { useShabbos } from "../../context/shabbosContext.js";
 import WeatherPDF from "./WeatherPDF.jsx";
 import { PDFStylesProvider } from "../../context/PDFStylesContext";
 
-const PDFDownloadButton = ({ forecastType }) => {
+const PDFDownloadButton = ({ forecastType, setForecastType }) => {
   const [pdfBlobUrl, setPdfBlobUrl] = useState(null);
 
   const {
@@ -80,34 +80,65 @@ const PDFDownloadButton = ({ forecastType }) => {
   };
 
   return (
-    <div className="text-center mt-4">
-      <PDFDownloadLink
-        document={pdfDocument}
-        fileName="shabbos-weather-and-candle-times.pdf"
-      >
-        {({ blob, url, loading: pdfLoading, error: pdfError }) => {
-          // Store the blob URL for print
-          if (blob && url) {
-            setPdfBlobUrl(url);
-          }
+    <div className="d-flex justify-content-between align-items-center mt-4">
+      <ButtonGroup size="lg" className="shadow-sm">
+        <Button
+          variant={forecastType === "daily" ? "primary" : "outline-primary"}
+          onClick={() => setForecastType("daily")}
+          className="px-4 py-2 fw-semibold"
+          style={{
+            borderWidth: "2px",
+            borderRadius:
+              forecastType === "daily" ? "8px 0 0 8px" : "8px 0 0 8px",
+            transition: "all 0.2s ease-in-out",
+          }}
+        >
+          General Forecast
+        </Button>
+        <Button
+          variant={forecastType === "hourly" ? "primary" : "outline-primary"}
+          onClick={() => setForecastType("hourly")}
+          className="px-4 py-2 fw-semibold"
+          style={{
+            borderWidth: "2px",
+            borderRadius:
+              forecastType === "hourly" ? "0 8px 8px 0" : "0 8px 8px 0",
+            transition: "all 0.2s ease-in-out",
+          }}
+        >
+          Hourly Forecast
+        </Button>
+      </ButtonGroup>
 
-          return (
-            <Button
-              variant="outline-primary"
-              disabled={pdfLoading}
-              onClick={handlePrintClick}
-              className="px-4 py-2 fw-semibold shadow-sm"
-              style={{
-                borderWidth: "2px",
-                borderRadius: "8px",
-                transition: "all 0.2s ease-in-out",
-              }}
-            >
-              {pdfLoading ? "Generating PDF..." : "🖨️ Print PDF"}
-            </Button>
-          );
-        }}
-      </PDFDownloadLink>
+      <div className="ms-4">
+        <PDFDownloadLink
+          document={pdfDocument}
+          fileName="shabbos-weather-and-candle-times.pdf"
+        >
+          {({ blob, url, loading: pdfLoading, error: pdfError }) => {
+            // Store the blob URL for print
+            if (blob && url) {
+              setPdfBlobUrl(url);
+            }
+
+            return (
+              <Button
+                variant="outline-primary"
+                disabled={pdfLoading}
+                onClick={handlePrintClick}
+                className="px-4 py-2 fw-semibold shadow-sm"
+                style={{
+                  borderWidth: "2px",
+                  borderRadius: "8px",
+                  transition: "all 0.2s ease-in-out",
+                }}
+              >
+                {pdfLoading ? "Generating PDF..." : "🖨️ Print PDF"}
+              </Button>
+            );
+          }}
+        </PDFDownloadLink>
+      </div>
     </div>
   );
 };
