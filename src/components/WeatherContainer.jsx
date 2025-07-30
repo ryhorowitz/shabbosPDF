@@ -32,12 +32,12 @@ const WeatherContainer = ({ forecastType, setForecastType }) => {
 
   return (
     <div className="weather-content">
-      <div className="mb-3">
-        <h2 className="mb-0">Shabbos Weather Forecast</h2>
+      <div className="mb-1">
+        <h3 className="mb-0">Shabbos Weather Forecast</h3>
       </div>
 
       {/* PDF Download Button with Forecast Toggle */}
-      <div className="mb-4">
+      <div className="mb-1">
         <PDFDownloadButton
           forecastType={forecastType}
           setForecastType={setForecastType}

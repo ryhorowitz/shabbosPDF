@@ -36,7 +36,7 @@ const PDFDownloadButton = ({ forecastType, setForecastType }) => {
 
   if (isLoading) {
     return (
-      <div className="text-center mt-4">
+      <div className="text-center mt-1">
         <Button variant="primary" disabled>
           Loading data for PDF...
         </Button>
@@ -46,7 +46,7 @@ const PDFDownloadButton = ({ forecastType, setForecastType }) => {
 
   if (!hasData) {
     return (
-      <div className="text-center mt-4">
+      <div className="text-center mt-1">
         <Button variant="secondary" disabled>
           No data available for PDF
         </Button>
@@ -80,37 +80,85 @@ const PDFDownloadButton = ({ forecastType, setForecastType }) => {
   };
 
   return (
-    <div className="d-flex justify-content-between align-items-center mt-4">
-      <ButtonGroup size="lg" className="shadow-sm">
-        <Button
-          variant={forecastType === "daily" ? "primary" : "outline-primary"}
-          onClick={() => setForecastType("daily")}
-          className="px-4 py-2 fw-semibold"
+    <div
+      className="d-flex justify-content-between align-items-center mt-1"
+      style={{ width: "100%" }}
+    >
+      <div className="toggle-switch-container d-flex align-items-center">
+        <label
+          className="toggle-label me-3"
           style={{
-            borderWidth: "2px",
-            borderRadius:
-              forecastType === "daily" ? "8px 0 0 8px" : "8px 0 0 8px",
-            transition: "all 0.2s ease-in-out",
+            fontSize: "12px",
+            color: "#6c757d",
+            fontWeight: "500",
+            margin: 0,
           }}
         >
-          General Forecast
-        </Button>
-        <Button
-          variant={forecastType === "hourly" ? "primary" : "outline-primary"}
-          onClick={() => setForecastType("hourly")}
-          className="px-4 py-2 fw-semibold"
+          Forecast Type
+        </label>
+        <div
+          className="toggle-switch"
+          onClick={() =>
+            setForecastType(forecastType === "daily" ? "hourly" : "daily")
+          }
           style={{
-            borderWidth: "2px",
-            borderRadius:
-              forecastType === "hourly" ? "0 8px 8px 0" : "0 8px 8px 0",
-            transition: "all 0.2s ease-in-out",
+            position: "relative",
+            width: "140px",
+            height: "28px",
+            backgroundColor: "#e9ecef",
+            borderRadius: "14px",
+            cursor: "pointer",
+            transition: "all 0.3s ease",
+            border: "2px solid #dee2e6",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "0 6px",
+            boxSizing: "border-box",
           }}
         >
-          Hourly Forecast
-        </Button>
-      </ButtonGroup>
+          <span
+            className="toggle-option"
+            style={{
+              color: forecastType === "daily" ? "#ffffff" : "#6c757d",
+              fontWeight: "600",
+              fontSize: "11px",
+              transition: "color 0.3s ease",
+              zIndex: 2,
+            }}
+          >
+            General
+          </span>
+          <span
+            className="toggle-option"
+            style={{
+              color: forecastType === "hourly" ? "#ffffff" : "#6c757d",
+              fontWeight: "600",
+              fontSize: "11px",
+              transition: "color 0.3s ease",
+              zIndex: 2,
+            }}
+          >
+            Hourly
+          </span>
+          <div
+            className="toggle-slider"
+            style={{
+              position: "absolute",
+              top: "2px",
+              left: forecastType === "daily" ? "2px" : "calc(50% + 2px)",
+              width: "calc(50% - 4px)",
+              height: "calc(100% - 4px)",
+              backgroundColor: "#0d6efd",
+              borderRadius: "12px",
+              transition: "left 0.3s ease",
+              boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
+            }}
+          />
+        </div>
+      </div>
 
-      <div className="ms-4">
+      <div className="ms-4" style={{ flex: "1" }}>
         <PDFDownloadLink
           document={pdfDocument}
           fileName="shabbos-weather-and-candle-times.pdf"
@@ -126,11 +174,12 @@ const PDFDownloadButton = ({ forecastType, setForecastType }) => {
                 variant="outline-primary"
                 disabled={pdfLoading}
                 onClick={handlePrintClick}
-                className="px-4 py-2 fw-semibold shadow-sm"
+                className="px-3 py-1 fw-semibold shadow-sm w-100"
                 style={{
                   borderWidth: "2px",
-                  borderRadius: "8px",
+                  borderRadius: "6px",
                   transition: "all 0.2s ease-in-out",
+                  fontSize: "13px",
                 }}
               >
                 {pdfLoading ? "Generating PDF..." : "🖨️ Print PDF"}
