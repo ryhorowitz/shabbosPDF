@@ -114,8 +114,8 @@ const HourlyForecastTable = ({ dayString, hourlyData, loading, summary }) => {
           className="mb-2 fw-bold text-center"
           style={{ fontSize: "0.9rem" }}
         >
-          <Col xs={3}>Time</Col>
-          <Col xs={2}>Temp</Col>
+          <Col xs={2}>Time</Col>
+          <Col xs={3}>Temp</Col>
           <Col xs={4}>Weather</Col>
           <Col xs={2}>Precip</Col>
           <Col xs={1}>Wind</Col>
@@ -128,10 +128,10 @@ const HourlyForecastTable = ({ dayString, hourlyData, loading, summary }) => {
             className="mb-2 align-items-center text-center border-bottom pb-2"
             style={{ fontSize: "0.95rem" }}
           >
-            <Col xs={3} className="text-nowrap">
+            <Col xs={2} className="text-nowrap">
               {hour ? formatTime(hour.startTime) : "N/A"}
             </Col>
-            <Col xs={2} className="fw-bold text-nowrap">
+            <Col xs={3} className="fw-bold text-nowrap">
               {hour ? `${hour.temperature}°${hour.temperatureUnit}` : "N/A"}
             </Col>
             <Col xs={4}>

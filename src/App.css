@@ -159,8 +159,8 @@
   /* Prevent text wrapping for time and temp columns */
   .hourly-forecast-table .text-nowrap {
     white-space: nowrap !important;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    overflow: visible !important;
+    text-overflow: clip !important;
   }
 
   /* Better spacing for mobile */
@@ -185,6 +185,13 @@
 
   .hourly-forecast-table .d-flex.flex-wrap span {
     flex: 1;
+    min-width: 0;
+  }
+
+  /* Ensure temperature column shows full content */
+  .hourly-forecast-table .col:nth-child(2) {
+    overflow: visible !important;
+    text-overflow: clip !important;
     min-width: 0;
   }
 }
