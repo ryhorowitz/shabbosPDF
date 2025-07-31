@@ -55,13 +55,10 @@ const WeatherPDF = ({
 
   const formatHourlyTime = (startTime) => {
     const date = new Date(startTime);
-    return date
-      .toLocaleTimeString("en-US", {
-        hour: "numeric",
-        hour12: true,
-      })
-      .replace(":00", "")
-      .toLowerCase();
+    const hour = date.getHours();
+    const ampm = hour >= 12 ? "pm" : "am";
+    const hour12 = hour % 12 || 12;
+    return `${hour12}${ampm}`;
   };
 
   const parshahEnglish = "Parshas " + parshahItem.title.split(" ")[1];

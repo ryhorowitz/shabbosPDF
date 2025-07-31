@@ -41,13 +41,10 @@ const HourlyForecastTable = ({ dayString, hourlyData, loading, summary }) => {
 
   const formatTime = (startTime) => {
     const date = new Date(startTime);
-    return date
-      .toLocaleTimeString("en-US", {
-        hour: "numeric",
-        hour12: true,
-      })
-      .replace(":00", "")
-      .toLowerCase();
+    const hour = date.getHours();
+    const ampm = hour >= 12 ? "pm" : "am";
+    const hour12 = hour % 12 || 12;
+    return `${hour12}${ampm}`;
   };
 
   const getWindDisplay = (windSpeed, windDirection) => {
@@ -117,11 +114,11 @@ const HourlyForecastTable = ({ dayString, hourlyData, loading, summary }) => {
           className="mb-2 fw-bold text-center"
           style={{ fontSize: "0.9rem" }}
         >
-          <Col xs={2}>Time</Col>
-          <Col xs={1}>Temp</Col>
+          <Col xs={3}>Time</Col>
+          <Col xs={2}>Temp</Col>
           <Col xs={4}>Weather</Col>
           <Col xs={2}>Precip</Col>
-          <Col xs={2}>Wind</Col>
+          <Col xs={1}>Wind</Col>
         </Row>
 
         {/* Hourly Rows */}
@@ -131,20 +128,27 @@ const HourlyForecastTable = ({ dayString, hourlyData, loading, summary }) => {
             className="mb-2 align-items-center text-center border-bottom pb-2"
             style={{ fontSize: "0.95rem" }}
           >
-            <Col xs={2}>{hour ? formatTime(hour.startTime) : "N/A"}</Col>
-            <Col xs={1} className="fw-bold">
+            <Col xs={3} className="text-nowrap">
+              {hour ? formatTime(hour.startTime) : "N/A"}
+            </Col>
+            <Col xs={2} className="fw-bold text-nowrap">
               {hour ? `${hour.temperature}°${hour.temperatureUnit}` : "N/A"}
             </Col>
             <Col xs={4}>
               <div
-                className="d-flex align-items-center justify-content-center"
-                style={{ gap: 8 }}
+                className="d-flex align-items-center justify-content-center flex-wrap"
+                style={{ gap: 2 }}
               >
                 {hour?.shortForecast && (
                   <img
                     src={getWeatherIcon(hour.shortForecast, hour.isDaytime)}
                     alt={hour.shortForecast}
-                    style={{ width: 32, height: 32 }}
+                    style={{
+                      width: 24,
+                      height: 24,
+                      minWidth: 20,
+                      flexShrink: 0,
+                    }}
                     onError={(e) => {
                       // Fallback to API icon if custom icon fails to load
                       e.target.src =
@@ -152,7 +156,13 @@ const HourlyForecastTable = ({ dayString, hourlyData, loading, summary }) => {
                     }}
                   />
                 )}
-                <span style={{ fontSize: "0.7rem" }}>
+                <span
+                  style={{
+                    fontSize: "0.6rem",
+                    wordBreak: "break-word",
+                    flex: 1,
+                  }}
+                >
                   {hour?.shortForecast || "N/A"}
                 </span>
               </div>
@@ -160,21 +170,21 @@ const HourlyForecastTable = ({ dayString, hourlyData, loading, summary }) => {
             <Col xs={2}>
               <div
                 className="d-flex align-items-center justify-content-center"
-                style={{ gap: 4 }}
+                style={{ gap: 2 }}
               >
                 <img
                   src={humidityIcon}
                   alt="Precipitation"
-                  style={{ width: 16, height: 16, opacity: 0.7 }}
+                  style={{ width: 12, height: 12, opacity: 0.7 }}
                 />
-                <span>
+                <span style={{ fontSize: "0.7rem" }}>
                   {hour?.probabilityOfPrecipitation?.value !== null
                     ? `${hour.probabilityOfPrecipitation.value}%`
                     : "0%"}
                 </span>
               </div>
             </Col>
-            <Col xs={2} style={{ fontSize: "0.7rem" }}>
+            <Col xs={1} style={{ fontSize: "0.6rem" }}>
               {hour
                 ? getWindDisplay(hour.windSpeed, hour.windDirection)
                 : "N/A"}

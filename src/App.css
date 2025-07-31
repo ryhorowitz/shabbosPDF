@@ -155,6 +155,59 @@
     width: 24px !important;
     height: 24px !important;
   }
+
+  /* Prevent text wrapping for time and temp columns */
+  .hourly-forecast-table .text-nowrap {
+    white-space: nowrap !important;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Better spacing for mobile */
+  .hourly-forecast-table .row {
+    margin-left: -2px;
+    margin-right: -2px;
+  }
+
+  .hourly-forecast-table .col {
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+
+  /* Ensure weather icons don't overlap with text */
+  .hourly-forecast-table .d-flex.flex-wrap {
+    gap: 2px !important;
+  }
+
+  .hourly-forecast-table .d-flex.flex-wrap img {
+    flex-shrink: 0 !important;
+  }
+
+  .hourly-forecast-table .d-flex.flex-wrap span {
+    flex: 1;
+    min-width: 0;
+  }
+}
+
+/* iPhone specific adjustments */
+@media (max-width: 428px) {
+  .hourly-forecast-table .bg-primary h5 {
+    font-size: 1.1rem !important;
+  }
+
+  .hourly-forecast-table .p-3 {
+    padding: 0.5rem !important;
+  }
+
+  .hourly-forecast-table .row {
+    margin-left: -1px;
+    margin-right: -1px;
+  }
+
+  .hourly-forecast-table .col {
+    padding-left: 1px;
+    padding-right: 1px;
+  }
 }
 
 /* Forecast Toggle Styles */
