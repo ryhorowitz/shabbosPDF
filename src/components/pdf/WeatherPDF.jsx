@@ -4,6 +4,7 @@ import { usePDFStyles } from "../../context/PDFStylesContext";
 import { extractCandleItems } from "../../utils/candleDataUtils.js";
 import { cleanDetailedForecast } from "../../utils/forecastUtils.js";
 import { getPDFWeatherIcon } from "../../utils/pdfWeatherIcons.js";
+import DailySummaryPDF from "./DailySummaryPDF.jsx";
 
 // Register a default font
 Font.register({
@@ -118,8 +119,14 @@ const WeatherPDF = ({
         <View style={styles.section}>
           {/* Candle Times Section */}
           <View style={styles.candleSection}>
-            {candleItem && (
-              <View>
+            <View
+              style={{
+                flexDirection: "row",
+                justifyContent: "space-between",
+                marginBottom: 4,
+              }}
+            >
+              {candleItem && (
                 <Text style={styles.candleTitle}>
                   Candle Lighting{" "}
                   {new Date(candleItem.date).toLocaleString("en-US", {
@@ -127,6 +134,21 @@ const WeatherPDF = ({
                     minute: "2-digit",
                   })}
                 </Text>
+              )}
+              {havdalahItem && (
+                <Text style={styles.candleTitle}>
+                  Havdalah{" "}
+                  {new Date(havdalahItem.date).toLocaleString("en-US", {
+                    hour: "numeric",
+                    minute: "2-digit",
+                  })}
+                </Text>
+              )}
+            </View>
+            <View
+              style={{ flexDirection: "row", justifyContent: "space-between" }}
+            >
+              {candleItem && (
                 <Text style={styles.candleInfo}>
                   {new Date(candleItem.date).toLocaleString("en-US", {
                     weekday: "long",
@@ -135,17 +157,8 @@ const WeatherPDF = ({
                     day: "numeric",
                   })}
                 </Text>
-              </View>
-            )}
-            {havdalahItem && (
-              <View>
-                <Text style={styles.candleTitle}>
-                  Havdalah{" "}
-                  {new Date(havdalahItem.date).toLocaleString("en-US", {
-                    hour: "numeric",
-                    minute: "2-digit",
-                  })}
-                </Text>
+              )}
+              {havdalahItem && (
                 <Text style={styles.candleInfo}>
                   {new Date(havdalahItem.date).toLocaleString("en-US", {
                     weekday: "long",
@@ -154,8 +167,8 @@ const WeatherPDF = ({
                     day: "numeric",
                   })}
                 </Text>
-              </View>
-            )}
+              )}
+            </View>
           </View>
 
           {/* Weather Forecast Section */}
@@ -180,58 +193,7 @@ const WeatherPDF = ({
                       <Text style={styles.dayTitle}>{label}</Text>
                     </View>
 
-                    {summary && summary.temperature && (
-                      <View style={styles.summaryContainer}>
-                        {/* Main weather info row */}
-                        <View style={styles.summaryMainRow}>
-                          <View style={styles.summaryLeft}>
-                            <View
-                              style={{
-                                flexDirection: "row",
-                                alignItems: "center",
-                                marginBottom: 4,
-                              }}
-                            >
-                              {summary.shortForecast &&
-                                getPDFWeatherIcon(
-                                  summary.shortForecast,
-                                  true,
-                                  24
-                                )}
-                              <Text style={styles.summaryTemp}>
-                                {summary.temperature}°
-                                {summary.temperatureUnit || "F"}
-                              </Text>
-                            </View>
-                            <Text style={styles.summaryCondition}>
-                              {summary.shortForecast || "No forecast available"}
-                            </Text>
-                          </View>
-                          <View style={styles.summaryRight}>
-                            {summary.windSpeed && (
-                              <View style={styles.weatherDetail}>
-                                <Text style={styles.detailLabel}>Wind</Text>
-                                <Text style={styles.detailValue}>
-                                  {summary.windSpeed}{" "}
-                                  {summary.windDirection || ""}
-                                </Text>
-                              </View>
-                            )}
-                            {summary.probabilityOfPrecipitation &&
-                              summary.probabilityOfPrecipitation.value && (
-                                <View style={styles.weatherDetail}>
-                                  <Text style={styles.detailLabel}>
-                                    Precipitation
-                                  </Text>
-                                  <Text style={styles.detailValue}>
-                                    {summary.probabilityOfPrecipitation.value}%
-                                  </Text>
-                                </View>
-                              )}
-                          </View>
-                        </View>
-                      </View>
-                    )}
+                    <DailySummaryPDF summary={summary} />
 
                     <View style={styles.tempTableRow}>
                       {periods.map(
@@ -296,55 +258,7 @@ const WeatherPDF = ({
                     </View>
 
                     {/* Daily summary container */}
-                    {summary && summary.temperature && (
-                      <View style={styles.summaryContainer}>
-                        {/* Main weather info row */}
-                        <View style={styles.summaryMainRow}>
-                          <View style={styles.summaryLeft}>
-                            <View
-                              style={{
-                                flexDirection: "row",
-                                alignItems: "center",
-                                marginBottom: 4,
-                              }}
-                            >
-                              {summary.shortForecast &&
-                                getPDFWeatherIcon(
-                                  summary.shortForecast,
-                                  true,
-                                  24
-                                )}
-                              <Text style={styles.summaryTemp}>
-                                {summary.temperature}°
-                                {summary.temperatureUnit || "F"}
-                              </Text>
-                            </View>
-                          </View>
-                          <View style={styles.summaryRight}>
-                            {summary.windSpeed && (
-                              <View style={styles.weatherDetail}>
-                                <Text style={styles.detailLabel}>Wind</Text>
-                                <Text style={styles.detailValue}>
-                                  {summary.windSpeed}{" "}
-                                  {summary.windDirection || ""}
-                                </Text>
-                              </View>
-                            )}
-                            {summary.probabilityOfPrecipitation &&
-                              summary.probabilityOfPrecipitation.value && (
-                                <View style={styles.weatherDetail}>
-                                  <Text style={styles.detailLabel}>
-                                    Precipitation
-                                  </Text>
-                                  <Text style={styles.detailValue}>
-                                    {summary.probabilityOfPrecipitation.value}%
-                                  </Text>
-                                </View>
-                              )}
-                          </View>
-                        </View>
-                      </View>
-                    )}
+                    <DailySummaryPDF summary={summary} />
 
                     {/* Hourly Table Header */}
                     <View style={styles.hourlyTableHeader}>

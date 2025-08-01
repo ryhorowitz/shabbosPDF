@@ -7,7 +7,7 @@ const PDFStyles = StyleSheet.create({
   page: {
     flexDirection: "column",
     backgroundColor: "#f5f6fa",
-    padding: 24,
+    padding: 22,
     alignItems: "center",
     fontFamily: "Helvetica",
   },
@@ -22,7 +22,7 @@ const PDFStyles = StyleSheet.create({
   },
   section: {
     margin: 0,
-    marginBottom: 8,
+    marginBottom: 7,
     padding: 0,
     flexGrow: 1,
     width: "100%",
@@ -31,8 +31,8 @@ const PDFStyles = StyleSheet.create({
   card: {
     border: "1px solid #e0e0e0",
     borderRadius: 10,
-    padding: 12,
-    marginBottom: 8,
+    padding: 11,
+    marginBottom: 7,
     backgroundColor: "#ffffff",
     width: "90%",
     maxWidth: 420,
@@ -67,8 +67,8 @@ const PDFStyles = StyleSheet.create({
   candleSection: {
     border: "1px solid #e0e0e0",
     borderRadius: 10,
-    padding: 12,
-    marginBottom: 12,
+    padding: 4,
+    marginBottom: 4,
     backgroundColor: "#fffbe6",
     width: "90%",
     maxWidth: 420,
@@ -133,8 +133,8 @@ const PDFStyles = StyleSheet.create({
   },
   // New summary styles
   summaryContainer: {
-    marginTop: 8,
-    padding: 8,
+    marginTop: 7,
+    padding: 7,
     backgroundColor: "#f8f9fa",
     borderRadius: 6,
     border: "1px solid #e9ecef",
@@ -143,7 +143,7 @@ const PDFStyles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "flex-start",
-    marginBottom: 6,
+    marginBottom: 5,
   },
   summaryLeft: {
     flex: 2,
